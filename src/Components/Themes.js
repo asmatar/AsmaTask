@@ -7,6 +7,7 @@ export const lightTheme = {
   background: 'linear-gradient(to right, #b6fbff, #83a4d4)',
   shadowColor: 'rgba(0, 0, 0, 0.04)',
   colorButtonLogin: '#FFF',
+  colorLangBg: '#a881ff',
 }
 export const darkTheme = {
   colorText: '#FFF',
@@ -14,6 +15,7 @@ export const darkTheme = {
   background: 'linear-gradient(to right, #434343 0%, black 100%)',
   colorTextSecondary: '#828282',
   shadowColor: 'rgba(255, 255, 255, 0.04)',
+  colorLangBg: '#828282',
 }
 export const GlobalStyles = createGlobalStyle`
   body {

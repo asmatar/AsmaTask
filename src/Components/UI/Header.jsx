@@ -24,7 +24,7 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
     </HeaderContainer>
   )
 }
-
+/* font-size: ${(props) => (props.$currentLang === 'en' ? '25px' : '10px')}; */
 export default Header
 
 const HeaderContainer = styled.header`

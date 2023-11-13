@@ -31,6 +31,7 @@ function App() {
   const toggleTheme = () => setTheme(isDarkTheme ? 'light' : 'dark')
 
   const handleChangeLanguage = (lang) => {
+    console.log(lang)
     i18n.changeLanguage(lang)
   }
   return (
@@ -51,9 +52,24 @@ function App() {
           </Routes>
         </Suspense>
         <LangContainer>
-          <LangButton onClick={() => handleChangeLanguage('en')}>EN</LangButton>
-          <LangButton onClick={() => handleChangeLanguage('es')}>ES</LangButton>
-          <LangButton onClick={() => handleChangeLanguage('fr')}>FR</LangButton>
+          <LangButton
+            currentLang={i18n.language}
+            onClick={() => handleChangeLanguage('en')}
+          >
+            en
+          </LangButton>
+          <LangButton
+            currentLang={i18n.language}
+            onClick={() => handleChangeLanguage('es')}
+          >
+            es
+          </LangButton>
+          <LangButton
+            currentLang={i18n.language}
+            onClick={() => handleChangeLanguage('fr')}
+          >
+            fr
+          </LangButton>
         </LangContainer>
       </ErrorBoundary>
     </ThemeProvider>
