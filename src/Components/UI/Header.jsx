@@ -1,9 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 import logo from '@/assets/images/logo.png'
 
 const Header = ({ toggleTheme, isDarkTheme }) => {
+  const { t } = useTranslation('global')
+
   return (
     <HeaderContainer>
       <Logo>
@@ -15,8 +18,8 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
           htmlFor="darkmode-toggle"
           $isDarkTheme={isDarkTheme}
         ></Label>
-        <LogButton>Login</LogButton>
-        <CreateBoard>New board</CreateBoard>
+        <LogButton> {t('login')}</LogButton>
+        <CreateBoard>{t('newBoard')}</CreateBoard>
       </HeaderRight>
     </HeaderContainer>
   )
