@@ -1,12 +1,14 @@
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import Header from './Components/UI/Header'
+import { useTranslation } from 'react-i18next'
 
-import { Suspense, lazy, useState } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from './Components/ErrorFallback'
 
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider, styled } from 'styled-components'
 import { lightTheme, darkTheme, GlobalStyles } from '@/components/Themes'
+import LangButton from '@/Components/UI/LangButton'
 
 const Boards = lazy(() => import('@/Pages/Boards/Boards'))
 const Board = lazy(() => import('@/Pages/Board/Board'))
@@ -14,10 +16,24 @@ const Login = lazy(() => import('@/Pages/Login/Login'))
 const Register = lazy(() => import('@/Pages/Register/Register'))
 
 function App() {
+  const { i18n } = useTranslation('global')
+
+  const lng = navigator.language
+
+  useEffect(() => {
+    i18n.changeLanguage(lng)
+    console.log('change language use effect')
+  }, [lng, i18n])
+
   const navigate = useNavigate()
   const [theme, setTheme] = useState('light')
   const isDarkTheme = theme === 'dark'
   const toggleTheme = () => setTheme(isDarkTheme ? 'light' : 'dark')
+
+  const handleChangeLanguage = (lang) => {
+    console.log(lang)
+    i18n.changeLanguage(lang)
+  }
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <GlobalStyles />
@@ -35,9 +51,38 @@ function App() {
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Suspense>
+        <LangContainer>
+          <LangButton
+            currentLang={i18n.language}
+            onClick={() => handleChangeLanguage('en')}
+          >
+            en
+          </LangButton>
+          <LangButton
+            currentLang={i18n.language}
+            onClick={() => handleChangeLanguage('es')}
+          >
+            es
+          </LangButton>
+          <LangButton
+            currentLang={i18n.language}
+            onClick={() => handleChangeLanguage('fr')}
+          >
+            fr
+          </LangButton>
+        </LangContainer>
       </ErrorBoundary>
     </ThemeProvider>
   )
 }
 
 export default App
+
+const LangContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+`
