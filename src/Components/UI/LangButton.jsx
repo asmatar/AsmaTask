@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 const LangButton = ({ children, onClick, currentLang }) => {
-  console.log(currentLang, 'LANG')
   return (
     <Button $currentLang={currentLang} onClick={onClick} $children={children}>
       {children}
