@@ -48,7 +48,7 @@ const Label = styled.label`
 `
 const FormGroup = styled.div`
   position: relative;
-  padding: 15px 0 0;
+  padding: 5px 0 0;
   margin-top: 10px;
   width: 330px;
 `
@@ -67,18 +67,20 @@ const Input = styled.input`
     color: transparent;
   }
 
-  &:placeholder-shown ~ .form__label {
+  &:not(:placeholder-shown) + ${Label} {
     font-size: 1rem;
     cursor: text;
+    opacity: 0;
     top: 20px;
   }
   &:focus + ${Label} {
     position: absolute;
-    top: 0;
+    top: -15px;
     display: block;
+    opacity: 1;
     transition: 0.2s;
     font-size: 0.7rem;
-    color: ${({ theme }) => theme.colorInputText};
+    color: ${({ theme }) => theme.colorLang};
   }
   border-width: 3px;
   border-image: ${({ theme }) => theme.background};
