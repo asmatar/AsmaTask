@@ -1,4 +1,9 @@
 {
   "login": "Connecte",
-  "newBoard": "Nouveau bureau"
+  "newBoard": "Nouveau bureau",
+  "email": "Email",
+  "password": "mot de passe",
+  "logText": "Visualisez vos tableaux pour une meilleure productivité. Accédez à vos tâches à tout moment, n'importe quand",
+  "signup": "s'inscrire",
+  "signin": "s'identifier "
 }

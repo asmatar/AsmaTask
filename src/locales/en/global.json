@@ -1,4 +1,12 @@
 {
   "login": "login",
-  "newBoard": "New boards"
+  "newBoard": "New boards",
+  "email": "Email",
+  "password": "Password",
+  "logText": "Visualize Your Boards For Increased Productivity. Access Your Tasks Anytime, Anywhere",
+  "regText": "Join us and be part of our community. free of charge",
+  "signup": "Sign up",
+  "signin": "Sign in",
+  "forgotPassword": "Forgot password?",
+  "noAccount": "Don't have an account?"
 }

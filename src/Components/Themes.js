@@ -8,6 +8,7 @@ export const lightTheme = {
   shadowColor: 'rgba(0, 0, 0, 0.04)',
   colorButtonLogin: '#FFF',
   colorLangBg: '#a881ff',
+  colorInputText: '#FFF',
 }
 export const darkTheme = {
   colorText: '#FFF',
@@ -16,6 +17,7 @@ export const darkTheme = {
   colorTextSecondary: '#828282',
   shadowColor: 'rgba(255, 255, 255, 0.04)',
   colorLangBg: '#828282',
+  colorInputText: '#828282',
 }
 export const GlobalStyles = createGlobalStyle`
   body {

@@ -35,6 +35,7 @@ const Button = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colorBlue};
     color: ${({ theme }) => theme.colorLang};
+    transform: translateY(-5px);
   }
   transition: all 0.3s ease-in;
 `

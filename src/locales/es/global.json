@@ -1,4 +1,9 @@
 {
   "login": "Acceso",
-  "newBoard": "Nuevo tablero"
+  "newBoard": "Nuevo tablero",
+  "email": "Email",
+  "password": "contraseña",
+  "logText": "Visualice sus tableros para aumentar la productividad. Acceda a sus tareas en cualquier momento y lugar",
+  "signup": "Regístrate",
+  "signin": "iniciar sesión"
 }
