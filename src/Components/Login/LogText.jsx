@@ -1,12 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
+
 const LogText = ({ children }) => {
-  return (
-    <NavLinkLog to="/register">
-      <CheckAcountPara>{children}</CheckAcountPara>
-    </NavLinkLog>
-  )
+  return <CheckAcountPara>{children}</CheckAcountPara>
 }
 
 export default LogText
@@ -21,9 +17,4 @@ const CheckAcountPara = styled.p`
   &:hover {
     color: ${({ theme }) => theme.colorLangBg};
   }
-`
-const NavLinkLog = styled(NavLink)`
-  text-align: center;
-  display: flex;
-  justify-content: center;
 `

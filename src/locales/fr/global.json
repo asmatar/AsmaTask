@@ -4,6 +4,10 @@
   "email": "Email",
   "password": "mot de passe",
   "logText": "Visualisez vos tableaux pour une meilleure productivité. Accédez à vos tâches à tout moment, n'importe quand",
+
+  "regText": "Rejoignez-nous et faites partie de notre communauté. gratuitement",
   "signup": "s'inscrire",
-  "signin": "s'identifier "
+  "signin": "s'identifier ",
+  "haveAccount": "Vous avez déjà un compte ?",
+  "noAccount": "Vous n'avez pas de compte ?"
 }
