@@ -1,4 +1,17 @@
 {
   "login": "Acceso",
-  "newBoard": "Nuevo tablero"
+  "newBoard": "Nuevo tablero",
+  "email": "Email",
+  "password": "contraseña",
+  "logText": "Visualice sus tableros para aumentar la productividad. Acceda a sus tareas en cualquier momento y lugar",
+  "regText": "Únete a nosotros y forma parte de nuestra comunidad. gratis",
+  "signup": "Regístrate",
+  "signin": "iniciar sesión",
+  "haveAccount": "¿Ya tienes una cuenta?",
+  "noAccount": "¿No tienes cuenta?",
+
+  "boardName": "Nombre del tablero",
+  "create": "Crear",
+  "createBoard": "Crear un tablero",
+  "back": "Volver"
 }
