@@ -9,11 +9,6 @@ const AddBoard = ({ onClose }) => {
       <BoardBox>
         <BoardBoxHeader>
           <LabelHead>Create board</LabelHead>
-          <Outer>
-            <Inner>
-              <LabelBoard onClick={onClose}>Back</LabelBoard>
-            </Inner>
-          </Outer>
         </BoardBoxHeader>
         <FormGroup>
           <Input
@@ -44,56 +39,6 @@ const LabelHead = styled.span`
   color: ${({ theme }) => theme.colorModal};
 `
 
-const Inner = styled.div`
-  width: inherit;
-  text-align: center;
-  &::before,
-  &::after {
-    position: absolute;
-    content: '';
-    height: 1px;
-    width: inherit;
-    background: ${({ theme }) => theme.colorModal};
-    left: 0;
-    transition: all 0.3s ease-in;
-  }
-
-  &::before {
-    top: 50%;
-    transform: rotate(45deg);
-  }
-  &::after {
-    bottom: 50%;
-    transform: rotate(135deg);
-  }
-`
-const LabelBoard = styled.div`
-  font-size: 0.8em;
-  line-height: 4em;
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colorModal};
-  transition: all 0.3s ease-in;
-  opacity: 0;
-  cursor: pointer;
-`
-const Outer = styled.div`
-  position: relative;
-  width: 30px;
-  cursor: pointer;
-  &:hover > ${Inner}::before, &:hover > ${Inner}::after {
-    transform: rotate(0);
-  }
-  &:hover > ${Inner}::before {
-    top: 7px;
-  }
-  &:hover > ${Inner}::after {
-    bottom: 7px;
-  }
-  &:hover > ${Inner} > ${LabelBoard} {
-    color: ${({ theme }) => theme.colorModal};
-    opacity: 1;
-  }
-`
 const BoardBox = styled.div`
   display: flex;
   flex-direction: column;

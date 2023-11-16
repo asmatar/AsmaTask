@@ -8,7 +8,6 @@ import AddBoard from '@/components/Modal/AddBoard'
 import Modal from '@/components//Modal/Modal'
 const Header = ({ toggleTheme, isDarkTheme }) => {
   const { t } = useTranslation('global')
-  const [isOpenModal, setIsOpenModal] = useState(false)
 
   return (
     <>
@@ -27,20 +26,25 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
           <NavLink to="/login">
             <GeneralButton>{t('login')}</GeneralButton>
           </NavLink>
-          <GeneralButton onClick={() => setIsOpenModal((show) => !show)}>
-            {t('newBoard')}
-          </GeneralButton>
+          <Modal>
+            <Modal.Open opens="new-board">
+              <GeneralButton>{t('newBoard')}</GeneralButton>
+            </Modal.Open>
+            <Modal.Window name="new-board">
+              <AddBoard />
+            </Modal.Window>
+          </Modal>
         </HeaderRight>
       </HeaderContainer>
-      {isOpenModal && (
+      {/*       {isOpenModal && (
         <Modal setIsOpenModal={setIsOpenModal}>
           <AddBoard onClose={() => setIsOpenModal(false)} />
         </Modal>
-      )}
+      )} */}
     </>
   )
 }
-/* font-size: ${(props) => (props.$currentLang === 'en' ? '25px' : '10px')}; */
+
 export default Header
 
 const HeaderContainer = styled.header`
