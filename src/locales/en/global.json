@@ -8,5 +8,10 @@
   "signup": "Sign up",
   "signin": "Sign in",
   "haveAccount": "You already have an account?",
-  "noAccount": "Don't have an account?"
+  "noAccount": "Don't have an account?",
+
+  "boardName": "Board name",
+  "create": "Create",
+  "createBoard": "Create Board",
+  "back": "Back"
 }

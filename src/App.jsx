@@ -8,7 +8,7 @@ import ErrorFallback from './Components/ErrorFallback'
 import { ThemeProvider, styled } from 'styled-components'
 import { lightTheme, darkTheme, GlobalStyles } from '@/components/Themes'
 import LangButton from '@/Components/UI/LangButton'
-import UseI18n from './Hooks/UseI18n'
+import UseI18n from './Hooks/useI18n'
 
 const Boards = lazy(() => import('@/Pages/Boards/Boards'))
 const Board = lazy(() => import('@/Pages/Board/Board'))

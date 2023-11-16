@@ -4,10 +4,14 @@
   "email": "Email",
   "password": "mot de passe",
   "logText": "Visualisez vos tableaux pour une meilleure productivité. Accédez à vos tâches à tout moment, n'importe quand",
-
   "regText": "Rejoignez-nous et faites partie de notre communauté. gratuitement",
   "signup": "s'inscrire",
   "signin": "s'identifier ",
   "haveAccount": "Vous avez déjà un compte ?",
-  "noAccount": "Vous n'avez pas de compte ?"
+  "noAccount": "Vous n'avez pas de compte ?",
+
+  "boardName": "Nom du bureau",
+  "create": "Creer",
+  "createBoard": "Creer un bureau",
+  "back": "Retour"
 }

@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import ButtonSecondary from '../UI/ButtonSecondary'
-/* import { useTranslation } from 'react-i18next' */
+import ButtonSecondary from '@/components/UI/ButtonSecondary'
+import { useTranslation } from 'react-i18next'
 const AddBoard = ({ onClose }) => {
-  /* const { t } = useTranslation('global') */
+  const { t } = useTranslation('global')
   return (
     <>
       <BoardBox>
         <BoardBoxHeader>
-          <LabelHead>Create board</LabelHead>
+          <LabelHead>{t('createBoard')}</LabelHead>
         </BoardBoxHeader>
         <FormGroup>
           <Input
@@ -20,9 +20,9 @@ const AddBoard = ({ onClose }) => {
             required
             autoComplete="off"
           />
-          <Label htmlFor="name">Board name</Label>
+          <Label htmlFor="name">{t('boardName')}</Label>
         </FormGroup>
-        <ButtonSecondary>Create</ButtonSecondary>
+        <ButtonSecondary>{t('create')}</ButtonSecondary>
       </BoardBox>
     </>
   )

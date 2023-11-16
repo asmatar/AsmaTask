@@ -8,5 +8,10 @@
   "signup": "Regístrate",
   "signin": "iniciar sesión",
   "haveAccount": "¿Ya tienes una cuenta?",
-  "noAccount": "¿No tienes cuenta?"
+  "noAccount": "¿No tienes cuenta?",
+
+  "boardName": "Nombre del tablero",
+  "create": "Crear",
+  "createBoard": "Crear un tablero",
+  "back": "Volver"
 }

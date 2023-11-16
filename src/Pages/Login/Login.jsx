@@ -2,11 +2,10 @@ import React from 'react'
 import PageTitle from '@/Components/Login/PageTitle'
 import TextIntro from '@/Components/Login/TextIntro'
 import { NavLink } from 'react-router-dom'
-import LogText from '../../Components/Login/LogText'
-import GeneralButton from '../../Components/UI/GeneralButton'
+import LogText from '@/Components/Login/LogText'
+import GeneralButton from '@/Components/UI/GeneralButton'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import MainComponent from '../../Components/Modal/MainComponent'
 const Login = () => {
   const { t } = useTranslation('global')
   return (

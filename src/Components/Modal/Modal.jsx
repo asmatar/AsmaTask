@@ -1,15 +1,9 @@
 import styled from 'styled-components'
 import Overlay from './Overlay'
 import { createPortal } from 'react-dom'
-import {
-  cloneElement,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
-
+import { cloneElement, createContext, useContext, useState } from 'react'
+import { useOutsideClick } from '@/Hooks/useOutsideClick'
+import { useTranslation } from 'react-i18next'
 const ModalContext = createContext()
 
 function Modal({ children }) {
@@ -32,25 +26,18 @@ function Open({ children, opens }) {
 }
 
 function Window({ children, name }) {
-  const ref = useRef(null)
+  const { t } = useTranslation('global')
   const { openName, close } = useContext(ModalContext)
 
-  useEffect(() => {
-    const handleClick = (e) => {
-      if (ref.current && ref.current.contains(e.target)) {
-        close()
-      }
-    }
-    document.addEventListener('click', handleClick, true)
-    return () => document.removeEventListener('click', handleClick, true)
-  }, [close])
+  const ref = useOutsideClick(close)
+
   if (name !== openName) return null
   return createPortal(
     <>
       <ModalWrapper>
         <Outer>
           <Inner>
-            <LabelBoard onClick={close}>Back</LabelBoard>
+            <LabelBoard onClick={close}> {t('back')}</LabelBoard>
           </Inner>
         </Outer>
         {children}
@@ -69,7 +56,6 @@ const ModalWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -119,7 +105,10 @@ const LabelBoard = styled.div`
   cursor: pointer;
 `
 const Outer = styled.div`
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 2.7rem;
+  z-index: 2;
   width: 30px;
   cursor: pointer;
   &:hover > ${Inner}::before, &:hover > ${Inner}::after {
