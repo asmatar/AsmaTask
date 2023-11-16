@@ -6,43 +6,47 @@ import LogText from '../../Components/Login/LogText'
 import GeneralButton from '../../Components/UI/GeneralButton'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import MainComponent from '../../Components/Modal/MainComponent'
 const Login = () => {
   const { t } = useTranslation('global')
   return (
-    <HeaderContainer>
-      <PageTitle />
-      <TextIntro>{t('logText')}</TextIntro>
-      <LogFormContainer>
-        <FormGroup>
-          <Input
-            type="input"
-            class="form__field"
-            placeholder="Name place"
-            name="name"
-            id="name"
-            required
-            autoComplete="off"
-          />
-          <Label for="name">{t('email')}</Label>
-        </FormGroup>
-        <FormGroup>
-          <Input
-            type="input"
-            class="form__field"
-            placeholder="Name place"
-            name="name"
-            id="name"
-            required
-            autoComplete="off"
-          />
-          <Label for="name">{t('password')}</Label>
-        </FormGroup>
-        <GeneralButton>{t('signin')}</GeneralButton>
-        <NavLinkLog to="/register">
-          <LogText>{t('noAccount')}</LogText>
-        </NavLinkLog>
-      </LogFormContainer>
-    </HeaderContainer>
+    <>
+      <HeaderContainer>
+        <PageTitle />
+        <TextIntro>{t('logText')}</TextIntro>
+        <LogFormContainer>
+          <FormGroup>
+            <Input
+              type="input"
+              className="form__field"
+              placeholder="Name place"
+              name="name"
+              id="name"
+              required
+              autoComplete="off"
+            />
+            <Label htmlFor="name">{t('email')}</Label>
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="input"
+              className="form__field"
+              placeholder="Name place"
+              name="name"
+              id="name"
+              required
+              autoComplete="off"
+            />
+            <Label htmlFor="name">{t('password')}</Label>
+          </FormGroup>
+          <GeneralButton>{t('signin')}</GeneralButton>
+          <NavLinkLog to="/register">
+            <LogText>{t('noAccount')}</LogText>
+          </NavLinkLog>
+        </LogFormContainer>
+      </HeaderContainer>
+      <MainComponent />
+    </>
   )
 }
 

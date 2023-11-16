@@ -1,29 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router-dom'
 import logo from '@/assets/images/logo.png'
 import GeneralButton from './GeneralButton'
+import AddBoard from '../Modal/AddBoard'
+import Modal from '../Modal/Modal'
 const Header = ({ toggleTheme, isDarkTheme }) => {
   const { t } = useTranslation('global')
+  const [isOpenModal, setIsOpenModal] = useState(false)
 
   return (
-    <HeaderContainer>
-      <Logo>
-        <CoverImg src={logo} alt="logo" />
-      </Logo>
-      <HeaderRight>
-        <Label
-          onClick={toggleTheme}
-          htmlFor="darkmode-toggle"
-          $isDarkTheme={isDarkTheme}
-        ></Label>
-        <NavLink to="/login">
-          <GeneralButton>{t('login')}</GeneralButton>
-        </NavLink>
-        <GeneralButton>{t('newBoard')}</GeneralButton>
-      </HeaderRight>
-    </HeaderContainer>
+    <>
+      <HeaderContainer>
+        <Logo>
+          <CoverImg src={logo} alt="logo" />
+        </Logo>
+        <HeaderRight>
+          <Label
+            onClick={toggleTheme}
+            htmlFor="darkmode-toggle"
+            $isDarkTheme={isDarkTheme}
+          ></Label>
+          <NavLink to="/login">
+            <GeneralButton>{t('login')}</GeneralButton>
+          </NavLink>
+          <GeneralButton onClick={() => setIsOpenModal((show) => !show)}>
+            {t('newBoard')}
+          </GeneralButton>
+        </HeaderRight>
+      </HeaderContainer>
+      {isOpenModal && (
+        <Modal>
+          <AddBoard />
+        </Modal>
+      )}
+    </>
   )
 }
 /* font-size: ${(props) => (props.$currentLang === 'en' ? '25px' : '10px')}; */

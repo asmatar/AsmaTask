@@ -8,13 +8,11 @@ const UseI18n = () => {
   // use effect to change language in I18n when browser change
   useEffect(() => {
     i18n.changeLanguage(lng)
-    console.log('useEffect langue change with I18N')
   }, [lng, i18n])
   // use effect to detect change language
   useEffect(() => {
     const handleLanguageChange = () => {
       setLng(navigator.language)
-      console.log('UseEffect langue change with navigator')
     }
 
     window.addEventListener('languagechange', handleLanguageChange)
@@ -24,7 +22,6 @@ const UseI18n = () => {
     }
   }, [])
   const handleChangeLanguage = (lang) => {
-    console.log(lang)
     i18n.changeLanguage(lang)
   }
   return {

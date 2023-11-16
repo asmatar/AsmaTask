@@ -16,26 +16,26 @@ const Register = () => {
         <FormGroup>
           <Input
             type="input"
-            class="form__field"
+            className="form__field"
             placeholder="Name place"
             name="name"
             id="name"
             required
             autoComplete="off"
           />
-          <Label for="name">{t('email')}</Label>
+          <Label htmlFor="name">{t('email')}</Label>
         </FormGroup>
         <FormGroup>
           <Input
             type="input"
-            class="form__field"
+            className="form__field"
             placeholder="Name place"
             name="name"
             id="name"
             required
             autoComplete="off"
           />
-          <Label for="name">{t('password')}</Label>
+          <Label htmlFor="name">{t('password')}</Label>
         </FormGroup>
         <GeneralButton>{t('signup')}</GeneralButton>
         <NavLinkLog to="/login">
