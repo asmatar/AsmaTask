@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router-dom'
@@ -36,11 +36,6 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
           </Modal>
         </HeaderRight>
       </HeaderContainer>
-      {/*       {isOpenModal && (
-        <Modal setIsOpenModal={setIsOpenModal}>
-          <AddBoard onClose={() => setIsOpenModal(false)} />
-        </Modal>
-      )} */}
     </>
   )
 }

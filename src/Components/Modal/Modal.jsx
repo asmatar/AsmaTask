@@ -5,7 +5,9 @@ import {
   cloneElement,
   createContext,
   useContext,
-  /* useEffect, useRef, */ useState,
+  useEffect,
+  useRef,
+  useState,
 } from 'react'
 
 const ModalContext = createContext()
@@ -22,6 +24,7 @@ function Modal({ children }) {
   )
 }
 export default Modal
+
 function Open({ children, opens }) {
   const { open } = useContext(ModalContext)
 
@@ -29,9 +32,18 @@ function Open({ children, opens }) {
 }
 
 function Window({ children, name }) {
-  /* const ref = useRef(null) */
+  const ref = useRef(null)
   const { openName, close } = useContext(ModalContext)
 
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (ref.current && ref.current.contains(e.target)) {
+        close()
+      }
+    }
+    document.addEventListener('click', handleClick, true)
+    return () => document.removeEventListener('click', handleClick, true)
+  }, [close])
   if (name !== openName) return null
   return createPortal(
     <>
@@ -43,11 +55,12 @@ function Window({ children, name }) {
         </Outer>
         {children}
       </ModalWrapper>
-      <Overlay /* ref={ref} */> </Overlay>
+      <Overlay ref={ref}> </Overlay>
     </>,
     document.body
   )
 }
+
 Modal.Open = Open
 Modal.Window = Window
 
