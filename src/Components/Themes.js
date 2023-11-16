@@ -9,7 +9,9 @@ export const lightTheme = {
   colorButtonLogin: '#FFF',
   colorLangBg: '#a881ff',
   colorInputText: '#FFF',
+  colorModal: '#a881ff',
 }
+
 export const darkTheme = {
   colorText: '#FFF',
   colorLang: '#FFFFFF',
@@ -18,7 +20,9 @@ export const darkTheme = {
   shadowColor: 'rgba(255, 255, 255, 0.04)',
   colorLangBg: '#828282',
   colorInputText: '#828282',
+  colorModal: '#828282',
 }
+
 export const GlobalStyles = createGlobalStyle`
   body {
     background: ${({ theme }) => theme.background};

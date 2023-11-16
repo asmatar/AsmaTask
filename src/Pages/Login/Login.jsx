@@ -45,7 +45,6 @@ const Login = () => {
           </NavLinkLog>
         </LogFormContainer>
       </HeaderContainer>
-      <MainComponent />
     </>
   )
 }

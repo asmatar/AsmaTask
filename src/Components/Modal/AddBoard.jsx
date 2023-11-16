@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import ButtonSecondary from '../UI/ButtonSecondary'
-import { useTranslation } from 'react-i18next'
-const AddBoard = () => {
-  const { t } = useTranslation('global')
+/* import { useTranslation } from 'react-i18next' */
+const AddBoard = ({ onClose }) => {
+  /* const { t } = useTranslation('global') */
   return (
     <>
       <BoardBox>
@@ -11,7 +11,7 @@ const AddBoard = () => {
           <LabelHead>Create board</LabelHead>
           <Outer>
             <Inner>
-              <LabelBoard>Back</LabelBoard>
+              <LabelBoard onClick={onClose}>Back</LabelBoard>
             </Inner>
           </Outer>
         </BoardBoxHeader>
@@ -25,7 +25,7 @@ const AddBoard = () => {
             required
             autoComplete="off"
           />
-          <Label htmlFor="name">{t('password')}</Label>
+          <Label htmlFor="name">Board name</Label>
         </FormGroup>
         <ButtonSecondary>Create</ButtonSecondary>
       </BoardBox>
@@ -40,7 +40,9 @@ const BoardBoxHeader = styled.div`
   align-items: center;
   justify-content: space-between;
 `
-const LabelHead = styled.span``
+const LabelHead = styled.span`
+  color: ${({ theme }) => theme.colorModal};
+`
 
 const Inner = styled.div`
   width: inherit;
@@ -51,11 +53,11 @@ const Inner = styled.div`
     content: '';
     height: 1px;
     width: inherit;
-    background: #ffc107;
+    background: ${({ theme }) => theme.colorModal};
     left: 0;
     transition: all 0.3s ease-in;
   }
-  ,
+
   &::before {
     top: 50%;
     transform: rotate(45deg);
@@ -69,7 +71,7 @@ const LabelBoard = styled.div`
   font-size: 0.8em;
   line-height: 4em;
   text-transform: uppercase;
-  color: red;
+  color: ${({ theme }) => theme.colorModal};
   transition: all 0.3s ease-in;
   opacity: 0;
   cursor: pointer;
@@ -88,7 +90,7 @@ const Outer = styled.div`
     bottom: 7px;
   }
   &:hover > ${Inner} > ${LabelBoard} {
-    color: red;
+    color: ${({ theme }) => theme.colorModal};
     opacity: 1;
   }
 `
@@ -114,7 +116,7 @@ const Label = styled.label`
   display: block;
   transition: 0.2s;
   font-size: 1rem;
-  color: green;
+  color: ${({ theme }) => theme.colorModal};
 `
 const FormGroup = styled.div`
   position: relative;
@@ -128,7 +130,7 @@ const Input = styled.input`
   border-bottom: 2px solid blue;
   outline: 0;
   font-size: 1rem;
-  color: red;
+  color: ${({ theme }) => theme.colorModal};
   padding: 0px 0;
   background: transparent;
   transition: border-color 0.2s;
@@ -150,7 +152,7 @@ const Input = styled.input`
     opacity: 1;
     transition: 0.2s;
     font-size: 0.7rem;
-    color: blue;
+    color: ${({ theme }) => theme.colorModal};
   }
   border-width: 3px;
   border-image: ${({ theme }) => theme.background};

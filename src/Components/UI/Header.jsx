@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router-dom'
 import logo from '@/assets/images/logo.png'
 import GeneralButton from './GeneralButton'
-import AddBoard from '../Modal/AddBoard'
-import Modal from '../Modal/Modal'
+import AddBoard from '@/components/Modal/AddBoard'
+import Modal from '@/components//Modal/Modal'
 const Header = ({ toggleTheme, isDarkTheme }) => {
   const { t } = useTranslation('global')
   const [isOpenModal, setIsOpenModal] = useState(false)
@@ -13,9 +13,11 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
   return (
     <>
       <HeaderContainer>
-        <Logo>
-          <CoverImg src={logo} alt="logo" />
-        </Logo>
+        <NavLink to={'/'}>
+          <Logo>
+            <CoverImg src={logo} alt="logo" />
+          </Logo>
+        </NavLink>
         <HeaderRight>
           <Label
             onClick={toggleTheme}
@@ -31,8 +33,8 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
         </HeaderRight>
       </HeaderContainer>
       {isOpenModal && (
-        <Modal>
-          <AddBoard />
+        <Modal setIsOpenModal={setIsOpenModal}>
+          <AddBoard onClose={() => setIsOpenModal(false)} />
         </Modal>
       )}
     </>
