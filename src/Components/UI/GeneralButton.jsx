@@ -1,8 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const GeneralButton = ({ children, onClick }) => {
-  return <LogButton onClick={onClick}>{children}</LogButton>
+const GeneralButton = ({ children, onClick, type }) => {
+  return (
+    <LogButton onClick={onClick} type={type}>
+      {children}
+    </LogButton>
+  )
 }
 
 export default GeneralButton

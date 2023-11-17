@@ -1,19 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PageTitle from '@/Components/Login/PageTitle'
 import TextIntro from '@/Components/Login/TextIntro'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import LogText from '@/Components/Login/LogText'
 import GeneralButton from '@/Components/UI/GeneralButton'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import { useUserAuth } from '@/Context/authContext'
 const Login = () => {
   const { t } = useTranslation('global')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const { login } = useUserAuth()
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log(email, password)
+    try {
+      await login(email, password)
+      navigate('/')
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
   return (
     <>
       <HeaderContainer>
         <PageTitle />
         <TextIntro>{t('logText')}</TextIntro>
-        <LogFormContainer>
+        <LogFormContainer onSubmit={handleSubmit}>
           <FormGroup>
             <Input
               type="input"
@@ -21,7 +37,7 @@ const Login = () => {
               placeholder="Name place"
               name="name"
               id="name"
-              required
+              onChange={(e) => setEmail(e.target.value)}
               autoComplete="off"
             />
             <Label htmlFor="name">{t('email')}</Label>
@@ -33,7 +49,7 @@ const Login = () => {
               placeholder="Name place"
               name="name"
               id="name"
-              required
+              onChange={(e) => setPassword(e.target.value)}
               autoComplete="off"
             />
             <Label htmlFor="name">{t('password')}</Label>

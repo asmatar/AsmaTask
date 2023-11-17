@@ -1,14 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Navigate } from 'react-router-dom'
 import logo from '@/assets/images/logo.png'
 import GeneralButton from './GeneralButton'
 import AddBoard from '@/components/Modal/AddBoard'
 import Modal from '@/components//Modal/Modal'
-const Header = ({ toggleTheme, isDarkTheme }) => {
-  const { t } = useTranslation('global')
+import { useUserAuth } from '@/Context/authContext'
 
+const Header = ({ toggleTheme, isDarkTheme }) => {
+  const { logOut, user } = useUserAuth()
+  const { t } = useTranslation('global')
+  const handleLogout = async () => {
+    try {
+      await logOut()
+      console.log('first')
+      Navigate('/')
+    } catch (error) {
+      console.log('error')
+    }
+  }
   return (
     <>
       <HeaderContainer>
@@ -23,17 +34,24 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
             htmlFor="darkmode-toggle"
             $isDarkTheme={isDarkTheme}
           ></Label>
-          <NavLink to="/login">
-            <GeneralButton>{t('login')}</GeneralButton>
-          </NavLink>
-          <Modal>
-            <Modal.Open opens="new-board">
-              <GeneralButton>{t('newBoard')}</GeneralButton>
-            </Modal.Open>
-            <Modal.Window name="new-board">
-              <AddBoard />
-            </Modal.Window>
-          </Modal>
+          {!user && (
+            <NavLink to="/login">
+              <GeneralButton>{t('login')}</GeneralButton>
+            </NavLink>
+          )}
+          {user && (
+            <>
+              <GeneralButton onClick={handleLogout}>logout</GeneralButton>
+              <Modal>
+                <Modal.Open opens="new-board">
+                  <GeneralButton>{t('newBoard')}</GeneralButton>
+                </Modal.Open>
+                <Modal.Window name="new-board">
+                  <AddBoard />
+                </Modal.Window>
+              </Modal>
+            </>
+          )}
         </HeaderRight>
       </HeaderContainer>
     </>
