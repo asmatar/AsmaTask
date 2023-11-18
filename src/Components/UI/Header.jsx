@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { NavLink, Navigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import logo from '@/assets/images/logo.png'
 import GeneralButton from './GeneralButton'
 import AddBoard from '@/components/Modal/AddBoard'
@@ -10,12 +10,13 @@ import { useUserAuth } from '@/Context/authContext'
 
 const Header = ({ toggleTheme, isDarkTheme }) => {
   const { logOut, user } = useUserAuth()
+  const navigate = useNavigate()
   const { t } = useTranslation('global')
   const handleLogout = async () => {
     try {
       await logOut()
       console.log('first')
-      Navigate('/')
+      navigate('/')
     } catch (error) {
       console.log('error')
     }
