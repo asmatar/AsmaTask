@@ -9,8 +9,9 @@ import { ThemeProvider, styled } from 'styled-components'
 import { lightTheme, darkTheme, GlobalStyles } from '@/components/Themes'
 import LangButton from '@/Components/UI/LangButton'
 import UseI18n from './Hooks/useI18n'
-import { UserAuthContextProvider } from '@/Context/AuthContext'
-import ProtectedRoute from './Components/ProtectedRoute'
+import ProtectedRoute from '@/Components/ProtectedRoute'
+import ProtectedRouteLog from '@/Components/ProtectedRouteLog'
+import { useUserAuth } from '@/Context/authContext'
 
 const Boards = lazy(() => import('@/Pages/Boards/Boards'))
 const Board = lazy(() => import('@/Pages/Board/Board'))
@@ -18,6 +19,7 @@ const Login = lazy(() => import('@/Pages/Login/Login'))
 const Register = lazy(() => import('@/Pages/Register/Register'))
 
 function App() {
+  const { user } = useUserAuth()
   const navigate = useNavigate()
   const [theme, setTheme] = useState('light')
   const isDarkTheme = theme === 'dark'
@@ -27,32 +29,55 @@ function App() {
 
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-      <UserAuthContextProvider>
-        <GlobalStyles />
-        <Header toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
-        <ErrorBoundary
-          FallbackComponent={ErrorFallback}
-          onReset={() => navigate('/')}
-        >
-          <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-              <Route path="/login" element={<Login />} />
+      <GlobalStyles />
+      <Header toggleTheme={toggleTheme} isDarkTheme={isDarkTheme} />
+      <ErrorBoundary
+        FallbackComponent={ErrorFallback}
+        onReset={() => navigate('/')}
+      >
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route
+              path="/login"
+              element={
+                <ProtectedRouteLog>
+                  <Login />
+                </ProtectedRouteLog>
+              }
+            />
 
-              <Route path="/register" element={<Register />} />
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute>
-                    <Boards />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/board/:id" element={<Board />} />
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-          </Suspense>
-        </ErrorBoundary>
-      </UserAuthContextProvider>
+            <Route
+              path="/register"
+              element={
+                <ProtectedRouteLog>
+                  <Register />
+                </ProtectedRouteLog>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Boards />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/board/:id"
+              element={
+                <ProtectedRoute>
+                  <Board />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="*"
+              element={user ? <Navigate to="/" /> : <Navigate to="/login" />}
+            />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
+      {/*       </UserAuthContextProvider> */}
       <LangContainer>
         <LangButton
           currentLang={i18n.language}
