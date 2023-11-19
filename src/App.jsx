@@ -77,7 +77,6 @@ function App() {
           </Routes>
         </Suspense>
       </ErrorBoundary>
-      {/*       </UserAuthContextProvider> */}
       <LangContainer>
         <LangButton
           currentLang={i18n.language}

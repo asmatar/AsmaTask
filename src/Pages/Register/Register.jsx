@@ -16,7 +16,6 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(email, password)
     try {
       await signUp(email, password)
       navigate('/login')
@@ -53,9 +52,7 @@ const Register = () => {
           />
           <Label htmlFor="password">{t('password')}</Label>
         </FormGroup>
-        <GeneralButton type="submit" onClick={() => console.log('clicked')}>
-          {t('signup')}
-        </GeneralButton>
+        <GeneralButton type="submit">{t('signup')}</GeneralButton>
         <NavLinkLog to="/login">
           <LogText>{t('haveAccount')}</LogText>
         </NavLinkLog>

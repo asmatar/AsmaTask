@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect /*,  useState  */ } from 'react'
 import { useTranslation } from 'react-i18next'
-
+import useLocalStorage from './useLocalStorage'
 const UseI18n = () => {
   const { i18n } = useTranslation('global')
-  const [lng, setLng] = useState(navigator.language)
-
+  // const [lng, setLng] = useState(navigator.language)
   // use effect to change language in I18n when browser change
+  const [lng, setLng] = useLocalStorage('lng', '')
   useEffect(() => {
     i18n.changeLanguage(lng)
   }, [lng, i18n])

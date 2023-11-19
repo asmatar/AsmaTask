@@ -15,7 +15,6 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
   const handleLogout = async () => {
     try {
       await logOut()
-      console.log('first')
       navigate('/')
     } catch (error) {
       console.log('error')
