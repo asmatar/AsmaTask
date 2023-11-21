@@ -13,5 +13,6 @@
   "boardName": "Nom du bureau",
   "create": "Creer",
   "createBoard": "Creer un bureau",
-  "back": "Retour"
+  "back": "Retour",
+  "tryAgain": "Recharge la page"
 }

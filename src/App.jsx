@@ -12,6 +12,7 @@ import UseI18n from './Hooks/useI18n'
 import ProtectedRoute from '@/Components/ProtectedRoute'
 import ProtectedRouteLog from '@/Components/ProtectedRouteLog'
 import { useUserAuth } from '@/Context/authContext'
+import Spinner from '@/Components/UI/spinner'
 
 const Boards = lazy(() => import('@/Pages/Boards/Boards'))
 const Board = lazy(() => import('@/Pages/Board/Board'))
@@ -26,7 +27,6 @@ function App() {
   const toggleTheme = () => setTheme(isDarkTheme ? 'light' : 'dark')
 
   const { i18n, handleChangeLanguage } = UseI18n()
-
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <GlobalStyles />
@@ -35,7 +35,7 @@ function App() {
         FallbackComponent={ErrorFallback}
         onReset={() => navigate('/')}
       >
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Spinner />}>
           <Routes>
             <Route
               path="/login"

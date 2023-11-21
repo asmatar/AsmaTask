@@ -13,5 +13,6 @@
   "boardName": "Nombre del tablero",
   "create": "Crear",
   "createBoard": "Crear un tablero",
-  "back": "Volver"
+  "back": "Volver",
+  "tryAgain": "Recarga la pagina"
 }
