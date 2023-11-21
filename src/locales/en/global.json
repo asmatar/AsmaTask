@@ -16,5 +16,6 @@
   "back": "Back",
   "tryAgain": "Try again",
   "noBoardCreated": "No Board Created",
-  "createFirstBoard": "Create your first board"
+  "createFirstBoard": "Create your first board",
+  "somethingWrong": "Something went wrong"
 }

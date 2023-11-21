@@ -16,5 +16,6 @@
   "back": "Retour",
   "tryAgain": "Recharge la page",
   "noBoardCreated": "Auncun bureau cree",
-  "createFirstBoard": "creez votre premier bureau"
+  "createFirstBoard": "creez votre premier bureau",
+  "somethingWrong": "Quelque chose s'est mal passée"
 }

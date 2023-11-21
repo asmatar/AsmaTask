@@ -16,5 +16,6 @@
   "back": "Volver",
   "tryAgain": "Recarga la pagina",
   "noBoardCreated": "no tablero creado",
-  "createFirstBoard": "Crea tu primer tablero"
+  "createFirstBoard": "Crea tu primer tablero",
+  "somethingWrong": "Algo salió mal"
 }

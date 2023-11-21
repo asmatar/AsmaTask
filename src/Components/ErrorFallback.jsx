@@ -5,7 +5,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }) => {
   const { t } = useTranslation('global')
   return (
     <Error>
-      <SomethingWentWrong>Something went wrong:</SomethingWentWrong>
+      <SomethingWentWrong>{t('somethingWrong')}</SomethingWentWrong>
       <ErrorMessage>{error.message}</ErrorMessage>
       <GeneralButton onClick={resetErrorBoundary}>
         {t('tryAgain')}
