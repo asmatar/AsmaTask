@@ -1,21 +1,14 @@
-import React, { useEffect /* , { useEffect } */ } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import { fetchBoards } from '../../Services/API-firebase'
 import Spinner from '@/components/UI/spinner'
 import { useDispatch } from 'react-redux'
-
+import { addBoard } from '@/RTK/reducers/boardsReducer'
 const BoardsMain = () => {
   const dispatch = useDispatch()
   const { data, error } = useSWR('board', fetchBoards)
 
-  if (error) {
-    return <div>{error.message}</div>
-  }
-
-  if (!data) {
-    return <Spinner />
-  }
   useEffect(() => {
     if (data) {
       // Assuming data is an array of board objects
@@ -25,6 +18,13 @@ const BoardsMain = () => {
       })
     }
   }, [data, dispatch])
+  if (error) {
+    return <div>{error.message}</div>
+  }
+
+  if (!data) {
+    return <Spinner />
+  }
   return (
     <>
       <BoardsContainer>
