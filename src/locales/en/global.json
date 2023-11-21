@@ -14,5 +14,7 @@
   "create": "Create",
   "createBoard": "Create Board",
   "back": "Back",
-  "tryAgain": "Try again"
+  "tryAgain": "Try again",
+  "noBoardCreated": "No Board Created",
+  "createFirstBoard": "Create your first board"
 }

@@ -5,7 +5,9 @@ import { fetchBoards } from '../../Services/API-firebase'
 import Spinner from '@/components/UI/spinner'
 import { useDispatch } from 'react-redux'
 import { addBoard } from '@/RTK/reducers/boardsReducer'
+import { useTranslation } from 'react-i18next'
 const BoardsMain = () => {
+  const { t } = useTranslation('global')
   const dispatch = useDispatch()
   const { data, error } = useSWR('board', fetchBoards)
 
@@ -29,8 +31,8 @@ const BoardsMain = () => {
     <>
       <BoardsContainer>
         <BoardHeader>
-          <Title>No Board Created</Title>
-          <Para>Create your first board</Para>
+          <Title>{t('newBoard')}</Title>
+          <Para>{t('createFirstBoard')}</Para>
         </BoardHeader>
       </BoardsContainer>
     </>

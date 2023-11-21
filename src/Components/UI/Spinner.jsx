@@ -13,7 +13,7 @@ const LoaderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 83px);
 `
 const Loader = styled.div`
   display: flex;

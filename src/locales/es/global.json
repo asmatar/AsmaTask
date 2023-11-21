@@ -14,5 +14,7 @@
   "create": "Crear",
   "createBoard": "Crear un tablero",
   "back": "Volver",
-  "tryAgain": "Recarga la pagina"
+  "tryAgain": "Recarga la pagina",
+  "noBoardCreated": "no tablero creado",
+  "createFirstBoard": "Crea tu primer tablero"
 }
