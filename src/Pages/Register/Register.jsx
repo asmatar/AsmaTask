@@ -7,15 +7,37 @@ import GeneralButton from '@/Components/UI/GeneralButton'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useUserAuth } from '@/Context/authContext'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { useForm } from 'react-hook-form'
 const Register = () => {
   const { t } = useTranslation('global')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { signUp } = useUserAuth()
   const navigate = useNavigate()
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .email('email must be valid')
+      .required('email is required'),
+    password: yup
+      .string()
+      .required('password is required')
+      .matches(
+        /^(?=.*\d)(?=.*[A-Z]).{7,14}$/,
+        'Password should have at least one uppercase letter, one number, between 7 and 14 characters'
+      ),
+  })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) })
 
-  const handleSubmit = async (e) => {
+  const handleSubmitForm = async (e) => {
     e.preventDefault()
+    console.log('in the handle submit function')
     try {
       await signUp(email, password)
       navigate('/login')
@@ -27,30 +49,30 @@ const Register = () => {
     <HeaderContainer>
       <PageTitle />
       <TextIntro>{t('regText')}</TextIntro>
-      <LogFormContainer onSubmit={handleSubmit}>
+      <LogFormContainer onSubmit={handleSubmit(handleSubmitForm)}>
         <FormGroup>
           <Input
             type="input"
-            className="form__field"
             placeholder="Name place"
-            name="name"
             id="name"
             autoComplete="off"
+            {...register('email')}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Label htmlFor="name">{t('email')}</Label>
+          <ErrorMessage>{errors.email?.message}</ErrorMessage>
         </FormGroup>
         <FormGroup>
           <Input
             type="input"
-            className="form__field"
             placeholder="password"
-            name="password"
             id="password"
             autoComplete="off"
+            {...register('password')}
             onChange={(e) => setPassword(e.target.value)}
           />
           <Label htmlFor="password">{t('password')}</Label>
+          <ErrorMessage>{errors.password?.message}</ErrorMessage>
         </FormGroup>
         <GeneralButton type="submit">{t('signup')}</GeneralButton>
         <NavLinkLog to="/login">
@@ -62,6 +84,9 @@ const Register = () => {
 }
 
 export default Register
+const ErrorMessage = styled.p`
+  color: red;
+`
 const NavLinkLog = styled(NavLink)`
   text-align: center;
   display: flex;
