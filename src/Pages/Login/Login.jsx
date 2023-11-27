@@ -7,20 +7,42 @@ import GeneralButton from '@/Components/UI/GeneralButton'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useUserAuth } from '@/Context/authContext'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { useForm } from 'react-hook-form'
+import ErrorMessage from '@/Components/UI/ErrorMessage'
 const Login = () => {
   const { t } = useTranslation('global')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const { login } = useUserAuth()
-  const navigate = useNavigate()
+  const [firebaseError, setFirebaseError] = useState('')
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const navigate = useNavigate()
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .email('email must be valid')
+      .required('email is required'),
+    password: yup
+      .string()
+      .required('password is required')
+      .matches(
+        /^(?=.*\d)(?=.*[A-Z]).{7,14}$/,
+        'Password should have at least one uppercase letter, one number, between 7 and 14 characters'
+      ),
+  })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) })
+  const handleSubmitForm = async (data) => {
+    console.log(data)
     try {
-      await login(email, password)
+      await login(data.email, data.password)
       navigate('/')
     } catch (error) {
-      console.log(error.message)
+      console.log('here', error.message)
+      setFirebaseError(error.message)
     }
   }
   return (
@@ -28,32 +50,34 @@ const Login = () => {
       <HeaderContainer>
         <PageTitle />
         <TextIntro>{t('logText')}</TextIntro>
-        <LogFormContainer onSubmit={handleSubmit}>
+        <LogFormContainer onSubmit={handleSubmit(handleSubmitForm)}>
           <FormGroup>
             <Input
               type="input"
               className="form__field"
               placeholder="Name place"
-              name="name"
+              {...register('email')}
               id="name"
-              onChange={(e) => setEmail(e.target.value)}
               autoComplete="off"
             />
             <Label htmlFor="name">{t('email')}</Label>
+
+            <ErrorMessage message={errors.email?.message} />
           </FormGroup>
           <FormGroup>
             <Input
               type="input"
               className="form__field"
               placeholder="Name place"
-              name="name"
+              {...register('password')}
               id="name"
-              onChange={(e) => setPassword(e.target.value)}
               autoComplete="off"
             />
             <Label htmlFor="name">{t('password')}</Label>
+            <ErrorMessage message={errors.password?.message} />
           </FormGroup>
-          <GeneralButton>{t('signin')}</GeneralButton>
+          <GeneralButton type="submit">{t('signin')}</GeneralButton>
+          <ErrorMessage message={firebaseError} />
           <NavLinkLog to="/register">
             <LogText>{t('noAccount')}</LogText>
           </NavLinkLog>
@@ -64,6 +88,15 @@ const Login = () => {
 }
 
 export default Login
+/* const ErrorMessage = styled.p`
+  margin-top: 5px;
+  color: red;
+  font-size: 13px;
+  text-transform: lowercase;
+  &::first-letter {
+    text-transform: uppercase;
+  }
+` */
 const NavLinkLog = styled(NavLink)`
   text-align: center;
   display: flex;

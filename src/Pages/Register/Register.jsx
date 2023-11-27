@@ -10,12 +10,13 @@ import { useUserAuth } from '@/Context/authContext'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
+import ErrorMessage from '@/Components/UI/ErrorMessage'
 const Register = () => {
   const { t } = useTranslation('global')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const { signUp } = useUserAuth()
   const navigate = useNavigate()
+  const [firebaseError, setFirebaseError] = useState('')
+
   const schema = yup.object().shape({
     email: yup
       .string()
@@ -35,14 +36,16 @@ const Register = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
 
-  const handleSubmitForm = async (e) => {
-    e.preventDefault()
+  const handleSubmitForm = async (data) => {
+    console.log(data)
     console.log('in the handle submit function')
     try {
-      await signUp(email, password)
+      console.log('first')
+      await signUp(data.email, data.password)
       navigate('/login')
     } catch (error) {
-      console.log(error.message)
+      console.log(error)
+      setFirebaseError(error.message)
     }
   }
   return (
@@ -57,10 +60,9 @@ const Register = () => {
             id="name"
             autoComplete="off"
             {...register('email')}
-            onChange={(e) => setEmail(e.target.value)}
           />
           <Label htmlFor="name">{t('email')}</Label>
-          <ErrorMessage>{errors.email?.message}</ErrorMessage>
+          <ErrorMessage message={errors.email?.message} />
         </FormGroup>
         <FormGroup>
           <Input
@@ -69,12 +71,12 @@ const Register = () => {
             id="password"
             autoComplete="off"
             {...register('password')}
-            onChange={(e) => setPassword(e.target.value)}
           />
           <Label htmlFor="password">{t('password')}</Label>
-          <ErrorMessage>{errors.password?.message}</ErrorMessage>
+          <ErrorMessage message={errors.password?.message} />
         </FormGroup>
         <GeneralButton type="submit">{t('signup')}</GeneralButton>
+        <ErrorMessage massage={firebaseError} />
         <NavLinkLog to="/login">
           <LogText>{t('haveAccount')}</LogText>
         </NavLinkLog>
@@ -84,9 +86,15 @@ const Register = () => {
 }
 
 export default Register
-const ErrorMessage = styled.p`
+/* const ErrorMessage = styled.p`
+  margin-top: 5px;
   color: red;
-`
+  font-size: 13px;
+  text-transform: lowercase;
+  &::first-letter {
+    text-transform: uppercase;
+  }
+` */
 const NavLinkLog = styled(NavLink)`
   text-align: center;
   display: flex;
