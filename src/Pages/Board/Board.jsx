@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Board = () => {
-  return <div>Board</div>
+  return <div>my board detail</div>
 }
 
 export default Board
