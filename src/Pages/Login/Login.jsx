@@ -7,41 +7,30 @@ import GeneralButton from '@/Components/UI/GeneralButton'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useUserAuth } from '@/Context/authContext'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import ErrorMessage from '@/Components/UI/ErrorMessage'
+
+/* import yup custom hook */
+import useYupValidationResolver, {
+  schema,
+} from '@/hooks/useYupValidationResolver'
 const Login = () => {
   const { t } = useTranslation('global')
   const { login } = useUserAuth()
   const [firebaseError, setFirebaseError] = useState('')
 
   const navigate = useNavigate()
-  const schema = yup.object().shape({
-    email: yup
-      .string()
-      .email('email must be valid')
-      .required('email is required'),
-    password: yup
-      .string()
-      .required('password is required')
-      .matches(
-        /^(?=.*\d)(?=.*[A-Z]).{7,14}$/,
-        'Password should have at least one uppercase letter, one number, between 7 and 14 characters'
-      ),
-  })
+  const resolver = useYupValidationResolver(schema)
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver })
   const handleSubmitForm = async (data) => {
-    console.log(data)
     try {
       await login(data.email, data.password)
       navigate('/')
     } catch (error) {
-      console.log('here', error.message)
       setFirebaseError(error.message)
     }
   }
@@ -61,7 +50,6 @@ const Login = () => {
               autoComplete="off"
             />
             <Label htmlFor="name">{t('email')}</Label>
-
             <ErrorMessage message={errors.email?.message} />
           </FormGroup>
           <FormGroup>
@@ -88,15 +76,6 @@ const Login = () => {
 }
 
 export default Login
-/* const ErrorMessage = styled.p`
-  margin-top: 5px;
-  color: red;
-  font-size: 13px;
-  text-transform: lowercase;
-  &::first-letter {
-    text-transform: uppercase;
-  }
-` */
 const NavLinkLog = styled(NavLink)`
   text-align: center;
   display: flex;

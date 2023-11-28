@@ -7,44 +7,29 @@ import GeneralButton from '@/Components/UI/GeneralButton'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useUserAuth } from '@/Context/authContext'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
+import useYupValidationResolver, {
+  schema,
+} from '@/hooks/useYupValidationResolver'
 import ErrorMessage from '@/Components/UI/ErrorMessage'
 const Register = () => {
   const { t } = useTranslation('global')
   const { signUp } = useUserAuth()
   const navigate = useNavigate()
   const [firebaseError, setFirebaseError] = useState('')
+  const resolver = useYupValidationResolver(schema)
 
-  const schema = yup.object().shape({
-    email: yup
-      .string()
-      .email('email must be valid')
-      .required('email is required'),
-    password: yup
-      .string()
-      .required('password is required')
-      .matches(
-        /^(?=.*\d)(?=.*[A-Z]).{7,14}$/,
-        'Password should have at least one uppercase letter, one number, between 7 and 14 characters'
-      ),
-  })
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver })
 
   const handleSubmitForm = async (data) => {
-    console.log(data)
-    console.log('in the handle submit function')
     try {
-      console.log('first')
       await signUp(data.email, data.password)
       navigate('/login')
     } catch (error) {
-      console.log(error)
       setFirebaseError(error.message)
     }
   }
@@ -76,7 +61,7 @@ const Register = () => {
           <ErrorMessage message={errors.password?.message} />
         </FormGroup>
         <GeneralButton type="submit">{t('signup')}</GeneralButton>
-        <ErrorMessage massage={firebaseError} />
+        <ErrorMessage message={firebaseError} />
         <NavLinkLog to="/login">
           <LogText>{t('haveAccount')}</LogText>
         </NavLinkLog>
@@ -86,15 +71,7 @@ const Register = () => {
 }
 
 export default Register
-/* const ErrorMessage = styled.p`
-  margin-top: 5px;
-  color: red;
-  font-size: 13px;
-  text-transform: lowercase;
-  &::first-letter {
-    text-transform: uppercase;
-  }
-` */
+
 const NavLinkLog = styled(NavLink)`
   text-align: center;
   display: flex;

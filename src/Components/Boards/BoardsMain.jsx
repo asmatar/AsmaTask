@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
-import { fetchBoards } from '../../Services/API-firebase'
+import { fetchBoards } from '@/Services/API-firebase'
 import Spinner from '@/components/UI/spinner'
 import { useDispatch } from 'react-redux'
 import { addBoard } from '@/RTK/reducers/boardsReducer'
