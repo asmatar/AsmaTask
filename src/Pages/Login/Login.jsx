@@ -1,44 +1,71 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PageTitle from '@/Components/Login/PageTitle'
 import TextIntro from '@/Components/Login/TextIntro'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import LogText from '@/Components/Login/LogText'
 import GeneralButton from '@/Components/UI/GeneralButton'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import { useUserAuth } from '@/Context/authContext'
+import { useForm } from 'react-hook-form'
+import ErrorMessage from '@/Components/UI/ErrorMessage'
+
+/* import yup custom hook */
+import useYupValidationResolver, {
+  schema,
+} from '@/hooks/useYupValidationResolver'
 const Login = () => {
   const { t } = useTranslation('global')
+  const { login } = useUserAuth()
+  const [firebaseError, setFirebaseError] = useState('')
+
+  const navigate = useNavigate()
+  const resolver = useYupValidationResolver(schema)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver })
+  const handleSubmitForm = async (data) => {
+    try {
+      await login(data.email, data.password)
+      navigate('/')
+    } catch (error) {
+      setFirebaseError(error.message)
+    }
+  }
   return (
     <>
       <HeaderContainer>
         <PageTitle />
         <TextIntro>{t('logText')}</TextIntro>
-        <LogFormContainer>
+        <LogFormContainer onSubmit={handleSubmit(handleSubmitForm)}>
           <FormGroup>
             <Input
               type="input"
               className="form__field"
               placeholder="Name place"
-              name="name"
+              {...register('email')}
               id="name"
-              required
               autoComplete="off"
             />
             <Label htmlFor="name">{t('email')}</Label>
+            <ErrorMessage message={errors.email?.message} />
           </FormGroup>
           <FormGroup>
             <Input
               type="input"
               className="form__field"
               placeholder="Name place"
-              name="name"
+              {...register('password')}
               id="name"
-              required
               autoComplete="off"
             />
             <Label htmlFor="name">{t('password')}</Label>
+            <ErrorMessage message={errors.password?.message} />
           </FormGroup>
-          <GeneralButton>{t('signin')}</GeneralButton>
+          <GeneralButton type="submit">{t('signin')}</GeneralButton>
+          <ErrorMessage message={firebaseError} />
           <NavLinkLog to="/register">
             <LogText>{t('noAccount')}</LogText>
           </NavLinkLog>

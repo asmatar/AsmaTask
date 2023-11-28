@@ -9,6 +9,10 @@ import { ThemeProvider, styled } from 'styled-components'
 import { lightTheme, darkTheme, GlobalStyles } from '@/components/Themes'
 import LangButton from '@/Components/UI/LangButton'
 import UseI18n from './Hooks/useI18n'
+import ProtectedRoute from '@/Components/ProtectedRoute'
+import ProtectedRouteLog from '@/Components/ProtectedRouteLog'
+import { useUserAuth } from '@/Context/authContext'
+import Spinner from '@/Components/UI/spinner'
 
 const Boards = lazy(() => import('@/Pages/Boards/Boards'))
 const Board = lazy(() => import('@/Pages/Board/Board'))
@@ -16,13 +20,13 @@ const Login = lazy(() => import('@/Pages/Login/Login'))
 const Register = lazy(() => import('@/Pages/Register/Register'))
 
 function App() {
+  const { user } = useUserAuth()
   const navigate = useNavigate()
   const [theme, setTheme] = useState('light')
   const isDarkTheme = theme === 'dark'
   const toggleTheme = () => setTheme(isDarkTheme ? 'light' : 'dark')
 
   const { i18n, handleChangeLanguage } = UseI18n()
-
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <GlobalStyles />
@@ -31,36 +35,68 @@ function App() {
         FallbackComponent={ErrorFallback}
         onReset={() => navigate('/')}
       >
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Spinner />}>
           <Routes>
-            <Route path="/" element={<Boards />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/board/:id" element={<Board />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route
+              path="/login"
+              element={
+                <ProtectedRouteLog>
+                  <Login />
+                </ProtectedRouteLog>
+              }
+            />
+
+            <Route
+              path="/register"
+              element={
+                <ProtectedRouteLog>
+                  <Register />
+                </ProtectedRouteLog>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Boards />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/board/:id"
+              element={
+                <ProtectedRoute>
+                  <Board />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="*"
+              element={user ? <Navigate to="/" /> : <Navigate to="/login" />}
+            />
           </Routes>
         </Suspense>
-        <LangContainer>
-          <LangButton
-            currentLang={i18n.language}
-            onClick={() => handleChangeLanguage('en')}
-          >
-            en
-          </LangButton>
-          <LangButton
-            currentLang={i18n.language}
-            onClick={() => handleChangeLanguage('es')}
-          >
-            es
-          </LangButton>
-          <LangButton
-            currentLang={i18n.language}
-            onClick={() => handleChangeLanguage('fr')}
-          >
-            fr
-          </LangButton>
-        </LangContainer>
       </ErrorBoundary>
+      <LangContainer>
+        <LangButton
+          currentLang={i18n.language}
+          onClick={() => handleChangeLanguage('en')}
+        >
+          en
+        </LangButton>
+        <LangButton
+          currentLang={i18n.language}
+          onClick={() => handleChangeLanguage('es')}
+        >
+          es
+        </LangButton>
+        <LangButton
+          currentLang={i18n.language}
+          onClick={() => handleChangeLanguage('fr')}
+        >
+          fr
+        </LangButton>
+      </LangContainer>
     </ThemeProvider>
   )
 }

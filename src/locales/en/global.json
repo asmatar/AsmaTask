@@ -13,5 +13,9 @@
   "boardName": "Board name",
   "create": "Create",
   "createBoard": "Create Board",
-  "back": "Back"
+  "back": "Back",
+  "tryAgain": "Try again",
+  "noBoardCreated": "No Board Created",
+  "createFirstBoard": "Create your first board",
+  "somethingWrong": "Something went wrong"
 }
