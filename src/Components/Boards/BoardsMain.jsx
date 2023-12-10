@@ -1,28 +1,20 @@
-import React, { useEffect } from 'react'
+import React /* , { useEffect } */ from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import { fetchBoards } from '@/Services/API-firebase'
 import Spinner from '@/components/UI/spinner'
 import { useDispatch, useSelector } from 'react-redux'
-import { addBoard, selectBoards } from '@/RTK/reducers/boardsReducer'
+import { selectBoards } from '@/RTK/reducers/boardsReducer'
 import { useTranslation } from 'react-i18next'
 import BoardCard from './BoardCard'
 import { NavLink } from 'react-router-dom'
 
 const BoardsMain = () => {
   const boards = useSelector(selectBoards)
-  console.log(boards)
   const { t } = useTranslation('global')
   const dispatch = useDispatch()
-  const { data, error } = useSWR('board', fetchBoards)
+  const { data, error } = useSWR('board', () => dispatch(fetchBoards()))
 
-  useEffect(() => {
-    if (data) {
-      data.forEach((board) => {
-        dispatch(addBoard(board))
-      })
-    }
-  }, [data, dispatch])
   if (error) {
     return <div>{error.message}</div>
   }

@@ -5,7 +5,6 @@ import { format } from 'date-fns'
 
 const BoardCard = ({ author, title, date, quantity }) => {
   const datee = new window.Date(date)
-
   const formattedDate = format(datee, 'MM/dd/yyyy')
 
   return (
