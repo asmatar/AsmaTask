@@ -17,5 +17,9 @@
   "tryAgain": "Recharge la page",
   "noBoardCreated": "Auncun bureau cree",
   "createFirstBoard": "creez votre premier bureau",
-  "somethingWrong": "Quelque chose s'est mal passée"
+  "somethingWrong": "Quelque chose s'est mal passée",
+  "errorEmailEmail": "email doit être valide",
+  "errorEmailRequired": "email est obligatoire",
+  "errorPasswordRequired": "mot de passe est obligatoire",
+  "errorPasswordMatch": "Le mot de passe doit contenir au moins une majuscule, un chiffre, entre 7 et 14 caractères"
 }

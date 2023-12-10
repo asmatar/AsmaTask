@@ -9,18 +9,17 @@ import { useTranslation } from 'react-i18next'
 import { useUserAuth } from '@/Context/authContext'
 import { useForm } from 'react-hook-form'
 import ErrorMessage from '@/Components/UI/ErrorMessage'
-
-/* import yup custom hook */
 import useYupValidationResolver, {
   schema,
 } from '@/hooks/useYupValidationResolver'
+
 const Login = () => {
   const { t } = useTranslation('global')
   const { login } = useUserAuth()
   const [firebaseError, setFirebaseError] = useState('')
 
   const navigate = useNavigate()
-  const resolver = useYupValidationResolver(schema)
+  const resolver = useYupValidationResolver(schema, t)
   const {
     register,
     handleSubmit,

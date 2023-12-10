@@ -26,7 +26,6 @@ const BoardsMain = () => {
   if (error) {
     return <div>{error.message}</div>
   }
-
   if (!data) {
     return <Spinner />
   }

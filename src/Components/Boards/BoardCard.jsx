@@ -1,7 +1,13 @@
 import React from 'react'
 import OpenSVG from '@/assets/images/icons/open.svg'
 import styled from 'styled-components'
+import { format } from 'date-fns'
+
 const BoardCard = ({ author, title, date, quantity }) => {
+  const datee = new window.Date(date)
+
+  const formattedDate = format(datee, 'MM/dd/yyyy')
+
   return (
     <Board>
       <BoardHead>
@@ -13,10 +19,9 @@ const BoardCard = ({ author, title, date, quantity }) => {
       </BoardHead>
       <BoardBody>
         <BoardDate>
-          Created at <Date>{date}</Date>
+          Created at <Date>{formattedDate}</Date>
         </BoardDate>
         <BoardAuthor>
-          {' '}
           by <Date>{author}</Date>
         </BoardAuthor>
       </BoardBody>

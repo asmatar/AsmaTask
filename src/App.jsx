@@ -13,7 +13,7 @@ import ProtectedRoute from '@/Components/ProtectedRoute'
 import ProtectedRouteLog from '@/Components/ProtectedRouteLog'
 import { useUserAuth } from '@/Context/authContext'
 import Spinner from '@/Components/UI/spinner'
-
+import useLocalStorage from './Hooks/useLocalStorage'
 const Boards = lazy(() => import('@/Pages/Boards/Boards'))
 const Board = lazy(() => import('@/Pages/Board/Board'))
 const Login = lazy(() => import('@/Pages/Login/Login'))
@@ -22,9 +22,12 @@ const Register = lazy(() => import('@/Pages/Register/Register'))
 function App() {
   const { user } = useUserAuth()
   const navigate = useNavigate()
-  const [theme, setTheme] = useState('light')
+  /*   const [theme, setTheme] = useState('light') */
+  const [theme, setTheme] = useLocalStorage('theme', 'light')
   const isDarkTheme = theme === 'dark'
-  const toggleTheme = () => setTheme(isDarkTheme ? 'light' : 'dark')
+  const toggleTheme = () => {
+    setTheme(isDarkTheme ? 'light' : 'dark')
+  }
 
   const { i18n, handleChangeLanguage } = UseI18n()
   return (
