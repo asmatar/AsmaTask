@@ -35,13 +35,11 @@ const BoardsMain = () => {
   if (!data) {
     return <Spinner />
   }
-  console.log(boards)
   return (
     <>
       {boards.length > 0 ? (
         <BoardContainer>
           {boards.map((board) => {
-            console.log(board)
             return (
               <li key={board.id}>
                 <StyledNavLink to={`/board/${board.id}`}>

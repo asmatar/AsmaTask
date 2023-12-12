@@ -9,7 +9,7 @@
   "signin": "Sign in",
   "haveAccount": "You already have an account?",
   "noAccount": "Don't have an account?",
-
+  "name": "Name",
   "boardName": "Board name",
   "create": "Create",
   "createBoard": "Create Board",

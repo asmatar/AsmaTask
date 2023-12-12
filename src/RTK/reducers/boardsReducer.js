@@ -14,7 +14,6 @@ const boardSlice = createSlice({
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchBoards.fulfilled, (state, action) => {
-      console.log('action.payload', action.payload)
       state.board = action.payload
     })
   },

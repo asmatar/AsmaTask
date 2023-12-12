@@ -27,7 +27,8 @@ const Register = () => {
 
   const handleSubmitForm = async (data) => {
     try {
-      await signUp(data.email, data.password)
+      console.log(data)
+      await signUp(data.email, data.password, data.name)
       navigate('/login')
     } catch (error) {
       setFirebaseError(error.message)
@@ -43,6 +44,17 @@ const Register = () => {
             type="input"
             placeholder="Name place"
             id="name"
+            autoComplete="off"
+            {...register('name')}
+          />
+          <Label htmlFor="name">{t('name')}</Label>
+          <ErrorMessage message={errors.name?.message} />
+        </FormGroup>
+        <FormGroup>
+          <Input
+            type="input"
+            placeholder="email place"
+            id="email"
             autoComplete="off"
             {...register('email')}
           />

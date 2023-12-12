@@ -2,27 +2,27 @@ import React, { useRef } from 'react'
 import styled from 'styled-components'
 import ButtonSecondary from '@/components/UI/ButtonSecondary'
 import { useTranslation } from 'react-i18next'
-/* import { collection, addDoc } from 'firebase/firestore' */
-/* import { db } from '@/firebase-config' */
 import { useUserAuth } from '@/Context/authContext'
-/* import { createAsyncThunk } from '@reduxjs/toolkit' */
 import { addNewBoard } from '@/Services/API-firebase'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { loadingBoards } from '@/RTK/reducers/boardsReducer'
 import Spinner from '@/Components/UI/Spinner'
 
 const AddBoard = ({ onSubmit }) => {
-  const dispatch = useDispatch()
   const { t } = useTranslation('global')
-  const { user } = useUserAuth()
+  const {
+    user: { displayName },
+  } = useUserAuth()
   const boardName = useRef(null)
   const isLoading = useSelector(loadingBoards)
-  console.log('isLoading', isLoading)
 
   const handleAddNewBoard = (event) => {
     event.preventDefault()
-    /*     dispatch(addNewBoard({ boardName: boardName.current?.value, user })) */
-    addNewBoard({ boardName: boardName.current?.value, user })
+    console.log(displayName)
+    addNewBoard({
+      boardName: boardName.current?.value,
+      displayName,
+    })
     onSubmit()
   }
 

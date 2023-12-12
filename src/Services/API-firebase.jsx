@@ -24,13 +24,15 @@ export const fetchBoards = createAsyncThunk(
   }
 )
 
-export const addNewBoard = async ({ boardName, user }) => {
+export const addNewBoard = async ({ boardName, displayName }) => {
+  console.log(boardName, 'boardName')
+  console.log(displayName, 'userName')
   try {
     const collectionRef = collection(db, 'boards')
     await addDoc(collectionRef, {
       name: boardName,
       date: new window.Date(),
-      author: user.uid,
+      author: displayName,
     })
   } catch (error) {
     return error.message

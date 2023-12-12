@@ -9,7 +9,7 @@
   "signin": "s'identifier ",
   "haveAccount": "Vous avez déjà un compte ?",
   "noAccount": "Vous n'avez pas de compte ?",
-
+  "name": "Nom",
   "boardName": "Nom du bureau",
   "create": "Creer",
   "createBoard": "Creer un bureau",
