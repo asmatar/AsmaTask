@@ -1,4 +1,4 @@
-import { Timestamp, collection, getDocs, addDoc } from 'firebase/firestore'
+import { Timestamp, collection, getDocs, addDoc, doc } from 'firebase/firestore'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { db } from '@/firebase-config'
 export const fetchBoards = createAsyncThunk(
@@ -24,9 +24,32 @@ export const fetchBoards = createAsyncThunk(
   }
 )
 
+export const fetchTaskByBoards = createAsyncThunk(
+  'tasksSlice/fetchTaskByBoards',
+  async (id) => {
+    console.log(id)
+    try {
+      const boardRef = doc(db, 'boards', id)
+      const taskSnapshot = await getDocs(collection(boardRef, 'tasks'))
+      const tasks = taskSnapshot.docs.map((taskDoc) => {
+        const taskdata = taskDoc.data()
+
+        const serializedData = { ...taskdata, id: doc.id }
+        if (serializedData.date instanceof Timestamp) {
+          serializedData.date = serializedData.date.toDate().toISOString()
+        }
+        console.log(serializedData)
+        return serializedData
+      })
+      console.log(tasks)
+      return tasks
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
 export const addNewBoard = async ({ boardName, displayName }) => {
-  console.log(boardName, 'boardName')
-  console.log(displayName, 'userName')
   try {
     const collectionRef = collection(db, 'boards')
     await addDoc(collectionRef, {

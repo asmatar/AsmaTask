@@ -1,6 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import useSWR from 'swr'
+import { useParams } from 'react-router-dom'
+import { fetchTaskByBoards } from '@/Services/API-firebase'
+import { useDispatch } from 'react-redux'
+import Spinner from '@/Components/UI/Spinner'
 const Board = () => {
+  const { id } = useParams()
+  const dispatch = useDispatch()
+  console.log(id)
+  const { data, error } = useSWR(
+    'tasks',
+    () => dispatch(fetchTaskByBoards(id)),
+    {
+      revalidateOnMount: true,
+      revalidateOnFocus: true,
+    }
+  )
+  useEffect(() => {})
+  if (error) {
+    return <div>{error.message}</div>
+  }
+  if (!data) {
+    return <Spinner />
+  }
+
   return (
     <Main>
       <Column>
@@ -48,11 +72,11 @@ const Main = styled.main`
   grid-template-columns: repeat(3, minmax(100px, 450px));
   justify-content: center;
   margin: 80px auto 0;
+  padding: 0 10px;
   gap: 30px;
   height: auto;
   min-height: auto;
-  width: 80%;
-  max-width: 1200px;
+  max-width: 1500px;
 `
 const Column = styled.div`
   background-color: #ffffff55;

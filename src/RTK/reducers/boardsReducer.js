@@ -3,8 +3,6 @@ import { fetchBoards } from '@/Services/API-firebase'
 
 const initialState = {
   board: [],
-  loading: false,
-  error: null,
 }
 
 const boardSlice = createSlice({
@@ -20,6 +18,4 @@ const boardSlice = createSlice({
 })
 
 export const selectBoards = (state) => state.board.board
-export const loadingBoards = (state) => state.board.loading
-export const errorBoards = (state) => state.board.error
 export default boardSlice.reducer
