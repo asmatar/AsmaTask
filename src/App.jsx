@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import Header from './Components/UI/Header'
 
-import { Suspense, lazy, useState } from 'react'
+import { Suspense, lazy } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from './Components/ErrorFallback'
 

@@ -1,4 +1,4 @@
-import React /* , { useEffect } */ from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import { fetchBoards } from '@/Services/API-firebase'
@@ -8,12 +8,26 @@ import { selectBoards } from '@/RTK/reducers/boardsReducer'
 import { useTranslation } from 'react-i18next'
 import BoardCard from './BoardCard'
 import { NavLink } from 'react-router-dom'
+import { onSnapshot, collection } from 'firebase/firestore'
+import { db } from '@/firebase-config'
 
 const BoardsMain = () => {
   const boards = useSelector(selectBoards)
   const { t } = useTranslation('global')
   const dispatch = useDispatch()
-  const { data, error } = useSWR('board', () => dispatch(fetchBoards()))
+  const { data, error } = useSWR('board', () => dispatch(fetchBoards()), {
+    revalidateOnMount: true,
+    revalidateOnFocus: true,
+  })
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'boards'), () => {
+      dispatch(fetchBoards()) // Re-fetch the data when the collection changes
+    })
+
+    return () => {
+      unsubscribe() // Unsubscribe from the onSnapshot listener when the component unmounts
+    }
+  }, [dispatch])
 
   if (error) {
     return <div>{error.message}</div>
@@ -21,11 +35,13 @@ const BoardsMain = () => {
   if (!data) {
     return <Spinner />
   }
+  console.log(boards)
   return (
     <>
       {boards.length > 0 ? (
         <BoardContainer>
           {boards.map((board) => {
+            console.log(board)
             return (
               <li key={board.id}>
                 <StyledNavLink to={`/board/${board.id}`}>

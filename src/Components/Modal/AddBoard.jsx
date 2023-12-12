@@ -1,12 +1,34 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import ButtonSecondary from '@/components/UI/ButtonSecondary'
 import { useTranslation } from 'react-i18next'
-const AddBoard = ({ onClose }) => {
+/* import { collection, addDoc } from 'firebase/firestore' */
+/* import { db } from '@/firebase-config' */
+import { useUserAuth } from '@/Context/authContext'
+/* import { createAsyncThunk } from '@reduxjs/toolkit' */
+import { addNewBoard } from '@/Services/API-firebase'
+import { useDispatch, useSelector } from 'react-redux'
+import { loadingBoards } from '@/RTK/reducers/boardsReducer'
+import Spinner from '@/Components/UI/Spinner'
+
+const AddBoard = ({ onSubmit }) => {
+  const dispatch = useDispatch()
   const { t } = useTranslation('global')
+  const { user } = useUserAuth()
+  const boardName = useRef(null)
+  const isLoading = useSelector(loadingBoards)
+  console.log('isLoading', isLoading)
+
+  const handleAddNewBoard = (event) => {
+    event.preventDefault()
+    /*     dispatch(addNewBoard({ boardName: boardName.current?.value, user })) */
+    addNewBoard({ boardName: boardName.current?.value, user })
+    onSubmit()
+  }
+
   return (
     <>
-      <BoardBox>
+      <BoardBox onSubmit={(event) => handleAddNewBoard(event)}>
         <BoardBoxHeader>
           <LabelHead>{t('createBoard')}</LabelHead>
         </BoardBoxHeader>
@@ -19,10 +41,15 @@ const AddBoard = ({ onClose }) => {
             id="name"
             required
             autoComplete="off"
+            ref={boardName}
           />
           <Label htmlFor="name">{t('boardName')}</Label>
         </FormGroup>
-        <ButtonSecondary>{t('create')}</ButtonSecondary>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <ButtonSecondary type="submit">{t('create')}</ButtonSecondary>
+        )}
       </BoardBox>
     </>
   )
@@ -39,7 +66,7 @@ const LabelHead = styled.span`
   color: ${({ theme }) => theme.colorModal};
 `
 
-const BoardBox = styled.div`
+const BoardBox = styled.form`
   display: flex;
   flex-direction: column;
   gap: 35px;

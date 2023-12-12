@@ -8,6 +8,7 @@ const ModalContext = createContext()
 
 function Modal({ children }) {
   const [openName, setOpenName] = useState('')
+  console.log('first')
   const close = () => setOpenName('')
   const open = setOpenName
 
@@ -40,7 +41,9 @@ function Window({ children, name }) {
             <LabelBoard onClick={close}> {t('back')}</LabelBoard>
           </Inner>
         </Outer>
-        {children}
+
+        {cloneElement(children, { onSubmit: () => close() })}
+        {/* {children} */}
       </ModalWrapper>
       <Overlay ref={ref}> </Overlay>
     </>,
