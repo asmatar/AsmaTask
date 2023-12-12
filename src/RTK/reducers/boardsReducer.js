@@ -1,17 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { fetchBoards } from '@/Services/API-firebase'
 
 const initialState = {
   board: [],
+  loading: false,
+  error: null,
 }
+
 const boardSlice = createSlice({
   name: 'board',
   initialState,
-  reducers: {
-    addBoard: (state, action) => {
-      state.board.push(action.payload)
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    // Add reducers for additional action types here, and handle loading state as needed
+    builder.addCase(fetchBoards.fulfilled, (state, action) => {
+      state.board = action.payload
+    })
   },
 })
 
-export const { addBoard } = boardSlice.actions
+export const selectBoards = (state) => state.board.board
+export const loadingBoards = (state) => state.board.loading
+export const errorBoards = (state) => state.board.error
 export default boardSlice.reducer

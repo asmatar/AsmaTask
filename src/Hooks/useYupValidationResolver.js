@@ -1,14 +1,14 @@
 import { useCallback } from 'react'
 import * as yup from 'yup'
 
-const useYupValidationResolver = (schema) =>
+const useYupValidationResolver = (schema, t) =>
+  /*   const { lng } = UseI18n() */
   useCallback(
     async (data) => {
       try {
         const values = await schema.validate(data, {
           abortEarly: false,
         })
-
         return {
           values,
           errors: {},
@@ -21,7 +21,7 @@ const useYupValidationResolver = (schema) =>
               ...allErrors,
               [currentError.path]: {
                 type: currentError.type ?? 'validation',
-                message: currentError.message,
+                message: t(currentError.message),
               },
             }),
             {}
@@ -29,21 +29,15 @@ const useYupValidationResolver = (schema) =>
         }
       }
     },
-    [schema]
+    [schema, t]
   )
 
 const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email('email must be valid')
-    .required('email is required'),
+  email: yup.string().email('errorEmailEmail').required('errorEmailRequired'),
   password: yup
     .string()
-    .required('password is required')
-    .matches(
-      /^(?=.*\d)(?=.*[A-Z]).{7,14}$/,
-      'Password should have at least one uppercase letter, one number, between 7 and 14 characters'
-    ),
+    .required('errorPasswordRequired')
+    .matches(/^(?=.*\d)(?=.*[A-Z]).{7,14}$/, 'errorPasswordMatch'),
 })
 export { schema }
 export default useYupValidationResolver

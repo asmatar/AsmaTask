@@ -9,7 +9,7 @@
   "signin": "iniciar sesión",
   "haveAccount": "¿Ya tienes una cuenta?",
   "noAccount": "¿No tienes cuenta?",
-
+  "name": "Nombre",
   "boardName": "Nombre del tablero",
   "create": "Crear",
   "createBoard": "Crear un tablero",
@@ -17,5 +17,9 @@
   "tryAgain": "Recarga la pagina",
   "noBoardCreated": "no tablero creado",
   "createFirstBoard": "Crea tu primer tablero",
-  "somethingWrong": "Algo salió mal"
+  "somethingWrong": "Algo salió mal",
+  "errorEmailEmail": "email debe ser válido",
+  "errorEmailRequired": "email es obligatorio",
+  "errorPasswordRequired": "contraseña es obligatoria",
+  "errorPasswordMatch": "Contraseña debe tener al menos una mayúscula, un número, entre 7 y 14 caracteres"
 }

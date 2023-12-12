@@ -9,7 +9,7 @@
   "signin": "Sign in",
   "haveAccount": "You already have an account?",
   "noAccount": "Don't have an account?",
-
+  "name": "Name",
   "boardName": "Board name",
   "create": "Create",
   "createBoard": "Create Board",
@@ -17,5 +17,9 @@
   "tryAgain": "Try again",
   "noBoardCreated": "No Board Created",
   "createFirstBoard": "Create your first board",
-  "somethingWrong": "Something went wrong"
+  "somethingWrong": "Something went wrong",
+  "errorEmailEmail": "email must be valid",
+  "errorEmailRequired": "email is required",
+  "errorPasswordRequired": "password is required",
+  "errorPasswordMatch": "Password should have at least one uppercase letter, one number, between 7 and 14 characters"
 }
