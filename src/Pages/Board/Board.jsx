@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react'
+import { useParams, NavLink } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import useSWR from 'swr'
-import { useParams, NavLink } from 'react-router-dom'
-import { fetchTaskByBoards } from '@/Services/API-firebase'
-import { useDispatch, useSelector } from 'react-redux'
-import Spinner from '@/Components/UI/Spinner'
+import { onSnapshot, collection } from 'firebase/firestore'
+import { db } from '@/firebase-config'
 import {
   selectDonetask,
   selectProgresstask,
   selectTodotask,
 } from '@/RTK/reducers/tasksReducer'
 import TaskCard from './TaskCard'
-import Back from '@/assets/images/icons/back.svg'
+import Spinner from '@/Components/UI/Spinner'
 import Modal from '@/components//Modal/Modal'
+import Back from '@/assets/images/icons/back.svg'
 import AddNewTask from './AddNewTask'
+import { fetchTaskByBoards } from '@/Services/API-firebase'
 
 /* import { useTranslation } from 'react-i18next' */
 
@@ -65,7 +67,24 @@ const Board = () => {
     }
   )
 
-  useEffect(() => {})
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, 'boards', id, 'tasks'),
+      () => {
+        // Dispatch your action to update state
+        dispatch(fetchTaskByBoards(id))
+      },
+      (error) => {
+        // Handle errors here
+        console.error('Error fetching tasks:', error)
+      }
+    )
+
+    return () => {
+      unsubscribe() // Unsubscribe from the onSnapshot listener when the component unmounts
+    }
+  }, [dispatch, id])
+
   if (error) {
     return <div>{error.message}</div>
   }

@@ -1,11 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { deleteTaskFromFirebase } from '@/Services/API-firebase'
+import useLocalStorage from '@/Hooks/useLocalStorage'
 const TaskCard = ({ title, id, boardId }) => {
+  const [value] = useLocalStorage('theme', `light`)
   return (
     <Tasks>
       <TaskTitle>{title}</TaskTitle>
-      <TaskDelete onClick={() => deleteTaskFromFirebase(id, boardId)}>
+      <TaskDelete onClick={() => deleteTaskFromFirebase(id, boardId, value)}>
         x
       </TaskDelete>
     </Tasks>

@@ -7,6 +7,8 @@ import {
   updateProfile,
 } from 'firebase/auth'
 import { auth } from '@/firebase-config'
+import { showErrorToast } from '@/Utils/Toast'
+
 const userAuthContext = createContext()
 
 export function UserAuthContextProvider({ children }) {
@@ -19,15 +21,18 @@ export function UserAuthContextProvider({ children }) {
         updateProfile(user, { displayName: name }).then(() => {})
       })
       .catch((error) => {
-        console.log(error.message)
+        showErrorToast(error.message, value)
       })
   }
+
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password)
   }
+
   const logOut = () => {
     return signOut(auth)
   }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser)
@@ -36,12 +41,14 @@ export function UserAuthContextProvider({ children }) {
       unsubscribe()
     }
   }, [user])
+
   const value = {
     login,
     logOut,
     user,
     signUp,
   }
+
   return (
     <userAuthContext.Provider value={value}>
       {children}
@@ -52,21 +59,3 @@ export function UserAuthContextProvider({ children }) {
 export function useUserAuth() {
   return useContext(userAuthContext)
 }
-
-/* 
-
-firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then((userCredential) => {
-    // Update the user's displayName
-    userCredential.user.updateProfile({
-      displayName: 'Arthur'
-    }).then(() => {
-      // displayName updated successfully
-    }).catch((error) => {
-      // Error updating displayName
-    });
-  })
-  .catch((error) => {
-    // Handle errors while creating the user
-  });
-*/

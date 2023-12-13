@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import ButtonSecondary from '@/Components/UI/ButtonSecondary'
+import { useParams } from 'react-router-dom'
 import Status from './Status'
+import ButtonSecondary from '@/Components/UI/ButtonSecondary'
 import { addNewTask } from '@/Services/API-firebase'
 import { useUserAuth } from '@/Context/authContext'
-import { useParams } from 'react-router-dom'
-const AddNewTask = () => {
+import useLocalStorage from '@/Hooks/useLocalStorage'
+const AddNewTask = ({ onSubmit }) => {
+  const [value] = useLocalStorage('theme', `light`)
   const [activeIndex, setActiveIndex] = useState(1)
   const { t } = useTranslation('global')
   const { id } = useParams()
@@ -22,7 +24,9 @@ const AddNewTask = () => {
       displayName,
       status: 'todo',
       boardId: id,
+      value,
     })
+    onSubmit()
   }
   const handleActive = (index) => {
     setActiveIndex(index)

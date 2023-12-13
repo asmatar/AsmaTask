@@ -5,10 +5,11 @@ import {
   addDoc,
   doc,
   deleteDoc,
-  setDoc,
 } from 'firebase/firestore'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { db } from '@/firebase-config'
+import { showErrorToast, showSuccessToast } from '@/Utils/Toast'
+
 export const fetchBoards = createAsyncThunk(
   'boardSlice/fetchBoards',
   async () => {
@@ -27,7 +28,7 @@ export const fetchBoards = createAsyncThunk(
       })
       return data
     } catch (error) {
-      console.log(error)
+      return error.message
     }
   }
 )
@@ -35,7 +36,6 @@ export const fetchBoards = createAsyncThunk(
 export const fetchTaskByBoards = createAsyncThunk(
   'tasksSlice/fetchTaskByBoards',
   async (id) => {
-    console.log(id)
     try {
       const boardRef = doc(db, 'boards', id)
       const taskSnapshot = await getDocs(collection(boardRef, 'tasks'))
@@ -45,34 +45,30 @@ export const fetchTaskByBoards = createAsyncThunk(
         if (serializedData.date instanceof Timestamp) {
           serializedData.date = serializedData.date.toDate().toISOString()
         }
-        console.log(serializedData)
         return serializedData
       })
-      console.log(tasks)
       // return 3 diferent arrays filter base on a object keys
       const groupedArrays = tasks.reduce((result, obj) => {
         result[obj.status] = result[obj.status] || []
         result[obj.status].push(obj)
         return result
       }, {})
-
       return groupedArrays
-      /* return tasks */
     } catch (error) {
-      console.log(error)
+      return error.message
     }
   }
 )
-export const deleteTaskFromFirebase = async (taskId, boardId) => {
+export const deleteTaskFromFirebase = async (taskId, boardId, value) => {
   try {
-    console.log(taskId, boardId)
     const boardRef = doc(db, 'boards', boardId, 'tasks', taskId)
     await deleteDoc(boardRef)
+    showSuccessToast('Task has been deleted !!', value)
   } catch (error) {
-    return error.message
+    return showErrorToast(error.message, value)
   }
 }
-export const addNewBoard = async ({ boardName, displayName }) => {
+export const addNewBoard = async ({ boardName, displayName, value }) => {
   try {
     const collectionRef = collection(db, 'boards')
     await addDoc(collectionRef, {
@@ -80,19 +76,21 @@ export const addNewBoard = async ({ boardName, displayName }) => {
       date: new window.Date(),
       author: displayName,
     })
+    showSuccessToast('Board created !!', value)
   } catch (error) {
-    return error.message
+    return showErrorToast(error.message, value)
   }
 }
+
 export const addNewTask = async ({
   taskTitle,
   displayName,
   status,
   boardId,
+  value,
 }) => {
   try {
     const collectionRef = collection(db, 'boards', boardId, 'tasks')
-    console.log(collectionRef)
     // Check if the tasks collection exists
     const tasksCollectionSnapshot = await getDocs(collectionRef)
     const tasksCollectionExists = !tasksCollectionSnapshot.empty
@@ -105,6 +103,7 @@ export const addNewTask = async ({
         author: displayName,
         status,
       })
+      showSuccessToast('Task created !!', value)
     } else {
       await addDoc(collectionRef, {
         title: taskTitle,
@@ -112,8 +111,9 @@ export const addNewTask = async ({
         author: displayName,
         status,
       })
+      showSuccessToast('Task created !!', value)
     }
   } catch (error) {
-    return error.message
+    return showErrorToast(error.message, value)
   }
 }
