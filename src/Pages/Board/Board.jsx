@@ -72,9 +72,9 @@ const Board = () => {
   if (!data) {
     return <Spinner />
   }
-  const handleCreateTask = () => {
+  /*   const handleCreateTask = () => {
     console.log('create task')
-  }
+  } */
   return (
     <>
       <Main>
@@ -86,7 +86,7 @@ const Board = () => {
           {todos}
           <Modal>
             <Modal.Open opens="new-board">
-              <AddTaskButton onClick={handleCreateTask}>+</AddTaskButton>
+              <AddTaskButton /* onClick={handleCreateTask} */>+</AddTaskButton>
             </Modal.Open>
             <Modal.Window name="new-board">
               <AddNewTask></AddNewTask>
@@ -101,7 +101,7 @@ const Board = () => {
           {progress}
           <Modal>
             <Modal.Open opens="new-board">
-              <AddTaskButton onClick={handleCreateTask}>+</AddTaskButton>
+              <AddTaskButton /* onClick={handleCreateTask} */>+</AddTaskButton>
             </Modal.Open>
             <Modal.Window name="new-board">
               <AddNewTask></AddNewTask>
@@ -117,7 +117,7 @@ const Board = () => {
           <Modal>
             <Modal.Open opens="new-board">
               {/*  <AddTaskButton onClick={handleCreateTask}>+</AddTaskButton> */}
-              <AddTaskButton onClick={handleCreateTask}>+</AddTaskButton>
+              <AddTaskButton /* onClick={handleCreateTask} */>+</AddTaskButton>
             </Modal.Open>
             <Modal.Window name="new-board">
               <NewModal>

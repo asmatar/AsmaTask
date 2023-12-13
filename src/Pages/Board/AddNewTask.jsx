@@ -3,16 +3,31 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import ButtonSecondary from '@/Components/UI/ButtonSecondary'
 import Status from './Status'
+import { addNewTask } from '@/Services/API-firebase'
+import { useUserAuth } from '@/Context/authContext'
+import { useParams } from 'react-router-dom'
 const AddNewTask = () => {
-  const taskName = useRef(null)
   const [activeIndex, setActiveIndex] = useState(1)
   const { t } = useTranslation('global')
+  const { id } = useParams()
+  const {
+    user: { displayName },
+  } = useUserAuth()
+  const taskName = useRef(null)
+
   const handdleNewTask = (event) => {
     event.preventDefault()
+    addNewTask({
+      taskTitle: taskName.current?.value,
+      displayName,
+      status: 'todo',
+      boardId: id,
+    })
   }
   const handleActive = (index) => {
     setActiveIndex(index)
   }
+
   return (
     <BoardBox onSubmit={(event) => handdleNewTask(event)}>
       <BoardBoxHeader>

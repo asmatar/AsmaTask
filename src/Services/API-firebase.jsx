@@ -83,3 +83,22 @@ export const addNewBoard = async ({ boardName, displayName }) => {
     return error.message
   }
 }
+export const addNewTask = async ({
+  taskTitle,
+  displayName,
+  status,
+  boardId,
+}) => {
+  try {
+    const collectionRef = collection(db, 'boards', boardId, 'tasks')
+    console.log(collectionRef)
+    await addDoc(collectionRef, {
+      title: taskTitle,
+      date: new window.Date(),
+      author: displayName,
+      status,
+    })
+  } catch (error) {
+    return error.message
+  }
+}
