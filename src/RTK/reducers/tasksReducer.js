@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 import { fetchTaskByBoards } from '@/Services/API-firebase'
 
 const initialState = {
-  tasks: [],
+  todo: null,
+  inProgress: null,
+  done: null,
 }
 
 const tasksSlice = createSlice({
@@ -12,10 +14,14 @@ const tasksSlice = createSlice({
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchTaskByBoards.fulfilled, (state, action) => {
-      state.tasks = action.payload
+      state.todo = action.payload.todo
+      state.inProgress = action.payload['in progress']
+      state.done = action.payload.done
     })
   },
 })
 
-export const selectTasks = (state) => state.tasks.tasks
+export const selectTodotask = (state) => state.tasks.todo
+export const selectProgresstask = (state) => state.tasks.inProgress
+export const selectDonetask = (state) => state.tasks.done
 export default tasksSlice.reducer

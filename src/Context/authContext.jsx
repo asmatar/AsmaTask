@@ -16,10 +16,7 @@ export function UserAuthContextProvider({ children }) {
     return createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const { user } = userCredential
-        /* navigate('/login'); */
-        updateProfile(user, { displayName: name }).then(() => {
-          console.log('display name updated successfully', user)
-        })
+        updateProfile(user, { displayName: name }).then(() => {})
       })
       .catch((error) => {
         console.log(error.message)
@@ -33,7 +30,6 @@ export function UserAuthContextProvider({ children }) {
   }
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log('currentUser', currentUser)
       setUser(currentUser)
     })
     return () => {

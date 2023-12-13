@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { NavLink, useNavigate } from 'react-router-dom'
 import logo from '@/assets/images/logo.png'
 import GeneralButton from './GeneralButton'
-import AddBoard from '@/components/Modal/AddBoard'
-import Modal from '@/components//Modal/Modal'
+import AddBoard from '@/components/Boards/AddBoard'
+import Modal from '@/components/Modal/Modal'
 import { useUserAuth } from '@/Context/authContext'
 
 const Header = ({ toggleTheme, isDarkTheme }) => {

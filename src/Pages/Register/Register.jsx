@@ -27,7 +27,6 @@ const Register = () => {
 
   const handleSubmitForm = async (data) => {
     try {
-      console.log(data)
       await signUp(data.email, data.password, data.name)
       navigate('/login')
     } catch (error) {
