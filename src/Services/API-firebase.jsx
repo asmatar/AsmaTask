@@ -5,6 +5,7 @@ import {
   addDoc,
   doc,
   deleteDoc,
+  setDoc,
 } from 'firebase/firestore'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { db } from '@/firebase-config'
@@ -92,12 +93,26 @@ export const addNewTask = async ({
   try {
     const collectionRef = collection(db, 'boards', boardId, 'tasks')
     console.log(collectionRef)
-    await addDoc(collectionRef, {
-      title: taskTitle,
-      date: new window.Date(),
-      author: displayName,
-      status,
-    })
+    // Check if the tasks collection exists
+    const tasksCollectionSnapshot = await getDocs(collectionRef)
+    const tasksCollectionExists = !tasksCollectionSnapshot.empty
+
+    // If the tasks collection doesn't exist, create it first
+    if (!tasksCollectionExists) {
+      await addDoc(collectionRef, {
+        title: taskTitle,
+        date: new window.Date(),
+        author: displayName,
+        status,
+      })
+    } else {
+      await addDoc(collectionRef, {
+        title: taskTitle,
+        date: new window.Date(),
+        author: displayName,
+        status,
+      })
+    }
   } catch (error) {
     return error.message
   }
