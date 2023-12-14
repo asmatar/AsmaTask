@@ -68,6 +68,15 @@ export const deleteTaskFromFirebase = async (taskId, boardId, value) => {
     return showErrorToast(error.message, value)
   }
 }
+export const deleteBoardFromFirebase = async (boardId, value) => {
+  try {
+    const boardRef = doc(db, 'boards', boardId)
+    await deleteDoc(boardRef)
+    showSuccessToast('Board has been deleted !!', value)
+  } catch (error) {
+    return showErrorToast(error.message, value)
+  }
+}
 export const addNewBoard = async ({ boardName, displayName, value }) => {
   try {
     const collectionRef = collection(db, 'boards')

@@ -48,6 +48,7 @@ const BoardsMain = () => {
                     title={board.name}
                     quantity={board.quantity}
                     date={board.date}
+                    id={board.id}
                   />
                 </StyledNavLink>
               </li>
