@@ -4,9 +4,7 @@ import ButtonSecondary from '@/components/UI/ButtonSecondary'
 import { useTranslation } from 'react-i18next'
 import { useUserAuth } from '@/Context/authContext'
 import { addNewBoard } from '@/Services/API-firebase'
-import { useSelector } from 'react-redux'
-import { loadingBoards } from '@/RTK/reducers/boardsReducer'
-import Spinner from '@/Components/UI/Spinner'
+import useLocalStorage from '../../Hooks/useLocalStorage'
 
 const AddBoard = ({ onSubmit }) => {
   const { t } = useTranslation('global')
@@ -14,14 +12,15 @@ const AddBoard = ({ onSubmit }) => {
     user: { displayName },
   } = useUserAuth()
   const boardName = useRef(null)
-  const isLoading = useSelector(loadingBoards)
+
+  const [value] = useLocalStorage('theme', `light`)
 
   const handleAddNewBoard = (event) => {
     event.preventDefault()
-    console.log(displayName)
     addNewBoard({
       boardName: boardName.current?.value,
       displayName,
+      value,
     })
     onSubmit()
   }
@@ -45,11 +44,7 @@ const AddBoard = ({ onSubmit }) => {
           />
           <Label htmlFor="name">{t('boardName')}</Label>
         </FormGroup>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <ButtonSecondary type="submit">{t('create')}</ButtonSecondary>
-        )}
+        <ButtonSecondary type="submit">{t('create')}</ButtonSecondary>
       </BoardBox>
     </>
   )

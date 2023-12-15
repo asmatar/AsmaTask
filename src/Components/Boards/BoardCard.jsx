@@ -2,19 +2,24 @@ import React from 'react'
 import OpenSVG from '@/assets/images/icons/open.svg'
 import styled from 'styled-components'
 import { format } from 'date-fns'
-
-const BoardCard = ({ author, title, date, quantity }) => {
+import { deleteBoardFromFirebase } from '@/Services/API-firebase'
+import useLocalStorage from '@/Hooks/useLocalStorage'
+const BoardCard = ({ author, title, date, id }) => {
   const datee = new window.Date(date)
   const formattedDate = format(datee, 'MM/dd/yyyy')
-
+  const [value] = useLocalStorage('theme', `light`)
   return (
     <Board>
       <BoardHead>
-        <BoardTitle>
-          {title}
-          <BoardQuantity>{`(${quantity} task)`}</BoardQuantity>
-        </BoardTitle>
-        <Open src={OpenSVG} alt="open" />
+        <BoardTitle>{title}</BoardTitle>
+        <Open
+          src={OpenSVG}
+          alt="open"
+          onClick={(event) => {
+            event.preventDefault()
+            deleteBoardFromFirebase(id, value)
+          }}
+        />
       </BoardHead>
       <BoardBody>
         <BoardDate>
@@ -55,9 +60,6 @@ const BoardTitle = styled.h2`
   &::first-letter {
     text-transform: uppercase;
   }
-`
-const BoardQuantity = styled.span`
-  font-size: 0.8rem;
 `
 const Open = styled.img`
   cursor: pointer;
