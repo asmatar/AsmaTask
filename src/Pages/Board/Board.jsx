@@ -10,11 +10,11 @@ import {
   selectProgresstask,
   selectTodotask,
 } from '@/RTK/reducers/tasksReducer'
-import TaskCard from './TaskCard'
+import TaskCard from '../../Components/Board/TaskCard'
 import Spinner from '@/Components/UI/Spinner'
 import Modal from '@/components//Modal/Modal'
+import AddNewTask from '../../Components/Board/AddNewTask'
 import Back from '@/assets/images/icons/back.svg'
-import AddNewTask from './AddNewTask'
 import { fetchTaskByBoards } from '@/Services/API-firebase'
 
 /* import { useTranslation } from 'react-i18next' */
@@ -94,6 +94,7 @@ const Board = () => {
   /*   const handleCreateTask = () => {
     console.log('create task')
   } */
+  console.log(todos)
   return (
     <>
       <Main>
@@ -135,13 +136,11 @@ const Board = () => {
           {done}
           <Modal>
             <Modal.Open opens="new-board">
-              {/*  <AddTaskButton onClick={handleCreateTask}>+</AddTaskButton> */}
+              {/* <AddTaskButton onClick={handleCreateTask}>+</AddTaskButton> */}
               <AddTaskButton /* onClick={handleCreateTask} */>+</AddTaskButton>
             </Modal.Open>
             <Modal.Window name="new-board">
-              <NewModal>
-                <AddNewTask></AddNewTask>
-              </NewModal>
+              <AddNewTask></AddNewTask>
             </Modal.Window>
           </Modal>
         </Column>
@@ -157,7 +156,7 @@ const Board = () => {
 }
 
 export default Board
-const NewModal = styled.div``
+/* const NewModal = styled.div`` */
 /* const Navlink = styled(NavLink)`` */
 const BackButton = styled.button`
   position: fixed;
@@ -223,7 +222,7 @@ const AddTaskButton = styled.button`
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
 `
-/* const TaskTitle = styled.h2``
+const TaskTitle = styled.h2``
 const Tasks = styled.div`
   background-color: white;
   padding: 20px 15px;
@@ -233,8 +232,7 @@ const Tasks = styled.div`
   align-items: start;
 `
 
-
 const TaskDelete = styled(AddTaskButton)`
   background-color: red;
   align-self: start;
-` */
+`
