@@ -1,18 +1,18 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import ButtonSecondary from '@/components/UI/ButtonSecondary'
 import { useTranslation } from 'react-i18next'
 import { useUserAuth } from '@/Context/authContext'
 import { addNewBoard } from '@/Services/API-firebase'
-import useLocalStorage from '../../Hooks/useLocalStorage'
+import useLocalStorage from '@/Hooks/useLocalStorage'
+import ButtonSecondary from '@/components/UI/ButtonSecondary'
 
 const AddBoard = ({ onSubmit }) => {
   const { t } = useTranslation('global')
+
   const {
     user: { displayName },
   } = useUserAuth()
   const boardName = useRef(null)
-
   const [value] = useLocalStorage('theme', `light`)
 
   const handleAddNewBoard = (event) => {

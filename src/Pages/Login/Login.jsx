@@ -1,30 +1,33 @@
 import React, { useState } from 'react'
-import PageTitle from '@/Components/Login/PageTitle'
-import TextIntro from '@/Components/Login/TextIntro'
 import { NavLink, useNavigate } from 'react-router-dom'
-import LogText from '@/Components/Login/LogText'
-import GeneralButton from '@/Components/UI/GeneralButton'
-import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { useUserAuth } from '@/Context/authContext'
 import { useForm } from 'react-hook-form'
-import ErrorMessage from '@/Components/UI/ErrorMessage'
 import useYupValidationResolver, {
   schema,
 } from '@/hooks/useYupValidationResolver'
 
+import PageTitle from '@/Components/Login/PageTitle'
+import TextIntro from '@/Components/Login/TextIntro'
+import LogText from '@/Components/Login/LogText'
+import GeneralButton from '@/Components/UI/GeneralButton'
+import ErrorMessage from '@/Components/UI/ErrorMessage'
+import styled from 'styled-components'
+import { useUserAuth } from '@/Context/authContext'
+
 const Login = () => {
   const { t } = useTranslation('global')
   const { login } = useUserAuth()
-  const [firebaseError, setFirebaseError] = useState('')
-
   const navigate = useNavigate()
   const resolver = useYupValidationResolver(schema, t)
+
+  const [firebaseError, setFirebaseError] = useState('')
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver })
+
   const handleSubmitForm = async (data) => {
     try {
       await login(data.email, data.password)
@@ -33,6 +36,7 @@ const Login = () => {
       setFirebaseError(error.message)
     }
   }
+
   return (
     <>
       <HeaderContainer>

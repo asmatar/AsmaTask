@@ -14,6 +14,7 @@ const tasksSlice = createSlice({
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchTaskByBoards.fulfilled, (state, action) => {
+      console.log(action.payload)
       state.todo = action.payload.todo
       state.inProgress = action.payload['in progress']
       state.done = action.payload.done

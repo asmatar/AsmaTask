@@ -3,13 +3,14 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import Status from './Status'
-import ButtonSecondary from '@/Components/UI/ButtonSecondary'
 import { addNewTask } from '@/Services/API-firebase'
 import { useUserAuth } from '@/Context/authContext'
 import useLocalStorage from '@/Hooks/useLocalStorage'
-const AddNewTask = ({ onSubmit }) => {
+import ButtonSecondary from '@/Components/UI/ButtonSecondary'
+
+const AddNewTask = ({ onSubmit, columnName }) => {
   const [value] = useLocalStorage('theme', `light`)
-  const [activeIndex, setActiveIndex] = useState(1)
+  const [activeIndex, setActiveIndex] = useState(columnName)
   const { t } = useTranslation('global')
   const { id } = useParams()
   const {
@@ -19,23 +20,25 @@ const AddNewTask = ({ onSubmit }) => {
 
   const handdleNewTask = (event) => {
     event.preventDefault()
+    console.log(activeIndex)
     addNewTask({
       taskTitle: taskName.current?.value,
       displayName,
-      status: 'todo',
+      status: activeIndex.toLowerCase(),
       boardId: id,
       value,
     })
     onSubmit()
   }
-  const handleActive = (index) => {
-    setActiveIndex(index)
+
+  const handleActive = (task) => {
+    setActiveIndex(task)
   }
 
   return (
     <BoardBox onSubmit={(event) => handdleNewTask(event)}>
       <BoardBoxHeader>
-        <LabelHead>{t('createBoard')}</LabelHead>
+        <LabelHead>{t('createTask')}</LabelHead>
       </BoardBoxHeader>
       <FormGroup>
         <Input
@@ -51,22 +54,22 @@ const AddNewTask = ({ onSubmit }) => {
         <Label htmlFor="name">{t('boardName')}</Label>
       </FormGroup>
       <Status
-        handleActive={() => handleActive(1)}
-        title="todo"
-        description="A new task to be completed"
-        isActive={activeIndex === 1}
+        handleActive={() => handleActive('todo')}
+        title={t('todo')}
+        description={t('addNewTaskTodoDescription')}
+        isActive={activeIndex === 'todo'}
       ></Status>
       <Status
-        handleActive={() => handleActive(2)}
-        title="in progress"
-        description="A task that is currently being worked on"
-        isActive={activeIndex === 2}
+        handleActive={() => handleActive('in progress')}
+        title={t('inProgress')}
+        description={t('addNewTaskInProgressDescription')}
+        isActive={activeIndex === 'in progress'}
       ></Status>
       <Status
-        handleActive={() => handleActive(3)}
-        title="done"
-        description="A task that has been completed"
-        isActive={activeIndex === 3}
+        handleActive={() => handleActive('done')}
+        title={t('done')}
+        description={t('addNewTaskDoneDescription')}
+        isActive={activeIndex === 'done'}
       ></Status>
       <ButtonSecondary type="submit">{t('create')}</ButtonSecondary>
     </BoardBox>

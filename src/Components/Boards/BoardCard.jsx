@@ -40,6 +40,9 @@ const Board = styled.article`
   border-radius: 0.5rem;
   transition: all 0.4s ease-in-out;
   cursor: pointer;
+  box-shadow:
+    rgba(0, 0, 0, 0.04) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
   &:hover {
     background-color: ${({ theme }) => theme.backgroundCardHover};
   }

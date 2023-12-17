@@ -21,5 +21,14 @@
   "errorEmailEmail": "email doit être valide",
   "errorEmailRequired": "email est obligatoire",
   "errorPasswordRequired": "mot de passe est obligatoire",
-  "errorPasswordMatch": "Le mot de passe doit contenir au moins une majuscule, un chiffre, entre 7 et 14 caractères"
+  "errorPasswordMatch": "Le mot de passe doit contenir au moins une majuscule, un chiffre, entre 7 et 14 caractères",
+  "todo": "A faire",
+  "inProgress": "En cours",
+  "done": "terminé",
+  "backToBoards": "Retour aux tableaux",
+  "logout": "Se déconnecter",
+  "addNewTaskTodoDescription": "Ajouter une nouvelle tâche",
+  "addNewTaskInProgressDescription": "une tâche est en cours",
+  "addNewTaskDoneDescription": "une tâche est terminée",
+  "createTask": "Créer une tâche"
 }

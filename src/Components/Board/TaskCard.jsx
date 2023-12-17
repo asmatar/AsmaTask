@@ -2,27 +2,33 @@ import React from 'react'
 import styled from 'styled-components'
 import { deleteTaskFromFirebase } from '@/Services/API-firebase'
 import useLocalStorage from '@/Hooks/useLocalStorage'
+import Delete from '@/assets/images/icons/delete.svg'
 const TaskCard = ({ title, id, boardId }) => {
   const [value] = useLocalStorage('theme', `light`)
+
   return (
     <Tasks>
       <TaskTitle>{title}</TaskTitle>
       <TaskDelete onClick={() => deleteTaskFromFirebase(id, boardId, value)}>
-        x
+        <Del src={Delete} alt="delete a task"></Del>
       </TaskDelete>
     </Tasks>
   )
 }
 
 export default TaskCard
-const TaskTitle = styled.h2``
+const Del = styled.img``
+const TaskTitle = styled.h2`
+  color: ${({ theme }) => theme.colorBlackWhite};
+`
 const Tasks = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.colorWhiteBlack};
   padding: 20px 15px;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: start;
+  cursor: pointer;
 `
 const TaskDelete = styled.button`
   border-radius: 100%;
@@ -36,7 +42,6 @@ const TaskDelete = styled.button`
   outline: none;
   padding: 3px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-  background-color: red;
   align-self: start;
   cursor: pointer;
 `

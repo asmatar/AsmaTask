@@ -11,6 +11,8 @@ export const lightTheme = {
   colorLangBg: '#a881ff',
   colorInputText: '#FFF',
   colorModal: '#a881ff',
+  colorBlackWhite: 'black',
+  colorWhiteBlack: 'white',
 }
 
 export const darkTheme = {
@@ -23,6 +25,8 @@ export const darkTheme = {
   colorLangBg: '#828282',
   colorInputText: '#828282',
   colorModal: '#828282',
+  colorBlackWhite: 'white',
+  colorWhiteBlack: 'black',
 }
 
 export const GlobalStyles = createGlobalStyle`

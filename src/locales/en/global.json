@@ -21,5 +21,14 @@
   "errorEmailEmail": "email must be valid",
   "errorEmailRequired": "email is required",
   "errorPasswordRequired": "password is required",
-  "errorPasswordMatch": "Password should have at least one uppercase letter, one number, between 7 and 14 characters"
+  "errorPasswordMatch": "Password should have at least one uppercase letter, one number, between 7 and 14 characters",
+  "todo": "Todo",
+  "inProgress": "In Progress",
+  "done": "Done",
+  "backToBoards": "Back to Boards",
+  "logout": "Logout",
+  "addNewTaskTodoDescription": "A new task to be completed",
+  "addNewTaskInProgressDescription": "A task that is currently being worked on",
+  "addNewTaskDoneDescription": "A task that has been completed",
+  "createTask": "Create Task"
 }

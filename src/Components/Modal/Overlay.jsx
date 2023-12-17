@@ -1,10 +1,13 @@
 /* eslint-disable react/display-name */
 import styled from 'styled-components'
 import React from 'react'
+
 const Overlay = React.forwardRef(({ onClick }, ref) => {
   return <ModalOverlay onClick={onClick} ref={ref} />
 })
+
 export default Overlay
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;

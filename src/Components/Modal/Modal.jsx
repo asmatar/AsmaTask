@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom'
 import { cloneElement, createContext, useContext, useState } from 'react'
 import { useOutsideClick } from '@/Hooks/useOutsideClick'
 import { useTranslation } from 'react-i18next'
+
 const ModalContext = createContext()
 
 function Modal({ children }) {

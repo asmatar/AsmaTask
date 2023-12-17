@@ -2,11 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const PageTitle = () => {
-  return (
-    <>
-      <BigTitle>AsmaTask</BigTitle>
-    </>
-  )
+  return <BigTitle>AsmaTask</BigTitle>
 }
 
 export default PageTitle

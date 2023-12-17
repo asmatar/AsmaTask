@@ -12,6 +12,7 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
   const { logOut, user } = useUserAuth()
   const navigate = useNavigate()
   const { t } = useTranslation('global')
+
   const handleLogout = async () => {
     try {
       await logOut()
@@ -20,6 +21,7 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
       console.log('error')
     }
   }
+
   return (
     <>
       <HeaderContainer>
@@ -41,7 +43,9 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
           )}
           {user && (
             <>
-              <GeneralButton onClick={handleLogout}>logout</GeneralButton>
+              <GeneralButton onClick={handleLogout}>
+                {t('logout')}
+              </GeneralButton>
               <Modal>
                 <Modal.Open opens="new-board">
                   <GeneralButton>{t('newBoard')}</GeneralButton>
