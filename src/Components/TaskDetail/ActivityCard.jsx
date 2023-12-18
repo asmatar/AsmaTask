@@ -11,7 +11,7 @@ const ActivityCard = ({
   activityAuthor,
 }) => {
   const activityAuthorInitial = activityAuthor?.charAt(0)
-  console.log('acvitycard ', activityAuthor)
+
   return (
     <ActivityArticle>
       <Avatar>{activityAuthorInitial}</Avatar>

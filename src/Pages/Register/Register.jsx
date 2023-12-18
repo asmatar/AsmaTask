@@ -36,8 +36,7 @@ const Register = () => {
       setFirebaseError(error.message)
     }
   }
-  console.log(resolver)
-  console.log(schema)
+
   return (
     <HeaderContainer>
       <PageTitle />

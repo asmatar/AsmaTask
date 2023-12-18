@@ -36,7 +36,6 @@ const TaskDetail = ({
   } = useUserAuth()
   const activityAuthor = displayName
   const activity = activities.map((activity) => {
-    console.log('task detail task', activity)
     return (
       <ActivityCard
         key={formatedDate(date)}
@@ -103,6 +102,7 @@ const TaskDetail = ({
                     value
                   )
                   setDescriptionArea('')
+                  close()
                 }}
               >
                 {t('save')}
