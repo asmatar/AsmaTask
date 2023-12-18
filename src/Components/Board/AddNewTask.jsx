@@ -20,12 +20,19 @@ const AddNewTask = ({ onSubmit, columnName }) => {
 
   const handdleNewTask = (event) => {
     event.preventDefault()
-    console.log(activeIndex)
     addNewTask({
       taskTitle: taskName.current?.value,
       displayName,
       status: activeIndex.toLowerCase(),
       boardId: id,
+      description: [],
+      activities: [
+        {
+          activityAuthor: displayName,
+          activity: 'created this task',
+          date: new window.Date().toISOString(),
+        },
+      ],
       value,
     })
     onSubmit()

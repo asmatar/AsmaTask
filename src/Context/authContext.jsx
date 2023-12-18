@@ -30,17 +30,25 @@ export function UserAuthContextProvider({ children }) {
   }
 
   const logOut = () => {
-    return signOut(auth)
+    return signOut(auth).then(() => {
+      setUser(null) // or setUser({});
+    })
   }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      /*       const newUser = {
+        displayName: currentUser?.displayName,
+        email: currentUser?.email,
+        photo: currentUser?.photoURL,
+        uid: currentUser?.uid,
+      } */
       setUser(currentUser)
     })
     return () => {
       unsubscribe()
     }
-  }, [user])
+  }, [user?.displayName, user?.email, user?.photoURL, user?.uid])
 
   const value = {
     login,

@@ -18,7 +18,7 @@ import TaskCard from '@/Components/Board/TaskCard'
 import Spinner from '@/Components/UI/Spinner'
 import Modal from '@/components//Modal/Modal'
 import AddNewTask from '@/Components/Board/AddNewTask'
-
+import TaskDetail from '../../Components/TaskDetail/TaskDetail'
 /* import useLocalStorage from '@/Hooks/useLocalStorage' */
 
 import { useTranslation } from 'react-i18next'
@@ -34,32 +34,99 @@ const Board = () => {
 
   const todos = todoTask?.map((task) => {
     return (
-      <TaskCard
+      /*   <TaskCard
         key={task.id}
         title={task.title}
         id={task.id}
         boardId={task.boardsId}
-      />
+      /> */
+      <Modal key={task.id}>
+        <Modal.Open opens="task-detail">
+          {/* <AddTaskButton> */}
+          <TaskCard
+            title={task.title}
+            id={task.id}
+            boardId={task.boardsId}
+            date={task.date}
+          />
+          {/* </AddTaskButton> */}
+        </Modal.Open>
+        <Modal.Window name="task-detail">
+          <TaskDetail
+            columnName="done"
+            title={task.title}
+            id={task.id}
+            boardId={task.boardsId}
+            status={task.status}
+            author={task.author}
+            date={task.date}
+            activities={task.activities}
+          ></TaskDetail>
+        </Modal.Window>
+      </Modal>
     )
   })
   const progress = inprogressTask?.map((task) => {
     return (
-      <TaskCard
+      /*     <TaskCard
         key={task.id}
         title={task.title}
         id={task.id}
         boardId={task.boardsId}
-      />
+      /> */
+      <Modal key={task.id}>
+        <Modal.Open opens="task-detail">
+          {/* <AddTaskButton> */}
+          <TaskCard title={task.title} id={task.id} boardId={task.boardsId} />
+          {/* </AddTaskButton> */}
+        </Modal.Open>
+        <Modal.Window name="task-detail">
+          <TaskDetail
+            columnName="done"
+            title={task.title}
+            id={task.id}
+            boardId={task.boardsId}
+            status={task.status}
+            author={task.author}
+            date={task.date}
+            activities={task.activities}
+          ></TaskDetail>
+        </Modal.Window>
+      </Modal>
     )
   })
   const done = doneTask?.map((task) => {
     return (
-      <TaskCard
+      /*     <TaskCard
         key={task.id}
         title={task.title}
         id={task.id}
         boardId={task.boardsId}
-      />
+      /> */
+      <Modal key={task.id}>
+        <Modal.Open opens="task-detail">
+          {/* <AddTaskButton> */}
+          <TaskCard
+            title={task.title}
+            id={task.id}
+            boardId={task.boardsId}
+            date={task.date}
+          />
+          {/* </AddTaskButton> */}
+        </Modal.Open>
+        <Modal.Window name="task-detail">
+          <TaskDetail
+            columnName="done"
+            title={task.title}
+            id={task.id}
+            boardId={task.boardsId}
+            status={task.status}
+            author={task.author}
+            date={task.date}
+            activities={task.activities}
+          ></TaskDetail>
+        </Modal.Window>
+      </Modal>
     )
   })
 
@@ -107,12 +174,12 @@ const Board = () => {
           </ColumnHeader>
           {todos}
           <Modal>
-            <Modal.Open opens="new-board">
+            <Modal.Open opens="new-task">
               <AddTaskButton>
                 <Add src={add} alt="add task" />
               </AddTaskButton>
             </Modal.Open>
-            <Modal.Window name="new-board">
+            <Modal.Window name="new-task">
               <AddNewTask columnName="todo"></AddNewTask>
             </Modal.Window>
           </Modal>
@@ -124,12 +191,12 @@ const Board = () => {
           </ColumnHeader>
           {progress}
           <Modal>
-            <Modal.Open opens="new-board">
+            <Modal.Open opens="new-task">
               <AddTaskButton>
                 <Add src={add} alt="add task" />
               </AddTaskButton>
             </Modal.Open>
-            <Modal.Window name="new-board">
+            <Modal.Window name="new-task">
               <AddNewTask columnName="in progress"></AddNewTask>
             </Modal.Window>
           </Modal>
@@ -141,12 +208,12 @@ const Board = () => {
           </ColumnHeader>
           {done}
           <Modal>
-            <Modal.Open opens="new-board">
+            <Modal.Open opens="new-task">
               <AddTaskButton>
                 <Add src={add} alt="add task" />
               </AddTaskButton>
             </Modal.Open>
-            <Modal.Window name="new-board">
+            <Modal.Window name="new-task">
               <AddNewTask columnName="done"></AddNewTask>
             </Modal.Window>
           </Modal>
@@ -203,7 +270,7 @@ const Column = styled.div`
   gap: 15px;
   box-shadow:
     rgba(0, 0, 0, 0.04) 0px 20px 25px -5px,
-    rgba(0, 0, 0, 0.04) 0px 10px 10px -;
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 `
 const Title2 = styled.h2`
   font-weight: bold;

@@ -5,6 +5,8 @@ import {
   addDoc,
   doc,
   deleteDoc,
+  updateDoc,
+  arrayUnion,
 } from 'firebase/firestore'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { db } from '@/firebase-config'
@@ -68,6 +70,7 @@ export const deleteTaskFromFirebase = async (taskId, boardId, value) => {
     return showErrorToast(error.message, value)
   }
 }
+
 export const deleteBoardFromFirebase = async (boardId, value) => {
   try {
     const boardRef = doc(db, 'boards', boardId)
@@ -77,6 +80,7 @@ export const deleteBoardFromFirebase = async (boardId, value) => {
     return showErrorToast(error.message, value)
   }
 }
+
 export const addNewBoard = async ({ boardName, displayName, value }) => {
   try {
     const collectionRef = collection(db, 'boards')
@@ -87,7 +91,8 @@ export const addNewBoard = async ({ boardName, displayName, value }) => {
     })
     showSuccessToast('Board created !!', value)
   } catch (error) {
-    return showErrorToast(error.message, value)
+    /* return showErrorToast(error.message, value) */
+    return console.log(error.message)
   }
 }
 
@@ -97,6 +102,7 @@ export const addNewTask = async ({
   status,
   boardId,
   value,
+  activities,
 }) => {
   try {
     const collectionRef = collection(db, 'boards', boardId, 'tasks')
@@ -111,6 +117,7 @@ export const addNewTask = async ({
         date: new window.Date(),
         author: displayName,
         status,
+        activities,
       })
       showSuccessToast('Task created !!', value)
     } else {
@@ -119,9 +126,55 @@ export const addNewTask = async ({
         date: new window.Date(),
         author: displayName,
         status,
+        activities,
       })
       showSuccessToast('Task created !!', value)
     }
+  } catch (error) {
+    return showErrorToast(error.message, value)
+  }
+}
+
+export const updateTitleFromFirebase = async (
+  taskId,
+  boardId,
+  titleTask,
+  activityAuthor,
+  value
+) => {
+  try {
+    const boardRef = doc(db, 'boards', boardId, 'tasks', taskId)
+    await updateDoc(boardRef, {
+      title: titleTask,
+      activities: arrayUnion({
+        activityAuthor,
+        activity: `has changed name's card`,
+        date: new window.Date().toISOString(),
+      }),
+    })
+    showSuccessToast('Title has been updated !!', value)
+  } catch (error) {
+    return showErrorToast(error.message, value)
+  }
+}
+export const updateDescriptionFromFirebase = async (
+  taskId,
+  boardId,
+  descriptionArea,
+  activityAuthor,
+  value
+) => {
+  try {
+    const boardRef = doc(db, 'boards', boardId, 'tasks', taskId)
+    await updateDoc(boardRef, {
+      activities: arrayUnion({
+        activityAuthor,
+        description: descriptionArea,
+        activity: `added new description`,
+        date: new window.Date().toISOString(),
+      }),
+    })
+    showSuccessToast('Description has been updated !!', value)
   } catch (error) {
     return showErrorToast(error.message, value)
   }

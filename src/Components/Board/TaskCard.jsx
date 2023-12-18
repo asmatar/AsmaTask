@@ -3,11 +3,11 @@ import styled from 'styled-components'
 import { deleteTaskFromFirebase } from '@/Services/API-firebase'
 import useLocalStorage from '@/Hooks/useLocalStorage'
 import Delete from '@/assets/images/icons/delete.svg'
-const TaskCard = ({ title, id, boardId }) => {
+const TaskCard = ({ title, id, boardId, onClick }) => {
   const [value] = useLocalStorage('theme', `light`)
 
   return (
-    <Tasks>
+    <Tasks onClick={onClick}>
       <TaskTitle>{title}</TaskTitle>
       <TaskDelete onClick={() => deleteTaskFromFirebase(id, boardId, value)}>
         <Del src={Delete} alt="delete a task"></Del>

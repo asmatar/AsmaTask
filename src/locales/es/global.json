@@ -30,5 +30,12 @@
   "addNewTaskTodoDescription": "Agregue una nueva tarea por hacer",
   "addNewTaskInProgressDescription": "Agregue una nueva tarea en progreso",
   "addNewTaskDoneDescription": "Agregue una nueva tarea terminada",
-  "craeteTask": "Crear Tarea"
+  "craeteTask": "Crear Tarea",
+  "inList": "en la lista",
+  "description": "Descripción",
+  "save": "Guardar",
+  "cancel": "Cancelar",
+  "actions": "Accion",
+  "delete": "Eliminar",
+  "activities": "Actividades"
 }

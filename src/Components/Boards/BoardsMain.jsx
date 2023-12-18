@@ -19,6 +19,7 @@ const BoardsMain = () => {
     revalidateOnMount: true,
     revalidateOnFocus: true,
   })
+
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'boards'), () => {
       dispatch(fetchBoards()) // Re-fetch the data when the collection changes
@@ -68,6 +69,7 @@ const BoardsMain = () => {
 }
 
 export default BoardsMain
+
 const StyledNavLink = styled(NavLink)`
   color: inherit;
 `

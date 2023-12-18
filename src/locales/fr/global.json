@@ -30,5 +30,12 @@
   "addNewTaskTodoDescription": "Ajouter une nouvelle tâche",
   "addNewTaskInProgressDescription": "une tâche est en cours",
   "addNewTaskDoneDescription": "une tâche est terminée",
-  "createTask": "Créer une tâche"
+  "createTask": "Créer une tâche",
+  "inList": "Dans la liste",
+  "description": "Description",
+  "save": "Sauvegarder",
+  "cancel": "Annuler",
+  "actions": "Action",
+  "delete": "Supprimer",
+  "activities": "Activités"
 }

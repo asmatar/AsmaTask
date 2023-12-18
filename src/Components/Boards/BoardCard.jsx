@@ -1,13 +1,13 @@
 import React from 'react'
 import OpenSVG from '@/assets/images/icons/open.svg'
 import styled from 'styled-components'
-import { format } from 'date-fns'
 import { deleteBoardFromFirebase } from '@/Services/API-firebase'
 import useLocalStorage from '@/Hooks/useLocalStorage'
+import { formatedDate } from '@/Utils/date'
+
 const BoardCard = ({ author, title, date, id }) => {
-  const datee = new window.Date(date)
-  const formattedDate = format(datee, 'MM/dd/yyyy')
   const [value] = useLocalStorage('theme', `light`)
+
   return (
     <Board>
       <BoardHead>
@@ -23,7 +23,7 @@ const BoardCard = ({ author, title, date, id }) => {
       </BoardHead>
       <BoardBody>
         <BoardDate>
-          Created at <Date>{formattedDate}</Date>
+          Created at <Date>{formatedDate(date)}</Date>
         </BoardDate>
         <BoardAuthor>
           by <Date>{author}</Date>
