@@ -18,5 +18,4 @@ Currently, two official plugins are available:
 # quand drag and drop on doit detecter dans quel section on a mis la card
 
 - TEST
-- Verifier formulaire
 - verifier bug qui montre le login

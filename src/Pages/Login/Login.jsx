@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
@@ -15,12 +15,14 @@ import styled from 'styled-components'
 import { useUserAuth } from '@/Context/authContext'
 
 const Login = () => {
+  console.log('login')
   const { t } = useTranslation('global')
   const { login } = useUserAuth()
   const navigate = useNavigate()
   const formType = 'login'
   const resolver = useYupValidationResolver(schema, t, formType)
 
+  const { user } = useUserAuth()
   const [firebaseError, setFirebaseError] = useState('')
 
   const {
@@ -37,7 +39,12 @@ const Login = () => {
       setFirebaseError(error.message)
     }
   }
-
+  useEffect(() => {
+    // Check if the user is already authenticated
+    if (user !== null) {
+      navigate('/')
+    }
+  }, [user, navigate])
   return (
     <>
       <HeaderContainer>

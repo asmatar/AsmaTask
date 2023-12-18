@@ -29,7 +29,7 @@ function App() {
   const navigate = useNavigate()
   const [theme, setTheme] = useLocalStorage('theme', 'light')
   const { i18n, handleChangeLanguage } = UseI18n()
-
+  console.log(user, 'in app')
   const isDarkTheme = theme === 'dark'
 
   const toggleTheme = () => {
@@ -47,22 +47,6 @@ function App() {
         <Suspense fallback={<Spinner />}>
           <Routes>
             <Route
-              path="/login"
-              element={
-                <ProtectedRouteLog>
-                  <Login />
-                </ProtectedRouteLog>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <ProtectedRouteLog>
-                  <Register />
-                </ProtectedRouteLog>
-              }
-            />
-            <Route
               path="/"
               element={
                 <ProtectedRoute>
@@ -79,8 +63,26 @@ function App() {
               }
             />
             <Route
+              path="/login"
+              element={
+                <ProtectedRouteLog>
+                  <Login />
+                </ProtectedRouteLog>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <ProtectedRouteLog>
+                  <Register />
+                </ProtectedRouteLog>
+              }
+            />
+            <Route
               path="*"
-              element={user ? <Navigate to="/" /> : <Navigate to="/login" />}
+              element={
+                user !== null ? <Navigate to="/" /> : <Navigate to="/login" />
+              }
             />
           </Routes>
         </Suspense>
