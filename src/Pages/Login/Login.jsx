@@ -18,7 +18,8 @@ const Login = () => {
   const { t } = useTranslation('global')
   const { login } = useUserAuth()
   const navigate = useNavigate()
-  const resolver = useYupValidationResolver(schema, t)
+  const formType = 'login'
+  const resolver = useYupValidationResolver(schema, t, formType)
 
   const [firebaseError, setFirebaseError] = useState('')
 

@@ -19,7 +19,8 @@ const Register = () => {
   const { signUp } = useUserAuth()
   const navigate = useNavigate()
   const [firebaseError, setFirebaseError] = useState('')
-  const resolver = useYupValidationResolver(schema, t)
+  const formType = 'register'
+  const resolver = useYupValidationResolver(schema, t, formType)
 
   const {
     register,
@@ -35,7 +36,8 @@ const Register = () => {
       setFirebaseError(error.message)
     }
   }
-
+  console.log(resolver)
+  console.log(schema)
   return (
     <HeaderContainer>
       <PageTitle />

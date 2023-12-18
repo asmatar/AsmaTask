@@ -1,12 +1,21 @@
 import { useCallback } from 'react'
 import * as yup from 'yup'
 
-const useYupValidationResolver = (schema, t) =>
+const useYupValidationResolver = (schema, t, formType) =>
   /*   const { lng } = UseI18n() */
   useCallback(
     async (data) => {
       try {
-        const values = await schema.validate(data, {
+        const updatedSchema =
+          formType === 'register'
+            ? schema.concat(
+                yup.object().shape({
+                  name: yup.string().nullable().required('Name is required'),
+                })
+              )
+            : schema
+
+        const values = await updatedSchema.validate(data, {
           abortEarly: false,
         })
         return {
@@ -29,7 +38,7 @@ const useYupValidationResolver = (schema, t) =>
         }
       }
     },
-    [schema, t]
+    [schema, t, formType]
   )
 
 const schema = yup.object().shape({

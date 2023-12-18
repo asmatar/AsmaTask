@@ -20,3 +20,4 @@ Currently, two official plugins are available:
 - TEST
 - Verifier formulaire
 - verifier bug qui montre le login
+- guadar modal close
