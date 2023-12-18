@@ -19,7 +19,7 @@ const Register = () => {
   const { signUp } = useUserAuth()
   const navigate = useNavigate()
   const [firebaseError, setFirebaseError] = useState('')
-  const resolver = useYupValidationResolver(schema)
+  const resolver = useYupValidationResolver(schema, t)
 
   const {
     register,

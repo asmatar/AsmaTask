@@ -75,7 +75,7 @@ const HeaderContainer = styled.header`
 `
 const Logo = styled.div``
 const CoverImg = styled.img`
-  width: 60px;
+  width: 90px;
 `
 
 const Label = styled.label`

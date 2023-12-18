@@ -245,6 +245,10 @@ const BackButton = styled.button`
 `
 const Add = styled.img`
   width: 25px;
+  transition: all 0.4s ease-in;
+  &:hover {
+    rotate: 180deg;
+  }
 `
 const BackImg = styled.img``
 const Span = styled.span`
