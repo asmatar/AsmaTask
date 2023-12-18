@@ -48,24 +48,24 @@ const Login = () => {
             <Input
               type="input"
               className="form__field"
-              placeholder="Name place"
+              placeholder="email place"
               {...register('email')}
-              id="name"
+              id="email"
               autoComplete="off"
             />
-            <Label htmlFor="name">{t('email')}</Label>
+            <Label htmlFor="email">{t('email')}</Label>
             <ErrorMessage message={errors.email?.message} />
           </FormGroup>
           <FormGroup>
             <Input
               type="input"
               className="form__field"
-              placeholder="Name place"
+              placeholder="password place"
               {...register('password')}
-              id="name"
+              id="password"
               autoComplete="off"
             />
-            <Label htmlFor="name">{t('password')}</Label>
+            <Label htmlFor="password">{t('password')}</Label>
             <ErrorMessage message={errors.password?.message} />
           </FormGroup>
           <GeneralButton type="submit">{t('signin')}</GeneralButton>

@@ -5,6 +5,7 @@ import Description from '@/assets/images/icons/description.svg'
 import Activity from '@/assets/images/icons/activity.svg'
 import useLocalStorage from '@/Hooks/useLocalStorage'
 import { ModalContext } from '@/Context/ModalContext'
+import { useUserAuth } from '@/Context/authContext'
 import {
   deleteTaskFromFirebase,
   updateTitleFromFirebase,
@@ -12,10 +13,10 @@ import {
 } from '@/Services/API-firebase'
 import { useTranslation } from 'react-i18next'
 import ActivityCard from './ActivityCard'
-import GeneralButton from '@/Components/UI/GeneralButton'
 import { formatedDate } from '@/Utils/date'
-import { useUserAuth } from '@/Context/authContext'
-
+import { useForm } from 'react-hook-form'
+import GeneralButton from '@/Components/UI/GeneralButton'
+import ErrorMessage from '@/Components/UI/ErrorMessage'
 const TaskDetail = ({
   title,
   id,
@@ -31,9 +32,16 @@ const TaskDetail = ({
   const { close } = useContext(ModalContext)
   const formRef = useRef(null)
   const { t } = useTranslation('global')
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
   const {
     user: { displayName },
   } = useUserAuth()
+
   const activityAuthor = displayName
   const activity = activities.map((activity) => {
     return (
@@ -48,6 +56,18 @@ const TaskDetail = ({
       />
     )
   })
+  const handleSubmitForm = () => {
+    updateDescriptionFromFirebase(
+      id,
+      boardId,
+      descriptionArea,
+      activityAuthor,
+      value
+    )
+    setDescriptionArea('')
+    close()
+  }
+  console.log(errors)
   return (
     <TaskDetailContainer>
       <Header>
@@ -82,33 +102,44 @@ const TaskDetail = ({
           <HeaderImg src={Description} alt="description icon" />
           <Div>
             <H3>{t('description')}</H3>
-            <TextArea
-              name=""
-              id=""
-              cols="50"
-              rows="6"
-              placeholder="Add a description"
-              value={descriptionArea}
-              onChange={(e) => setDescriptionArea(e.target.value)}
-            ></TextArea>
-            <Cta>
-              <GeneralButton
-                onClick={() => {
-                  updateDescriptionFromFirebase(
-                    id,
-                    boardId,
-                    descriptionArea,
-                    activityAuthor,
-                    value
-                  )
-                  setDescriptionArea('')
-                  close()
-                }}
-              >
-                {t('save')}
-              </GeneralButton>
-              <GeneralButton onClick={close}>Cancel</GeneralButton>
-            </Cta>
+            <FormDescription
+              register={register}
+              onSubmit={handleSubmit(handleSubmitForm)}
+            >
+              <TextArea
+                name=""
+                id=""
+                cols="50"
+                rows="6"
+                placeholder="Add a description"
+                value={descriptionArea}
+                {...register('description', { required: true })}
+                onChange={(e) => setDescriptionArea(e.target.value)}
+              ></TextArea>
+              {errors.description && (
+                <ErrorMessage message="Description is required" />
+              )}
+              {/* <ErrorMessage message={errors.description?.message} /> */}
+              <Cta>
+                <GeneralButton
+                  type="submit"
+                  /* onClick={() => {
+                    updateDescriptionFromFirebase(
+                      id,
+                      boardId,
+                      descriptionArea,
+                      activityAuthor,
+                      value
+                    )
+                    setDescriptionArea('')
+                    close()
+                  }} */
+                >
+                  {t('save')}
+                </GeneralButton>
+                <GeneralButton onClick={close}>Cancel</GeneralButton>
+              </Cta>
+            </FormDescription>
           </Div>
         </DescriptionSide>
         <Div>
@@ -132,6 +163,7 @@ const TaskDetail = ({
   )
 }
 export default TaskDetail
+const FormDescription = styled.form``
 const ActivityContainer = styled.div``
 const ActivitiesContainer = styled.div`
   display: flex;
@@ -189,12 +221,12 @@ const TextArea = styled.textarea`
   outline: none;
   border: none;
   padding: 15px;
-  margin-bottom: 10px;
 `
 const Cta = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-top: 10px;
 `
 const Div = styled.div``
 const Input = styled.input`
