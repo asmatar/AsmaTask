@@ -3,7 +3,6 @@ import { useUserAuth } from '@/Context/authContext'
 
 const ProtectedRouteLog = ({ children }) => {
   const { user } = useUserAuth()
-  console.log('protected route log', user)
   if (user) {
     // user is authenticated
     return <Navigate to="/" />

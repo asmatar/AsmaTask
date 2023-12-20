@@ -29,7 +29,6 @@ function App() {
   const navigate = useNavigate()
   const [theme, setTheme] = useLocalStorage('theme', 'light')
   const { i18n, handleChangeLanguage } = UseI18n()
-  console.log(user, 'in app')
   const isDarkTheme = theme === 'dark'
 
   const toggleTheme = () => {

@@ -20,7 +20,7 @@ import Modal from '@/components//Modal/Modal'
 import AddNewTask from '@/Components/Board/AddNewTask'
 import TaskDetail from '../../Components/TaskDetail/TaskDetail'
 /* import useLocalStorage from '@/Hooks/useLocalStorage' */
-
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 
 const Board = () => {
@@ -32,101 +32,106 @@ const Board = () => {
   const inprogressTask = useSelector(selectProgresstask)
   const doneTask = useSelector(selectDonetask)
 
-  const todos = todoTask?.map((task) => {
+  const todos = todoTask?.map((task, index) => {
     return (
-      /*   <TaskCard
-        key={task.id}
-        title={task.title}
-        id={task.id}
-        boardId={task.boardsId}
-      /> */
-      <Modal key={task.id}>
-        <Modal.Open opens="task-detail">
-          {/* <AddTaskButton> */}
-          <TaskCard
-            title={task.title}
-            id={task.id}
-            boardId={task.boardsId}
-            date={task.date}
-          />
-          {/* </AddTaskButton> */}
-        </Modal.Open>
-        <Modal.Window name="task-detail">
-          <TaskDetail
-            columnName="done"
-            title={task.title}
-            id={task.id}
-            boardId={task.boardsId}
-            status={task.status}
-            author={task.author}
-            date={task.date}
-            activities={task.activities}
-          ></TaskDetail>
-        </Modal.Window>
-      </Modal>
+      <Draggable key={task.id} draggableId={task.id} index={index}>
+        {(provided) => (
+          <Modal key={task.id}>
+            <Modal.Open opens="task-detail">
+              {/* <AddTaskButton> */}
+              <TaskCard
+                title={task.title}
+                id={task.id}
+                boardId={task.boardsId}
+                date={task.date}
+                key={task.id}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                innerRef={provided.innerRef}
+              />
+              {/* </AddTaskButton> */}
+            </Modal.Open>
+            <Modal.Window name="task-detail">
+              <TaskDetail
+                columnName="done"
+                title={task.title}
+                id={task.id}
+                boardId={task.boardsId}
+                status={task.status}
+                author={task.author}
+                date={task.date}
+                activities={task.activities}
+              ></TaskDetail>
+            </Modal.Window>
+          </Modal>
+        )}
+      </Draggable>
     )
   })
-  const progress = inprogressTask?.map((task) => {
+  const progress = inprogressTask?.map((task, index) => {
     return (
-      /*     <TaskCard
-        key={task.id}
-        title={task.title}
-        id={task.id}
-        boardId={task.boardsId}
-      /> */
-      <Modal key={task.id}>
-        <Modal.Open opens="task-detail">
-          {/* <AddTaskButton> */}
-          <TaskCard title={task.title} id={task.id} boardId={task.boardsId} />
-          {/* </AddTaskButton> */}
-        </Modal.Open>
-        <Modal.Window name="task-detail">
-          <TaskDetail
-            columnName="done"
-            title={task.title}
-            id={task.id}
-            boardId={task.boardsId}
-            status={task.status}
-            author={task.author}
-            date={task.date}
-            activities={task.activities}
-          ></TaskDetail>
-        </Modal.Window>
-      </Modal>
+      <Draggable key={task.id} draggableId={task.id} index={index}>
+        {(provided) => (
+          <Modal key={task.id}>
+            <Modal.Open opens="task-detail">
+              <TaskCard
+                title={task.title}
+                id={task.id}
+                date={task.date}
+                boardId={task.boardsId}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                innerRef={provided.innerRef}
+              />
+            </Modal.Open>
+            <Modal.Window name="task-detail">
+              <TaskDetail
+                columnName="done"
+                title={task.title}
+                id={task.id}
+                boardId={task.boardsId}
+                status={task.status}
+                author={task.author}
+                date={task.date}
+                activities={task.activities}
+              ></TaskDetail>
+            </Modal.Window>
+          </Modal>
+        )}
+      </Draggable>
     )
   })
-  const done = doneTask?.map((task) => {
+  const done = doneTask?.map((task, index) => {
     return (
-      /*     <TaskCard
-        key={task.id}
-        title={task.title}
-        id={task.id}
-        boardId={task.boardsId}
-      /> */
-      <Modal key={task.id}>
-        <Modal.Open opens="task-detail">
-          {/* <AddTaskButton> */}
-          <TaskCard
-            title={task.title}
-            id={task.id}
-            boardId={task.boardsId}
-            date={task.date}
-          />
-          {/* </AddTaskButton> */}
-        </Modal.Open>
-        <Modal.Window name="task-detail">
-          <TaskDetail
-            columnName="done"
-            title={task.title}
-            id={task.id}
-            boardId={task.boardsId}
-            status={task.status}
-            author={task.author}
-            date={task.date}
-            activities={task.activities}
-          ></TaskDetail>
-        </Modal.Window>
-      </Modal>
+      <Draggable key={task.id} draggableId={task.id} index={index}>
+        {(provided) => (
+          <Modal key={task.id}>
+            <Modal.Open opens="task-detail">
+              <TaskCard
+                title={task.title}
+                id={task.id}
+                boardId={task.boardsId}
+                date={task.date}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                innerRef={provided.innerRef}
+              />
+            </Modal.Open>
+            <Modal.Window name="task-detail">
+              <TaskDetail
+                columnName="done"
+                title={task.title}
+                id={task.id}
+                boardId={task.boardsId}
+                status={task.status}
+                author={task.author}
+                date={task.date}
+                activities={task.activities}
+              ></TaskDetail>
+            </Modal.Window>
+          </Modal>
+        )}
+      </Draggable>
     )
   })
 
@@ -163,62 +168,139 @@ const Board = () => {
   if (!data) {
     return <Spinner />
   }
+  const onDragEnd = (results) => {
+    console.log(results)
+    const { source, destination, type } = results
+    if (!destination) return
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    )
+      return
 
+    if (type === 'column') {
+      /*  dispatch(moveColumn({ source, destination })) */
+    }
+    if (type === 'task') {
+      /* dispatch(moveTask({ source, destination })) */
+    }
+  }
   return (
     <>
-      <Main>
-        <Column>
-          <ColumnHeader>
-            <Title2>{t('todo')}</Title2>
-            <TaskAmount>{todoTask?.length || 0}</TaskAmount>
-          </ColumnHeader>
-          {todos}
-          <Modal>
-            <Modal.Open opens="new-task">
-              <AddTaskButton>
-                <Add src={add} alt="add task" />
-              </AddTaskButton>
-            </Modal.Open>
-            <Modal.Window name="new-task">
-              <AddNewTask columnName="todo"></AddNewTask>
-            </Modal.Window>
-          </Modal>
-        </Column>
-        <Column>
-          <ColumnHeader>
-            <Title2>{t('inProgress')}</Title2>
-            <TaskAmount>{inprogressTask?.length || 0}</TaskAmount>
-          </ColumnHeader>
-          {progress}
-          <Modal>
-            <Modal.Open opens="new-task">
-              <AddTaskButton>
-                <Add src={add} alt="add task" />
-              </AddTaskButton>
-            </Modal.Open>
-            <Modal.Window name="new-task">
-              <AddNewTask columnName="in progress"></AddNewTask>
-            </Modal.Window>
-          </Modal>
-        </Column>
-        <Column>
-          <ColumnHeader>
-            <Title2>{t('done')}</Title2>
-            <TaskAmount>{doneTask?.length || 0}</TaskAmount>
-          </ColumnHeader>
-          {done}
-          <Modal>
-            <Modal.Open opens="new-task">
-              <AddTaskButton>
-                <Add src={add} alt="add task" />
-              </AddTaskButton>
-            </Modal.Open>
-            <Modal.Window name="new-task">
-              <AddNewTask columnName="done"></AddNewTask>
-            </Modal.Window>
-          </Modal>
-        </Column>
-      </Main>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="board" direction="horizontal" type="column">
+          {(provided) => (
+            <Main ref={provided.innerRef} {...provided.droppableProps}>
+              <Draggable draggableId="todo" index={0}>
+                {(provided) => (
+                  <Column
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <ColumnHeader>
+                      <Title2>{t('todo')}</Title2>
+                      <TaskAmount>{todoTask?.length || 0}</TaskAmount>
+                    </ColumnHeader>
+                    <Droppable droppableId="todos" type="task">
+                      {(provided) => (
+                        <TaskContainer
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                        >
+                          {todos}
+                          {provided.placeholder}
+                        </TaskContainer>
+                      )}
+                    </Droppable>
+                    <Modal>
+                      <Modal.Open opens="new-task">
+                        <AddTaskButton>
+                          <Add src={add} alt="add task" />
+                        </AddTaskButton>
+                      </Modal.Open>
+                      <Modal.Window name="new-task">
+                        <AddNewTask columnName="todo"></AddNewTask>
+                      </Modal.Window>
+                    </Modal>
+                  </Column>
+                )}
+              </Draggable>
+              <Draggable draggableId="inprogress" index={1}>
+                {(provided) => (
+                  <Column
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <ColumnHeader>
+                      <Title2>{t('inProgress')}</Title2>
+                      <TaskAmount>{inprogressTask?.length || 0}</TaskAmount>
+                    </ColumnHeader>
+                    <Droppable droppableId="progress" type="task">
+                      {(provided) => (
+                        <TaskContainer
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                        >
+                          {progress}
+                          {provided.placeholder}
+                        </TaskContainer>
+                      )}
+                    </Droppable>
+                    <Modal>
+                      <Modal.Open opens="new-task">
+                        <AddTaskButton>
+                          <Add src={add} alt="add task" />
+                        </AddTaskButton>
+                      </Modal.Open>
+                      <Modal.Window name="new-task">
+                        <AddNewTask columnName="in progress"></AddNewTask>
+                      </Modal.Window>
+                    </Modal>
+                  </Column>
+                )}
+              </Draggable>
+              <Draggable draggableId="done" index={2}>
+                {(provided) => (
+                  <Column
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <ColumnHeader>
+                      <Title2>{t('done')}</Title2>
+                      <TaskAmount>{doneTask?.length || 0}</TaskAmount>
+                    </ColumnHeader>
+                    <Droppable droppableId="done" type="task">
+                      {(provided) => (
+                        <TaskContainer
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                        >
+                          {done}
+                          {provided.placeholder}
+                        </TaskContainer>
+                      )}
+                    </Droppable>
+                    <Modal>
+                      <Modal.Open opens="new-task">
+                        <AddTaskButton>
+                          <Add src={add} alt="add task" />
+                        </AddTaskButton>
+                      </Modal.Open>
+                      <Modal.Window name="new-task">
+                        <AddNewTask columnName="done"></AddNewTask>
+                      </Modal.Window>
+                    </Modal>
+                  </Column>
+                )}
+              </Draggable>
+              {provided.placeholder}
+            </Main>
+          )}
+        </Droppable>
+      </DragDropContext>
       <NavLink to="/boards">
         <BackButton>
           <BackImg src={Back} alt="back to boards" />
@@ -232,6 +314,11 @@ const Board = () => {
 export default Board
 /* const NewModal = styled.div`` */
 /* const Navlink = styled(NavLink)`` */
+const TaskContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`
 const BackButton = styled.button`
   position: fixed;
   bottom: 30px;
