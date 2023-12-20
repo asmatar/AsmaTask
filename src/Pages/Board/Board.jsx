@@ -33,6 +33,7 @@ const Board = () => {
   const doneTask = useSelector(selectDonetask)
 
   const todos = todoTask?.map((task, index) => {
+    console.log(task)
     return (
       <Draggable key={task.id} draggableId={task.id} index={index}>
         {(provided) => (
@@ -77,7 +78,7 @@ const Board = () => {
               <TaskCard
                 title={task.title}
                 id={task.id}
-                date={task.date}
+                /*                 date={task.date} */
                 boardId={task.boardsId}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
@@ -92,7 +93,7 @@ const Board = () => {
                 boardId={task.boardsId}
                 status={task.status}
                 author={task.author}
-                date={task.date}
+                /*                 date={task.date} */
                 activities={task.activities}
               ></TaskDetail>
             </Modal.Window>
@@ -111,7 +112,7 @@ const Board = () => {
                 title={task.title}
                 id={task.id}
                 boardId={task.boardsId}
-                date={task.date}
+                /*                 date={task.date} */
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
                 innerRef={provided.innerRef}
@@ -125,7 +126,7 @@ const Board = () => {
                 boardId={task.boardsId}
                 status={task.status}
                 author={task.author}
-                date={task.date}
+                /*                 date={task.date} */
                 activities={task.activities}
               ></TaskDetail>
             </Modal.Window>

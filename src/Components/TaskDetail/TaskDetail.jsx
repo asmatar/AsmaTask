@@ -23,7 +23,7 @@ const TaskDetail = ({
   boardId,
   status,
   author,
-  date,
+  /* date, */
   activities,
 }) => {
   const [titleTask, setTitle] = useState(title)
@@ -46,11 +46,10 @@ const TaskDetail = ({
   const activity = activities.map((activity) => {
     return (
       <ActivityCard
-        key={formatedDate(date)}
+        key={formatedDate(activity.date)}
         author={author}
-        date={date}
         activity={activity.activity}
-        time={formatedDate(date)}
+        time={formatedDate(activity.date)}
         description={activity.description}
         activityAuthor={activity.activityAuthor}
       />
