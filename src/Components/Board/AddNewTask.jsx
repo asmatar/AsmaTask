@@ -11,6 +11,7 @@ import ButtonSecondary from '@/Components/UI/ButtonSecondary'
 const AddNewTask = ({ onSubmit, columnName }) => {
   const [value] = useLocalStorage('theme', `light`)
   const [activeIndex, setActiveIndex] = useState(columnName)
+  console.log(columnName)
   const { t } = useTranslation('global')
   const { id } = useParams()
   const {

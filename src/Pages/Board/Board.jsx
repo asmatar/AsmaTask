@@ -95,64 +95,79 @@ const Board = () => {
             {...provided.dragHandleProps}
           >
             <ColumnHeader>
-              <Title2>{t('todo')}</Title2>
-              {/*       <TaskAmount>{todoTask?.length || 0}</TaskAmount> */}
+              <Title2>{t(Object.keys(allTasks)[index])}</Title2>
+              <TaskAmount>{allTasks[list].length || 0}</TaskAmount>
             </ColumnHeader>
             <Droppable droppableId={`todos-${index}`} type="task">
               {(provided) => (
-                <TaskContainer
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {allTasks[list].map((task, index) => (
-                    <Draggable
-                      key={task.id}
-                      draggableId={task.id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <Modal key={task.id}>
-                          <Modal.Open opens="task-detail">
-                            <TaskCard
-                              title={task.title}
-                              id={task.id}
-                              boardId={task.boardsId}
-                              date={task.date}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              innerRef={provided.innerRef}
-                            />
-                          </Modal.Open>
-                          <Modal.Window name="task-detail">
-                            <TaskDetail
-                              columnName="done"
-                              title={task.title}
-                              id={task.id}
-                              boardId={task.boardsId}
-                              status={task.status}
-                              author={task.author}
-                              date={task.date}
-                              activities={task.activities}
-                            ></TaskDetail>
-                          </Modal.Window>
-                        </Modal>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </TaskContainer>
+                <>
+                  <TaskContainer
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {allTasks[list].map((task, index) => (
+                      <Draggable
+                        key={task.id}
+                        draggableId={task.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <Modal key={task.id}>
+                            <Modal.Open opens="task-detail">
+                              <TaskCard
+                                title={task.title}
+                                id={task.id}
+                                boardId={task.boardsId}
+                                date={task.date}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                innerRef={provided.innerRef}
+                              />
+                            </Modal.Open>
+                            <Modal.Window name="task-detail">
+                              <TaskDetail
+                                columnName="done"
+                                title={task.title}
+                                id={task.id}
+                                boardId={task.boardsId}
+                                status={task.status}
+                                author={task.author}
+                                date={task.date}
+                                activities={task.activities}
+                              ></TaskDetail>
+                            </Modal.Window>
+                          </Modal>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                    {console.log(Object.keys(allTasks))}
+                  </TaskContainer>
+                  <Modal>
+                    <Modal.Open opens="new-task">
+                      <AddTaskButton>
+                        <Add src={add} alt="add task" />
+                      </AddTaskButton>
+                    </Modal.Open>
+                    <Modal.Window name="new-task">
+                      <AddNewTask
+                        columnName={Object.keys(allTasks)[index]}
+                      ></AddNewTask>
+                    </Modal.Window>
+                  </Modal>
+                </>
               )}
             </Droppable>
-            <Modal>
+            {/*  <Modal>
               <Modal.Open opens="new-task">
                 <AddTaskButton>
                   <Add src={add} alt="add task" />
                 </AddTaskButton>
               </Modal.Open>
               <Modal.Window name="new-task">
-                <AddNewTask columnName="todo"></AddNewTask>
+                <AddNewTask columnName=""></AddNewTask>
               </Modal.Window>
-            </Modal>
+            </Modal> */}
           </Column>
         )}
       </Draggable>
