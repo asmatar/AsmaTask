@@ -67,10 +67,10 @@ const AddNewTask = ({ onSubmit, columnName }) => {
         isActive={activeIndex === 'todo'}
       ></Status>
       <Status
-        handleActive={() => handleActive('in progress')}
-        title={t('inProgress')}
+        handleActive={() => handleActive('progress')}
+        title={t('progress')}
         description={t('addNewTaskInProgressDescription')}
-        isActive={activeIndex === 'in progress'}
+        isActive={activeIndex === 'progress'}
       ></Status>
       <Status
         handleActive={() => handleActive('done')}

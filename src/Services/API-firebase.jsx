@@ -47,6 +47,7 @@ export const fetchTaskByBoards = createAsyncThunk(
         if (serializedData.date instanceof Timestamp) {
           serializedData.date = serializedData.date.toDate().toISOString()
         }
+        console.log(serializedData)
         return serializedData
       })
       // return 3 diferent arrays filter base on a object keys
@@ -55,7 +56,21 @@ export const fetchTaskByBoards = createAsyncThunk(
         result[obj.status].push(obj)
         return result
       }, {})
+
+      // Assuming you have the new tasks retrieved from Firestore in the `newTasks` array
+
+      /*       newTasks.forEach((newTask) => {
+        const existingTask = reduxStore.tasks.find(
+          (task) => task.id === newTask.id
+        )
+        if (!existingTask) {
+          // Add the new task to the Redux store
+          reduxStore.tasks.push(newTask)
+        }
+      }) */
       return groupedArrays
+      /*  console.log(tasks) */
+      /*  return tasks */
     } catch (error) {
       return error.message
     }

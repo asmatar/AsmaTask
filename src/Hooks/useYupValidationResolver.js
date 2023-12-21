@@ -2,7 +2,6 @@ import { useCallback } from 'react'
 import * as yup from 'yup'
 
 const useYupValidationResolver = (schema, t, formType) =>
-  /*   const { lng } = UseI18n() */
   useCallback(
     async (data) => {
       try {

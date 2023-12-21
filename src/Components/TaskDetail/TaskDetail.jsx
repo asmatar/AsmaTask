@@ -17,15 +17,7 @@ import { formatedDate } from '@/Utils/date'
 import { useForm } from 'react-hook-form'
 import GeneralButton from '@/Components/UI/GeneralButton'
 import ErrorMessage from '@/Components/UI/ErrorMessage'
-const TaskDetail = ({
-  title,
-  id,
-  boardId,
-  status,
-  author,
-  /* date, */
-  activities,
-}) => {
+const TaskDetail = ({ title, id, boardId, status, author, activities }) => {
   const [titleTask, setTitle] = useState(title)
   const [descriptionArea, setDescriptionArea] = useState('')
   const [value] = useLocalStorage('theme', `light`)
@@ -118,24 +110,8 @@ const TaskDetail = ({
               {errors.description && (
                 <ErrorMessage message="Description is required" />
               )}
-              {/* <ErrorMessage message={errors.description?.message} /> */}
               <Cta>
-                <GeneralButton
-                  type="submit"
-                  /* onClick={() => {
-                    updateDescriptionFromFirebase(
-                      id,
-                      boardId,
-                      descriptionArea,
-                      activityAuthor,
-                      value
-                    )
-                    setDescriptionArea('')
-                    close()
-                  }} */
-                >
-                  {t('save')}
-                </GeneralButton>
+                <GeneralButton type="submit">{t('save')}</GeneralButton>
                 <GeneralButton onClick={close}>Cancel</GeneralButton>
               </Cta>
             </FormDescription>
@@ -189,10 +165,6 @@ const Header = styled.div`
 `
 const HeaderImg = styled.img``
 const HeaderContent = styled.div``
-/* const H2 = styled.h2`
-  font-size: 1.3rem;
-  margin-bottom: 7px;
-` */
 const HeaderContentSpan = styled.span`
   font-size: 0.9rem;
   color: #828282;

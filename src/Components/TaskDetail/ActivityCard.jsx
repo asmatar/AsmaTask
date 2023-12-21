@@ -1,6 +1,5 @@
 import { formatedDate } from '@/Utils/date'
 import React from 'react'
-/* import { useUserAuth } from '@/Context/authContext' */
 import styled from 'styled-components'
 const ActivityCard = ({
   author,
@@ -20,17 +19,9 @@ const ActivityCard = ({
           <ActivityCardP>
             <ActivityCardSpan>{activityAuthor}</ActivityCardSpan> {activity}
           </ActivityCardP>
-          {
-            description && (
-              <CardDescription key={activity.date}>
-                {description}
-              </CardDescription>
-            )
-            /*  <CardDescription>
-              je suis la card description, je vais bien, bous ujeghkjf ehbkfb
-              jeqhbe fqbleqb hf qeb ilvib qlviub
-            </CardDescription> */
-          }
+          {description && (
+            <CardDescription key={activity.date}>{description}</CardDescription>
+          )}
           <Date>{time || formatedDate(date)}</Date>
         </ActivityCardContent>
       </CardInfo>
