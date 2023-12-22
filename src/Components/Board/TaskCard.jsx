@@ -7,8 +7,12 @@ const TaskCard = ({ title, id, boardId, onClick, innerRef, ...props }) => {
   const [value] = useLocalStorage('theme', `light`)
 
   return (
-    <Tasks onClick={onClick} ref={innerRef} {...props}>
-      <div {...props.dragHandleProps}></div>
+    <Tasks
+      onClick={onClick}
+      ref={innerRef}
+      {...props}
+      {...props.dragHandleProps}
+    >
       <TaskTitle>{title}</TaskTitle>
       <TaskDelete onClick={() => deleteTaskFromFirebase(id, boardId, value)}>
         <Del src={Delete} alt="delete a task"></Del>

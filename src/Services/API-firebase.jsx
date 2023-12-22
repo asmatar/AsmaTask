@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import {
   Timestamp,
   collection,
@@ -8,9 +9,12 @@ import {
   updateDoc,
   arrayUnion,
 } from 'firebase/firestore'
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk, current } from '@reduxjs/toolkit'
 import { db } from '@/firebase-config'
 import { showErrorToast, showSuccessToast } from '@/Utils/Toast'
+
+/* import { useSelector } from 'react-redux' */
+/* import { selectAllTasks } from '@/RTK/reducers/tasksReducer' */
 
 export const fetchBoards = createAsyncThunk(
   'boardSlice/fetchBoards',
@@ -47,35 +51,33 @@ export const fetchTaskByBoards = createAsyncThunk(
         if (serializedData.date instanceof Timestamp) {
           serializedData.date = serializedData.date.toDate().toISOString()
         }
-        console.log(serializedData)
+
         return serializedData
       })
       // return 3 diferent arrays filter base on a object keys
       const groupedArrays = tasks.reduce((result, obj) => {
         result[obj.status] = result[obj.status] || []
         result[obj.status].push(obj)
+
         return result
       }, {})
 
-      // Assuming you have the new tasks retrieved from Firestore in the `newTasks` array
+      const sortedTasks = Object.entries(groupedArrays)
+        .sort((a, b) => b[0].localeCompare(a[0]))
+        .reduce((result, [key, value]) => {
+          result[key] = value
+          return result
+        }, {})
 
-      /*       newTasks.forEach((newTask) => {
-        const existingTask = reduxStore.tasks.find(
-          (task) => task.id === newTask.id
-        )
-        if (!existingTask) {
-          // Add the new task to the Redux store
-          reduxStore.tasks.push(newTask)
-        }
-      }) */
-      return groupedArrays
-      /*  console.log(tasks) */
-      /*  return tasks */
+      console.log(sortedTasks)
+
+      return sortedTasks
     } catch (error) {
       return error.message
     }
   }
 )
+
 export const deleteTaskFromFirebase = async (taskId, boardId, value) => {
   try {
     const boardRef = doc(db, 'boards', boardId, 'tasks', taskId)

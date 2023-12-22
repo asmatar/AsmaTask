@@ -7,15 +7,9 @@ import styled from 'styled-components'
 import useSWR from 'swr'
 import { onSnapshot, collection } from 'firebase/firestore'
 import { db } from '@/firebase-config'
-import {
-  selectDonetask,
-  selectProgresstask,
-  selectTodotask,
-  selectAllTasks,
-} from '@/RTK/reducers/tasksReducer'
+import { selectAllTasks, moveColumn } from '@/RTK/reducers/tasksReducer'
 import { fetchTaskByBoards } from '@/Services/API-firebase'
 
-import ColumnList from '@/Components/Board/ColumnList'
 import TaskCard from '@/Components/Board/TaskCard'
 import Spinner from '@/Components/UI/Spinner'
 import Modal from '@/components//Modal/Modal'
@@ -28,14 +22,14 @@ const Board = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const { t } = useTranslation('global')
-  const allTasks = useSelector(selectAllTasks)
+  let allTasks = useSelector(selectAllTasks)
 
   const { data, error } = useSWR(
     'tasks',
     () => dispatch(fetchTaskByBoards(id)),
     {
       revalidateOnMount: true,
-      revalidateOnFocus: true,
+      revalidateOnFocus: false,
     }
   )
 
@@ -64,7 +58,6 @@ const Board = () => {
   }
 
   const onDragEnd = (results) => {
-    console.log(results)
     const { source, destination, type } = results
     if (!destination) return
     if (
@@ -74,19 +67,32 @@ const Board = () => {
       return
 
     if (type === 'column') {
-      /*  dispatch(moveColumn({ source, destination })) */
-    }
-    if (type === 'task') {
-      /* dispatch(moveTask({ source, destination })) */
+      dispatch(moveColumn({ source, destination }))
     }
   }
 
-  console.log(allTasks)
+  // guard close, if there is no todo, inProgress, or done, add the key into the object
+  if (!allTasks.todo || !allTasks.progress || !allTasks.done) {
+    const allTasksUnsorted = {
+      ...allTasks,
+      todo: allTasks.todo || [],
+      progress: allTasks.progress || [],
+      done: allTasks.done || [],
+    }
+
+    allTasks = Object.entries(allTasksUnsorted)
+      .sort((a, b) => b[0].localeCompare(a[0]))
+      .reduce((result, [key, value]) => {
+        result[key] = value
+        return result
+      }, {})
+  }
+
   const mappedState = Object.keys(allTasks).map((list, index) => {
     console.log(`Key: ${list}, Index: ${index}`)
 
     return (
-      <Draggable draggableId={`column-${index}`} index={index} key={index}>
+      <Draggable draggableId={`${index}`} index={index} key={index}>
         {(provided) => (
           <Column
             key={index}
@@ -141,7 +147,6 @@ const Board = () => {
                       </Draggable>
                     ))}
                     {provided.placeholder}
-                    {console.log(Object.keys(allTasks))}
                   </TaskContainer>
                   <Modal>
                     <Modal.Open opens="new-task">
@@ -158,16 +163,6 @@ const Board = () => {
                 </>
               )}
             </Droppable>
-            {/*  <Modal>
-              <Modal.Open opens="new-task">
-                <AddTaskButton>
-                  <Add src={add} alt="add task" />
-                </AddTaskButton>
-              </Modal.Open>
-              <Modal.Window name="new-task">
-                <AddNewTask columnName=""></AddNewTask>
-              </Modal.Window>
-            </Modal> */}
           </Column>
         )}
       </Draggable>

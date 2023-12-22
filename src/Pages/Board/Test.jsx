@@ -30,7 +30,7 @@ const Test = () => {
   const { t } = useTranslation('global')
   const todoTask = useSelector(selectTodotask)
   const onDragEnd = (results) => {
-    console.log(results)
+
     const { source, destination, type } = results
     if (!destination) return
     if (
@@ -46,8 +46,19 @@ const Test = () => {
       /* dispatch(moveTask({ source, destination })) */
     }
   }
-  /* const todos = todoTask?.map((task, index) => {
-    console.log(task)
+  const tasks = [
+    todo= [task1, task2 task3],
+    progress= [],
+    done= [],
+  ]
+
+  const tasks = {
+    todo : [],
+    progress : [],
+    done : [],
+  }
+
+
     return (
       <Draggable key={task.id} draggableId={task.id} index={index}>
         {(provided) => (

@@ -1,33 +1,51 @@
-import { createSlice } from '@reduxjs/toolkit'
+/* eslint-disable no-prototype-builtins */
+import { createSlice, current } from '@reduxjs/toolkit'
 import { fetchTaskByBoards } from '@/Services/API-firebase'
 
 const initialState = {
   tasks: null,
-  /*   todo: null,
-  inProgress: null,
-  done: null, */
 }
 
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
-  reducers: {},
+  reducers: {
+    moveColumn: (state, action) => {
+      const { source, destination } = action.payload
+      const destinationIndex = destination.index
+      const sourceIndex = source.index
+      /* test */
+      const changeKeyOrder = (obj, sourceIndex, destinationIndex) => {
+        const keys = Object.keys(obj)
+        const values = Object.values(obj)
+
+        // Remove the key-value pair from the source index
+        const [removedKey] = keys.splice(sourceIndex, 1)
+        const [removedValue] = values.splice(sourceIndex, 1)
+
+        // Insert the removed key-value pair at the destination index
+        keys.splice(destinationIndex, 0, removedKey)
+        values.splice(destinationIndex, 0, removedValue)
+
+        // Create a new object with the updated key order
+        const orderedObj = {}
+        keys.forEach((key, index) => {
+          orderedObj[key] = values[index]
+        })
+
+        return orderedObj
+      }
+
+      state.tasks = changeKeyOrder(state.tasks, sourceIndex, destinationIndex)
+    },
+  },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchTaskByBoards.fulfilled, (state, action) => {
-      console.log(action.payload)
-      /*  const taskArray = Object.values(action.payload)
-      console.log(taskArray) */
       state.tasks = action.payload
-      /*     state.todo = action.payload.todo
-      state.inProgress = action.payload.progress
-      state.done = action.payload.done */
     })
   },
 })
-
-export const selectAllTasks = (state) => state.tasks.tasks
-export const selectTodotask = (state) => state.tasks.todo
-export const selectProgresstask = (state) => state.tasks.inProgress
-export const selectDonetask = (state) => state.tasks.done
+export const { moveColumn } = tasksSlice.actions
 export default tasksSlice.reducer
+export const selectAllTasks = (state) => state.tasks.tasks

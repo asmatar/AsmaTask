@@ -15,7 +15,6 @@ import styled from 'styled-components'
 import { useUserAuth } from '@/Context/authContext'
 
 const Login = () => {
-  console.log('login')
   const { t } = useTranslation('global')
   const { login } = useUserAuth()
   const navigate = useNavigate()
