@@ -47,18 +47,6 @@ const tasksSlice = createSlice({
       const sourceId = source.droppableId
       const sourceIndex = source.index
 
-      console.log(source, destination)
-      console.log(
-        'destinationIndex',
-        destinationIndex,
-        'destinationId',
-        destinationId,
-        'sourceIndex',
-        sourceIndex,
-        'sourceId',
-        sourceId
-      )
-
       const changeTaskOrder = (
         obj,
         sourceIndex,
@@ -80,7 +68,6 @@ const tasksSlice = createSlice({
 
         return updatedTasks
       }
-      console.log('from redux', current(state.tasks))
       const updatedTasks = changeTaskOrder(
         state.tasks,
         sourceIndex,
@@ -88,11 +75,9 @@ const tasksSlice = createSlice({
         destinationId,
         destinationIndex
       )
-      console.log(updatedTasks)
+
       // Update state with the modified tasks object
       state.tasks = updatedTasks
-
-      /* changeTaskOrder(state.tasks, sourceIndex, sourceId, destinationId, destinationIndex) */
     },
   },
   extraReducers: (builder) => {

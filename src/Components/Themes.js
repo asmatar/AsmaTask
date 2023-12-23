@@ -29,6 +29,7 @@ export const darkTheme = {
   colorBlackWhite: 'white',
   colorWhiteBlack: 'black',
   colorIsDragging: '#a881ff',
+  colorStatus: '#828282',
 }
 
 export const GlobalStyles = createGlobalStyle`

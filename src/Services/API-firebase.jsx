@@ -65,8 +65,6 @@ export const fetchTaskByBoards = createAsyncThunk(
           return result
         }, {})
 
-      console.log(sortedTasks)
-
       return sortedTasks
     } catch (error) {
       return error.message
@@ -144,6 +142,7 @@ export const addNewTask = async ({
       showSuccessToast('Task created !!', value)
     }
   } catch (error) {
+    /* console.log(error.message) */
     return showErrorToast(error.message, value)
   }
 }

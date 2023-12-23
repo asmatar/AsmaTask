@@ -1,17 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useParams, useLocation } from 'react-router-dom'
 import logo from '@/assets/images/logo.png'
 import GeneralButton from './GeneralButton'
 import AddBoard from '@/components/Boards/AddBoard'
 import Modal from '@/components/Modal/Modal'
 import { useUserAuth } from '@/Context/authContext'
+import AddNewTask from '../Board/AddNewTask'
 
 const Header = ({ toggleTheme, isDarkTheme }) => {
   const { logOut, user } = useUserAuth()
   const navigate = useNavigate()
   const { t } = useTranslation('global')
+  const { pathname } = useLocation()
 
   const handleLogout = async () => {
     try {
@@ -46,14 +48,25 @@ const Header = ({ toggleTheme, isDarkTheme }) => {
               <GeneralButton onClick={handleLogout}>
                 {t('logout')}
               </GeneralButton>
-              <Modal>
-                <Modal.Open opens="new-board">
-                  <GeneralButton>{t('newBoard')}</GeneralButton>
-                </Modal.Open>
-                <Modal.Window name="new-board">
-                  <AddBoard />
-                </Modal.Window>
-              </Modal>
+              {pathname.includes('board') ? (
+                <Modal>
+                  <Modal.Open opens="new-task">
+                    <GeneralButton>{t('newTask')}</GeneralButton>
+                  </Modal.Open>
+                  <Modal.Window name="new-task">
+                    <AddNewTask columnName="todo"></AddNewTask>
+                  </Modal.Window>
+                </Modal>
+              ) : (
+                <Modal>
+                  <Modal.Open opens="new-board">
+                    <GeneralButton>{t('newBoard')}</GeneralButton>
+                  </Modal.Open>
+                  <Modal.Window name="new-board">
+                    <AddBoard />
+                  </Modal.Window>
+                </Modal>
+              )}
             </>
           )}
         </HeaderRight>

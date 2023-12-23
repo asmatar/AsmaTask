@@ -23,7 +23,7 @@
   "errorPasswordRequired": "contraseña es obligatoria",
   "errorPasswordMatch": "Contraseña debe tener al menos una mayúscula, un número, entre 7 y 14 caracteres",
   "todo": "Por hacer",
-  "inProgress": "En progreso",
+  "progress": "En progreso",
   "done": "Hecho",
   "backToBoards": "Volver a los tableros",
   "logout": "Desconectar",
@@ -37,5 +37,6 @@
   "cancel": "Cancelar",
   "actions": "Accion",
   "delete": "Eliminar",
-  "activities": "Actividades"
+  "activities": "Actividades",
+  "newTask": "Nueva tarea"
 }

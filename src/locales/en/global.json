@@ -23,7 +23,7 @@
   "errorPasswordRequired": "password is required",
   "errorPasswordMatch": "Password should have at least one uppercase letter, one number, between 7 and 14 characters",
   "todo": "Todo",
-  "inProgress": "Progress",
+  "progress": "Progress",
   "done": "Done",
   "backToBoards": "Back to Boards",
   "logout": "Logout",
@@ -37,5 +37,6 @@
   "cancel": "Cancel",
   "action": "Action",
   "delete": "Delete",
-  "activities": "Activities"
+  "activities": "Activities",
+  "newTask": "New task"
 }

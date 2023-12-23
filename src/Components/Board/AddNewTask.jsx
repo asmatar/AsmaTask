@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import Status from './Status'
 import { addNewTask } from '@/Services/API-firebase'
 import { useUserAuth } from '@/Context/authContext'
@@ -14,6 +14,8 @@ const AddNewTask = ({ onSubmit, columnName }) => {
 
   const { t } = useTranslation('global')
   const { id } = useParams()
+  const { pathname } = useLocation()
+  const IdFromUrl = pathname.split('/').slice(2).join('/')
   const {
     user: { displayName },
   } = useUserAuth()
@@ -25,7 +27,7 @@ const AddNewTask = ({ onSubmit, columnName }) => {
       taskTitle: taskName.current?.value,
       displayName,
       status: activeIndex.toLowerCase(),
-      boardId: id,
+      boardId: IdFromUrl || id,
       description: [],
       activities: [
         {

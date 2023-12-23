@@ -25,7 +25,10 @@ const Div = styled.div`
     background-color: #a881ff;
   }
 `
-const H3 = styled.h3``
+const H3 = styled.h3`
+  color: #444242;
+`
 const P = styled.p`
   font-size: 0.9rem;
+  color: #2a2a2a;
 `

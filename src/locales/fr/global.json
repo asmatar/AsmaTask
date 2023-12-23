@@ -23,7 +23,7 @@
   "errorPasswordRequired": "mot de passe est obligatoire",
   "errorPasswordMatch": "Le mot de passe doit contenir au moins une majuscule, un chiffre, entre 7 et 14 caractères",
   "todo": "A faire",
-  "inProgress": "En cours",
+  "progress": "En cours",
   "done": "terminé",
   "backToBoards": "Retour aux tableaux",
   "logout": "Se déconnecter",
@@ -37,5 +37,6 @@
   "cancel": "Annuler",
   "actions": "Action",
   "delete": "Supprimer",
-  "activities": "Activités"
+  "activities": "Activités",
+  "newTask": "Nouvelle tâche"
 }

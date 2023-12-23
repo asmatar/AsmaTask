@@ -96,8 +96,6 @@ const Board = () => {
   }
 
   const mappedState = Object.keys(allTasks).map((list, index) => {
-    /* console.log(`Key: ${list}, Index: ${index}`) */
-
     return (
       <Draggable draggableId={`${index}`} index={index} key={index}>
         {(provided) => (
