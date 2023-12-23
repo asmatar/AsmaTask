@@ -38,6 +38,62 @@ const tasksSlice = createSlice({
 
       state.tasks = changeKeyOrder(state.tasks, sourceIndex, destinationIndex)
     },
+    moveTask: (state, action) => {
+      const { source, destination } = action.payload
+
+      const destinationId = destination.droppableId
+      const destinationIndex = destination.index
+
+      const sourceId = source.droppableId
+      const sourceIndex = source.index
+
+      console.log(source, destination)
+      console.log(
+        'destinationIndex',
+        destinationIndex,
+        'destinationId',
+        destinationId,
+        'sourceIndex',
+        sourceIndex,
+        'sourceId',
+        sourceId
+      )
+
+      const changeTaskOrder = (
+        obj,
+        sourceIndex,
+        sourceId,
+        destinationId,
+        destinationIndex
+      ) => {
+        const updatedTasks = { ...obj }
+        const sourceKey = Object.keys(updatedTasks)[sourceId]
+        const destinationKey = Object.keys(updatedTasks)[destinationId]
+
+        if (sourceKey && destinationKey) {
+          const sourceArray = updatedTasks[sourceKey]
+          const [removedTask] = sourceArray.splice(sourceIndex, 1)
+
+          const destinationArray = updatedTasks[destinationKey]
+          destinationArray.splice(destinationIndex, 0, removedTask)
+        }
+
+        return updatedTasks
+      }
+      console.log('from redux', current(state.tasks))
+      const updatedTasks = changeTaskOrder(
+        state.tasks,
+        sourceIndex,
+        sourceId,
+        destinationId,
+        destinationIndex
+      )
+      console.log(updatedTasks)
+      // Update state with the modified tasks object
+      state.tasks = updatedTasks
+
+      /* changeTaskOrder(state.tasks, sourceIndex, sourceId, destinationId, destinationIndex) */
+    },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -46,6 +102,6 @@ const tasksSlice = createSlice({
     })
   },
 })
-export const { moveColumn } = tasksSlice.actions
+export const { moveColumn, moveTask } = tasksSlice.actions
 export default tasksSlice.reducer
 export const selectAllTasks = (state) => state.tasks.tasks

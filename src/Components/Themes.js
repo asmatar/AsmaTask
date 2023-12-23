@@ -13,6 +13,7 @@ export const lightTheme = {
   colorModal: '#a881ff',
   colorBlackWhite: 'black',
   colorWhiteBlack: 'white',
+  colorIsDragging: '#a881ff',
 }
 
 export const darkTheme = {
@@ -27,6 +28,7 @@ export const darkTheme = {
   colorModal: '#828282',
   colorBlackWhite: 'white',
   colorWhiteBlack: 'black',
+  colorIsDragging: '#a881ff',
 }
 
 export const GlobalStyles = createGlobalStyle`

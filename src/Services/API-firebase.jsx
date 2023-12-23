@@ -1,4 +1,3 @@
-/* eslint-disable no-prototype-builtins */
 import {
   Timestamp,
   collection,
@@ -9,12 +8,9 @@ import {
   updateDoc,
   arrayUnion,
 } from 'firebase/firestore'
-import { createAsyncThunk, current } from '@reduxjs/toolkit'
+import { createAsyncThunk } from '@reduxjs/toolkit'
 import { db } from '@/firebase-config'
 import { showErrorToast, showSuccessToast } from '@/Utils/Toast'
-
-/* import { useSelector } from 'react-redux' */
-/* import { selectAllTasks } from '@/RTK/reducers/tasksReducer' */
 
 export const fetchBoards = createAsyncThunk(
   'boardSlice/fetchBoards',
@@ -108,8 +104,8 @@ export const addNewBoard = async ({ boardName, displayName, value }) => {
     })
     showSuccessToast('Board created !!', value)
   } catch (error) {
-    /* return showErrorToast(error.message, value) */
-    return console.log(error.message)
+    return showErrorToast(error.message, value)
+    /*  return console.log(error.message) */
   }
 }
 

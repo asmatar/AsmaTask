@@ -12,6 +12,7 @@ const TaskCard = ({ title, id, boardId, onClick, innerRef, ...props }) => {
       ref={innerRef}
       {...props}
       {...props.dragHandleProps}
+      isDragging={props.isDragging}
     >
       <TaskTitle>{title}</TaskTitle>
       <TaskDelete onClick={() => deleteTaskFromFirebase(id, boardId, value)}>
@@ -27,7 +28,9 @@ const TaskTitle = styled.h2`
   color: ${({ theme }) => theme.colorBlackWhite};
 `
 const Tasks = styled.div`
-  background-color: ${({ theme }) => theme.colorWhiteBlack};
+  /*   background-color: ${({ theme }) => theme.colorWhiteBlack}; */
+  background-color: ${({ theme, isDragging }) =>
+    isDragging ? theme.colorIsDragging : theme.colorWhiteBlack};
   padding: 20px 15px;
   border-radius: 5px;
   display: flex;

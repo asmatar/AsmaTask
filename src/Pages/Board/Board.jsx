@@ -7,14 +7,18 @@ import styled from 'styled-components'
 import useSWR from 'swr'
 import { onSnapshot, collection } from 'firebase/firestore'
 import { db } from '@/firebase-config'
-import { selectAllTasks, moveColumn } from '@/RTK/reducers/tasksReducer'
+import {
+  selectAllTasks,
+  moveColumn,
+  moveTask,
+} from '@/RTK/reducers/tasksReducer'
 import { fetchTaskByBoards } from '@/Services/API-firebase'
 
 import TaskCard from '@/Components/Board/TaskCard'
 import Spinner from '@/Components/UI/Spinner'
 import Modal from '@/components//Modal/Modal'
 import AddNewTask from '@/Components/Board/AddNewTask'
-import TaskDetail from '../../Components/TaskDetail/TaskDetail'
+import TaskDetail from '@/Components/TaskDetail/TaskDetail'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 
@@ -69,6 +73,9 @@ const Board = () => {
     if (type === 'column') {
       dispatch(moveColumn({ source, destination }))
     }
+    if (type === 'task') {
+      dispatch(moveTask({ source, destination }))
+    }
   }
 
   // guard close, if there is no todo, inProgress, or done, add the key into the object
@@ -89,7 +96,7 @@ const Board = () => {
   }
 
   const mappedState = Object.keys(allTasks).map((list, index) => {
-    console.log(`Key: ${list}, Index: ${index}`)
+    /* console.log(`Key: ${list}, Index: ${index}`) */
 
     return (
       <Draggable draggableId={`${index}`} index={index} key={index}>
@@ -104,7 +111,7 @@ const Board = () => {
               <Title2>{t(Object.keys(allTasks)[index])}</Title2>
               <TaskAmount>{allTasks[list].length || 0}</TaskAmount>
             </ColumnHeader>
-            <Droppable droppableId={`todos-${index}`} type="task">
+            <Droppable droppableId={`${index}`} type="task">
               {(provided) => (
                 <>
                   <TaskContainer
@@ -117,7 +124,7 @@ const Board = () => {
                         draggableId={task.id}
                         index={index}
                       >
-                        {(provided) => (
+                        {(provided, snapshot) => (
                           <Modal key={task.id}>
                             <Modal.Open opens="task-detail">
                               <TaskCard
@@ -128,6 +135,7 @@ const Board = () => {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 innerRef={provided.innerRef}
+                                isDragging={snapshot.isDragging}
                               />
                             </Modal.Open>
                             <Modal.Window name="task-detail">
