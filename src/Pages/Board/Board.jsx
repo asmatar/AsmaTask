@@ -19,6 +19,7 @@ import Spinner from '@/Components/UI/Spinner'
 import Modal from '@/components//Modal/Modal'
 import AddNewTask from '@/Components/Board/AddNewTask'
 import TaskDetail from '@/Components/TaskDetail/TaskDetail'
+import Search from '@/Components/Board/Search'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
 
@@ -177,6 +178,7 @@ const Board = () => {
 
   return (
     <>
+      <Search></Search>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId={`board`} direction="horizontal" type="column">
           {(provided) => (
@@ -206,7 +208,7 @@ const TaskContainer = styled.div`
 `
 const BackButton = styled.button`
   position: fixed;
-  bottom: 30px;
+  bottom: 18px;
   right: 30px;
   border: none;
   background-color: transparent;
@@ -225,6 +227,9 @@ const Add = styled.img`
 const BackImg = styled.img``
 const Span = styled.span`
   color: ${({ theme }) => theme.colorBlackWhite};
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `
 const Main = styled.main`
   display: grid;
