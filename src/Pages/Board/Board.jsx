@@ -11,6 +11,8 @@ import {
   selectAllTasks,
   moveColumn,
   moveTask,
+  selectFilteredTasks,
+  selectSearchString,
 } from '@/RTK/reducers/tasksReducer'
 import { fetchTaskByBoards } from '@/Services/API-firebase'
 
@@ -28,7 +30,7 @@ const Board = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation('global')
   let allTasks = useSelector(selectAllTasks)
-
+  const searchString = useSelector(selectSearchString)
   const { data, error } = useSWR(
     'tasks',
     () => dispatch(fetchTaskByBoards(id)),
@@ -108,7 +110,15 @@ const Board = () => {
           >
             <ColumnHeader>
               <Title2>{t(Object.keys(allTasks)[index])}</Title2>
-              <TaskAmount>{allTasks[list].length || 0}</TaskAmount>
+              <TaskAmount>
+                {!searchString
+                  ? allTasks[list].length
+                  : allTasks[list].filter((todo) =>
+                      todo.title
+                        .toLowerCase()
+                        .includes(searchString.toLowerCase())
+                    ).length}
+              </TaskAmount>
             </ColumnHeader>
             <Droppable droppableId={`${index}`} type="task">
               {(provided) => (
@@ -117,42 +127,52 @@ const Board = () => {
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
-                    {allTasks[list].map((task, index) => (
-                      <Draggable
-                        key={task.id}
-                        draggableId={task.id}
-                        index={index}
-                      >
-                        {(provided, snapshot) => (
-                          <Modal key={task.id}>
-                            <Modal.Open opens="task-detail">
-                              <TaskCard
-                                title={task.title}
-                                id={task.id}
-                                boardId={task.boardsId}
-                                date={task.date}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                innerRef={provided.innerRef}
-                                isDragging={snapshot.isDragging}
-                              />
-                            </Modal.Open>
-                            <Modal.Window name="task-detail">
-                              <TaskDetail
-                                columnName="done"
-                                title={task.title}
-                                id={task.id}
-                                boardId={task.boardsId}
-                                status={task.status}
-                                author={task.author}
-                                date={task.date}
-                                activities={task.activities}
-                              ></TaskDetail>
-                            </Modal.Window>
-                          </Modal>
-                        )}
-                      </Draggable>
-                    ))}
+                    {allTasks[list].map((task, index) => {
+                      if (
+                        searchString &&
+                        !task.title
+                          .toLowerCase()
+                          .includes(searchString.toLowerCase())
+                      ) {
+                        return null
+                      }
+                      return (
+                        <Draggable
+                          key={task.id}
+                          draggableId={task.id}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <Modal key={task.id}>
+                              <Modal.Open opens="task-detail">
+                                <TaskCard
+                                  title={task.title}
+                                  id={task.id}
+                                  boardId={task.boardsId}
+                                  date={task.date}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  innerRef={provided.innerRef}
+                                  isDragging={snapshot.isDragging}
+                                />
+                              </Modal.Open>
+                              <Modal.Window name="task-detail">
+                                <TaskDetail
+                                  columnName="done"
+                                  title={task.title}
+                                  id={task.id}
+                                  boardId={task.boardsId}
+                                  status={task.status}
+                                  author={task.author}
+                                  date={task.date}
+                                  activities={task.activities}
+                                ></TaskDetail>
+                              </Modal.Window>
+                            </Modal>
+                          )}
+                        </Draggable>
+                      )
+                    })}
                     {provided.placeholder}
                   </TaskContainer>
                   <Modal>

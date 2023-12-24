@@ -38,5 +38,6 @@
   "action": "Action",
   "delete": "Delete",
   "activities": "Activities",
-  "newTask": "New task"
+  "newTask": "New task",
+  "search": "Type to Search..."
 }

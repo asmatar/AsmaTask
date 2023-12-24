@@ -1,9 +1,11 @@
 /* eslint-disable no-prototype-builtins */
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { fetchTaskByBoards } from '@/Services/API-firebase'
 
 const initialState = {
   tasks: null,
+  filteredTasks: null,
+  searchString: '',
 }
 
 const tasksSlice = createSlice({
@@ -79,6 +81,23 @@ const tasksSlice = createSlice({
       // Update state with the modified tasks object
       state.tasks = updatedTasks
     },
+    searchByName: (state, action) => {
+      console.log(action.payload)
+      /*   const { payload } = action
+      const filteredTasks = {}
+      Object.keys(state.tasks).map((key) => {
+        const array = state.tasks[key]
+        const result = array.filter((el) => el.title.includes(payload))
+        filteredTasks[key] = result
+        console.log(result)
+        console.log(filteredTasks)
+        return filteredTasks
+        // Perform your filtering logic here on the `array` variable
+        // ...
+      })
+      state.filteredTasks = filteredTasks */
+      state.searchString = action.payload
+    },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -87,6 +106,8 @@ const tasksSlice = createSlice({
     })
   },
 })
-export const { moveColumn, moveTask } = tasksSlice.actions
+export const { moveColumn, moveTask, searchByName } = tasksSlice.actions
 export default tasksSlice.reducer
 export const selectAllTasks = (state) => state.tasks.tasks
+export const selectFilteredTasks = (state) => state.tasks.filteredTasks
+export const selectSearchString = (state) => state.tasks.searchString

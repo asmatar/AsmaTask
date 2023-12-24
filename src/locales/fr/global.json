@@ -38,5 +38,6 @@
   "actions": "Action",
   "delete": "Supprimer",
   "activities": "Activités",
-  "newTask": "Nouvelle tâche"
+  "newTask": "Nouvelle tâche",
+  "search": "Taper pour rechercher..."
 }

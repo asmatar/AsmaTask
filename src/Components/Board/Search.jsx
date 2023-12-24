@@ -1,21 +1,32 @@
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { useRef } from 'react'
+import { useEffect, useState } from 'react'
 import Searchimg from '@/assets/images/icons/search.svg'
+import { useDispatch } from 'react-redux'
+import { searchByName } from '@/RTK/reducers/tasksReducer'
 const Search = () => {
   const { t } = useTranslation('global')
-  const search = useRef(null)
-
+  const [search, setSearch] = useState('')
+  const dispatch = useDispatch()
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(search)
+    setSearch(e.target.value)
+  }
+  useEffect(() => {
+    dispatch(searchByName(search))
+  }, [search, dispatch])
   return (
     <SearchContainer>
-      <SearchBox class="search-box">
-        <Button class="btn-search">
+      <SearchBox>
+        <Button>
           <Img src={Searchimg} alt="search" />
         </Button>
         <Input
           type="text"
-          class="input-search"
-          placeholder="Type to Search..."
+          placeholder={t('search')}
+          value={search}
+          onChange={(event) => handleSubmit(event)}
         />
       </SearchBox>
     </SearchContainer>
@@ -23,7 +34,7 @@ const Search = () => {
 }
 export default Search
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.form`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -86,10 +97,3 @@ const Button = styled.button`
   }
 `
 const Img = styled.img``
-/* .btn-search:focus ~ .input-search{
-  width: 300px;
-  border-radius: 0px;
-  background-color: transparent;
-  border-bottom:1px solid rgba(255,255,255,.5);
-  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
-} */
