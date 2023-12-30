@@ -1,23 +1,26 @@
-import React, { useState } from 'react'
-import PageTitle from '@/Components/Login/PageTitle'
-import TextIntro from '@/Components/Login/TextIntro'
 import { NavLink, useNavigate } from 'react-router-dom'
-import LogText from '@/Components/Login/LogText'
-import GeneralButton from '@/Components/UI/GeneralButton'
 import styled from 'styled-components'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useUserAuth } from '@/Context/authContext'
 import { useForm } from 'react-hook-form'
 import useYupValidationResolver, {
   schema,
 } from '@/hooks/useYupValidationResolver'
+
+import PageTitle from '@/Components/Login/PageTitle'
+import TextIntro from '@/Components/Login/TextIntro'
+import LogText from '@/Components/Login/LogText'
+import GeneralButton from '@/Components/UI/GeneralButton'
 import ErrorMessage from '@/Components/UI/ErrorMessage'
+import { useUserAuth } from '@/Context/authContext'
+
 const Register = () => {
   const { t } = useTranslation('global')
   const { signUp } = useUserAuth()
   const navigate = useNavigate()
   const [firebaseError, setFirebaseError] = useState('')
-  const resolver = useYupValidationResolver(schema)
+  const formType = 'register'
+  const resolver = useYupValidationResolver(schema, t, formType)
 
   const {
     register,
@@ -33,6 +36,7 @@ const Register = () => {
       setFirebaseError(error.message)
     }
   }
+
   return (
     <HeaderContainer>
       <PageTitle />

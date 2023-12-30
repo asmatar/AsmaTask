@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 const ErrorFallback = ({ error, resetErrorBoundary }) => {
   const { t } = useTranslation('global')
+
   return (
     <Error>
       <SomethingWentWrong>{t('somethingWrong')}</SomethingWentWrong>

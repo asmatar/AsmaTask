@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import useSWR from 'swr'
 import { fetchBoards } from '@/Services/API-firebase'
 import Spinner from '@/components/UI/spinner'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,26 +14,17 @@ const BoardsMain = () => {
   const boards = useSelector(selectBoards)
   const { t } = useTranslation('global')
   const dispatch = useDispatch()
-  const { data, error } = useSWR('board', () => dispatch(fetchBoards()), {
-    revalidateOnMount: true,
-    revalidateOnFocus: true,
-  })
+
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'boards'), () => {
-      dispatch(fetchBoards()) // Re-fetch the data when the collection changes
+      dispatch(fetchBoards())
     })
 
     return () => {
-      unsubscribe() // Unsubscribe from the onSnapshot listener when the component unmounts
+      unsubscribe()
     }
   }, [dispatch])
 
-  if (error) {
-    return <div>{error.message}</div>
-  }
-  if (!data) {
-    return <Spinner />
-  }
   return (
     <>
       {boards.length > 0 ? (
@@ -68,6 +58,7 @@ const BoardsMain = () => {
 }
 
 export default BoardsMain
+
 const StyledNavLink = styled(NavLink)`
   color: inherit;
 `

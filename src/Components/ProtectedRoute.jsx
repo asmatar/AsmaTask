@@ -4,12 +4,12 @@ import { useUserAuth } from '@/Context/authContext'
 export const ProtectedRoute = ({ children }) => {
   const { user } = useUserAuth()
 
-  if (!user) {
-    // user is not authenticated
+  if (user === null) {
+    // user is authenticated
     return <Navigate to="/login" />
   }
-
   return children
+  /* return children */
 }
 
 export default ProtectedRoute

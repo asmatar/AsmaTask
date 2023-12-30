@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 import Overlay from './Overlay'
 import { createPortal } from 'react-dom'
-import { cloneElement, createContext, useContext, useState } from 'react'
+import { cloneElement, /* createContext, */ useContext, useState } from 'react'
 import { useOutsideClick } from '@/Hooks/useOutsideClick'
 import { useTranslation } from 'react-i18next'
-const ModalContext = createContext()
+
+/* export const ModalContext = createContext() */
+import { ModalContext } from '@/Context/ModalContext'
 
 function Modal({ children }) {
   const [openName, setOpenName] = useState('')
@@ -42,7 +44,6 @@ function Window({ children, name }) {
         </Outer>
 
         {cloneElement(children, { onSubmit: () => close() })}
-        {/* {children} */}
       </ModalWrapper>
       <Overlay ref={ref}> </Overlay>
     </>,

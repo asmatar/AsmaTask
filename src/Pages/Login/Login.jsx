@@ -1,30 +1,35 @@
-import React, { useState } from 'react'
-import PageTitle from '@/Components/Login/PageTitle'
-import TextIntro from '@/Components/Login/TextIntro'
+import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import LogText from '@/Components/Login/LogText'
-import GeneralButton from '@/Components/UI/GeneralButton'
-import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { useUserAuth } from '@/Context/authContext'
 import { useForm } from 'react-hook-form'
-import ErrorMessage from '@/Components/UI/ErrorMessage'
 import useYupValidationResolver, {
   schema,
 } from '@/hooks/useYupValidationResolver'
 
+import PageTitle from '@/Components/Login/PageTitle'
+import TextIntro from '@/Components/Login/TextIntro'
+import LogText from '@/Components/Login/LogText'
+import GeneralButton from '@/Components/UI/GeneralButton'
+import ErrorMessage from '@/Components/UI/ErrorMessage'
+import styled from 'styled-components'
+import { useUserAuth } from '@/Context/authContext'
+
 const Login = () => {
   const { t } = useTranslation('global')
   const { login } = useUserAuth()
+  const navigate = useNavigate()
+  const formType = 'login'
+  const resolver = useYupValidationResolver(schema, t, formType)
+
+  const { user } = useUserAuth()
   const [firebaseError, setFirebaseError] = useState('')
 
-  const navigate = useNavigate()
-  const resolver = useYupValidationResolver(schema, t)
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver })
+
   const handleSubmitForm = async (data) => {
     try {
       await login(data.email, data.password)
@@ -33,6 +38,12 @@ const Login = () => {
       setFirebaseError(error.message)
     }
   }
+  useEffect(() => {
+    // Check if the user is already authenticated
+    if (user !== null) {
+      navigate('/')
+    }
+  }, [user, navigate])
   return (
     <>
       <HeaderContainer>
@@ -43,24 +54,24 @@ const Login = () => {
             <Input
               type="input"
               className="form__field"
-              placeholder="Name place"
+              placeholder="email place"
               {...register('email')}
-              id="name"
+              id="email"
               autoComplete="off"
             />
-            <Label htmlFor="name">{t('email')}</Label>
+            <Label htmlFor="email">{t('email')}</Label>
             <ErrorMessage message={errors.email?.message} />
           </FormGroup>
           <FormGroup>
             <Input
               type="input"
               className="form__field"
-              placeholder="Name place"
+              placeholder="password place"
               {...register('password')}
-              id="name"
+              id="password"
               autoComplete="off"
             />
-            <Label htmlFor="name">{t('password')}</Label>
+            <Label htmlFor="password">{t('password')}</Label>
             <ErrorMessage message={errors.password?.message} />
           </FormGroup>
           <GeneralButton type="submit">{t('signin')}</GeneralButton>

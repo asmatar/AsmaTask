@@ -1,71 +1,38 @@
 import React, { useEffect } from 'react'
 import { useParams, NavLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import Back from '@/assets/images/icons/back.svg'
+import add from '@/assets/images/icons/add.svg'
 import styled from 'styled-components'
-import useSWR from 'swr'
 import { onSnapshot, collection } from 'firebase/firestore'
 import { db } from '@/firebase-config'
 import {
-  selectDonetask,
-  selectProgresstask,
-  selectTodotask,
+  selectAllTasks,
+  selectStatus,
+  selecterror,
+  moveColumn,
+  moveTask,
+  selectSearchString,
 } from '@/RTK/reducers/tasksReducer'
-import TaskCard from '../../Components/Board/TaskCard'
+import { fetchTaskByBoards } from '@/Services/API-firebase'
+import TaskCard from '@/Components/Board/TaskCard'
 import Spinner from '@/Components/UI/Spinner'
 import Modal from '@/components//Modal/Modal'
-import AddNewTask from '../../Components/Board/AddNewTask'
-import Back from '@/assets/images/icons/back.svg'
-import { fetchTaskByBoards } from '@/Services/API-firebase'
-
-/* import { useTranslation } from 'react-i18next' */
+import AddNewTask from '@/Components/Board/AddNewTask'
+import TaskDetail from '@/Components/TaskDetail/TaskDetail'
+import Search from '@/Components/Board/Search'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { useTranslation } from 'react-i18next'
+import { sortTaskArray } from '@/Utils/sort'
 
 const Board = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
-  /*   const { t } = useTranslation('global') */
-
-  const todoTask = useSelector(selectTodotask)
-  const inprogressTask = useSelector(selectProgresstask)
-  const doneTask = useSelector(selectDonetask)
-
-  const todos = todoTask?.map((task) => {
-    return (
-      <TaskCard
-        key={task.id}
-        title={task.title}
-        id={task.id}
-        boardId={task.boardsId}
-      />
-    )
-  })
-  const progress = inprogressTask?.map((task) => {
-    return (
-      <TaskCard
-        key={task.id}
-        title={task.title}
-        id={task.id}
-        boardId={task.boardsId}
-      />
-    )
-  })
-  const done = doneTask?.map((task) => {
-    return (
-      <TaskCard
-        key={task.id}
-        title={task.title}
-        id={task.id}
-        boardId={task.boardsId}
-      />
-    )
-  })
-  const { data, error } = useSWR(
-    'tasks',
-    () => dispatch(fetchTaskByBoards(id)),
-    {
-      revalidateOnMount: true,
-      revalidateOnFocus: true,
-    }
-  )
+  const { t } = useTranslation('global')
+  let allTasks = useSelector(selectAllTasks)
+  const searchString = useSelector(selectSearchString)
+  const status = useSelector(selectStatus)
+  const error = useSelector(selecterror)
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -79,76 +46,160 @@ const Board = () => {
         console.error('Error fetching tasks:', error)
       }
     )
-
     return () => {
       unsubscribe() // Unsubscribe from the onSnapshot listener when the component unmounts
     }
   }, [dispatch, id])
 
-  if (error) {
-    return <div>{error.message}</div>
+  const onDragEnd = (results) => {
+    const { source, destination, type } = results
+    if (!destination) return
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    )
+      return
+
+    if (type === 'column') {
+      dispatch(moveColumn({ source, destination, allTasks }))
+    }
+    if (type === 'task') {
+      dispatch(moveTask({ source, destination }))
+    }
   }
-  if (!data) {
+  if (error) {
+    return <div>{error}</div>
+  }
+  if (status === 'loading') {
     return <Spinner />
   }
-  /*   const handleCreateTask = () => {
-    console.log('create task')
-  } */
-  console.log(todos)
+  // guard close, if there is no todo, inProgress, or done, add the key into the object
+
+  if (!allTasks.todo || !allTasks.progress || !allTasks.done) {
+    const allTasksUnsorted = {
+      ...allTasks,
+      todo: allTasks.todo || [],
+      progress: allTasks.progress || [],
+      done: allTasks.done || [],
+    }
+    allTasks = sortTaskArray(allTasksUnsorted)
+  }
+
+  const mappedState = Object.keys(allTasks).map((list, index) => {
+    return (
+      <Draggable draggableId={`${index}`} index={index} key={index}>
+        {(provided) => (
+          <Column
+            key={index}
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            <ColumnHeader>
+              <Title2>{t(Object.keys(allTasks)[index])}</Title2>
+              <TaskAmount>
+                {!searchString
+                  ? allTasks[list]?.length
+                  : allTasks[list]?.filter((todo) =>
+                      todo.title
+                        .toLowerCase()
+                        .includes(searchString.toLowerCase())
+                    ).length}
+              </TaskAmount>
+            </ColumnHeader>
+            <Droppable droppableId={`${index}`} type="task">
+              {(provided) => (
+                <>
+                  <TaskContainer
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {allTasks[list].map((task, index) => {
+                      if (
+                        searchString &&
+                        !task.title
+                          .toLowerCase()
+                          .includes(searchString.toLowerCase())
+                      ) {
+                        return null
+                      }
+                      return (
+                        <Draggable
+                          key={task.id}
+                          draggableId={task.id}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <Modal key={task.id}>
+                              <Modal.Open opens="task-detail">
+                                <TaskCard
+                                  title={task.title}
+                                  id={task.id}
+                                  boardId={task.boardsId}
+                                  date={task.date}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  innerRef={provided.innerRef}
+                                  isDragging={snapshot.isDragging}
+                                />
+                              </Modal.Open>
+                              <Modal.Window name="task-detail">
+                                <TaskDetail
+                                  columnName="done"
+                                  title={task.title}
+                                  id={task.id}
+                                  boardId={task.boardsId}
+                                  status={task.status}
+                                  author={task.author}
+                                  date={task.date}
+                                  activities={task.activities}
+                                ></TaskDetail>
+                              </Modal.Window>
+                            </Modal>
+                          )}
+                        </Draggable>
+                      )
+                    })}
+                    {provided.placeholder}
+                  </TaskContainer>
+                  <Modal>
+                    <Modal.Open opens="new-task">
+                      <AddTaskButton>
+                        <Add src={add} alt="add task" />
+                      </AddTaskButton>
+                    </Modal.Open>
+                    <Modal.Window name="new-task">
+                      <AddNewTask
+                        columnName={Object.keys(allTasks)[index]}
+                      ></AddNewTask>
+                    </Modal.Window>
+                  </Modal>
+                </>
+              )}
+            </Droppable>
+          </Column>
+        )}
+      </Draggable>
+    )
+  })
+
   return (
     <>
-      <Main>
-        <Column>
-          <ColumnHeader>
-            <Title2>ToDo</Title2>
-            <TaskAmount>{todoTask?.length || 0}</TaskAmount>
-          </ColumnHeader>
-          {todos}
-          <Modal>
-            <Modal.Open opens="new-board">
-              <AddTaskButton /* onClick={handleCreateTask} */>+</AddTaskButton>
-            </Modal.Open>
-            <Modal.Window name="new-board">
-              <AddNewTask></AddNewTask>
-            </Modal.Window>
-          </Modal>
-        </Column>
-        <Column>
-          <ColumnHeader>
-            <Title2>In progress</Title2>
-            <TaskAmount>{inprogressTask?.length || 0}</TaskAmount>
-          </ColumnHeader>
-          {progress}
-          <Modal>
-            <Modal.Open opens="new-board">
-              <AddTaskButton /* onClick={handleCreateTask} */>+</AddTaskButton>
-            </Modal.Open>
-            <Modal.Window name="new-board">
-              <AddNewTask></AddNewTask>
-            </Modal.Window>
-          </Modal>
-        </Column>
-        <Column>
-          <ColumnHeader>
-            <Title2>Done</Title2>
-            <TaskAmount>{doneTask?.length || 0}</TaskAmount>
-          </ColumnHeader>
-          {done}
-          <Modal>
-            <Modal.Open opens="new-board">
-              {/* <AddTaskButton onClick={handleCreateTask}>+</AddTaskButton> */}
-              <AddTaskButton /* onClick={handleCreateTask} */>+</AddTaskButton>
-            </Modal.Open>
-            <Modal.Window name="new-board">
-              <AddNewTask></AddNewTask>
-            </Modal.Window>
-          </Modal>
-        </Column>
-      </Main>
+      <Search></Search>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId={`board`} direction="horizontal" type="column">
+          {(provided) => (
+            <Main ref={provided.innerRef} {...provided.droppableProps}>
+              {mappedState}
+              {provided.placeholder}
+            </Main>
+          )}
+        </Droppable>
+      </DragDropContext>
       <NavLink to="/boards">
         <BackButton>
           <BackImg src={Back} alt="back to boards" />
-          <Span>Back to boards</Span>
+          <Span>{t('backToBoards')}</Span>
         </BackButton>
       </NavLink>
     </>
@@ -156,11 +207,15 @@ const Board = () => {
 }
 
 export default Board
-/* const NewModal = styled.div`` */
-/* const Navlink = styled(NavLink)`` */
+
+const TaskContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`
 const BackButton = styled.button`
   position: fixed;
-  bottom: 30px;
+  bottom: 18px;
   right: 30px;
   border: none;
   background-color: transparent;
@@ -169,8 +224,20 @@ const BackButton = styled.button`
   gap: 10px;
   cursor: pointer;
 `
+const Add = styled.img`
+  width: 25px;
+  transition: all 0.4s ease-in;
+  &:hover {
+    rotate: 180deg;
+  }
+`
 const BackImg = styled.img``
-const Span = styled.span``
+const Span = styled.span`
+  color: ${({ theme }) => theme.colorBlackWhite};
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+`
 const Main = styled.main`
   display: grid;
   grid-template-columns: repeat(3, minmax(100px, 450px));
@@ -181,6 +248,9 @@ const Main = styled.main`
   height: auto;
   min-height: auto;
   max-width: 1500px;
+  @media screen and (max-width: 767px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `
 const Column = styled.div`
   background-color: #ffffff55;
@@ -189,6 +259,9 @@ const Column = styled.div`
   border-radius: 5px;
   padding: 15px 10px;
   gap: 15px;
+  box-shadow:
+    rgba(0, 0, 0, 0.04) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 `
 const Title2 = styled.h2`
   font-weight: bold;
@@ -207,7 +280,6 @@ const TaskAmount = styled.div`
   padding: 3px;
 `
 const AddTaskButton = styled.button`
-  background-color: green;
   border-radius: 100%;
   width: 20px;
   height: 20px;
@@ -221,18 +293,4 @@ const AddTaskButton = styled.button`
   padding: 3px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
-`
-const TaskTitle = styled.h2``
-const Tasks = styled.div`
-  background-color: white;
-  padding: 20px 15px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-`
-
-const TaskDelete = styled(AddTaskButton)`
-  background-color: red;
-  align-self: start;
 `

@@ -30,7 +30,9 @@ export function UserAuthContextProvider({ children }) {
   }
 
   const logOut = () => {
-    return signOut(auth)
+    return signOut(auth).then(() => {
+      setUser(null) // or setUser({});
+    })
   }
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export function UserAuthContextProvider({ children }) {
     return () => {
       unsubscribe()
     }
-  }, [user])
+  }, [user?.displayName, user?.email, user?.photoURL, user?.uid])
 
   const value = {
     login,
