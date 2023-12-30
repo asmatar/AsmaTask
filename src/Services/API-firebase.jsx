@@ -11,6 +11,7 @@ import {
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { db } from '@/firebase-config'
 import { showErrorToast, showSuccessToast } from '@/Utils/Toast'
+import { sortTaskArray } from '../Utils/sort'
 
 export const fetchBoards = createAsyncThunk(
   'boardSlice/fetchBoards',
@@ -34,7 +35,6 @@ export const fetchBoards = createAsyncThunk(
     }
   }
 )
-
 export const fetchTaskByBoards = createAsyncThunk(
   'tasksSlice/fetchTaskByBoards',
   async (id) => {
@@ -58,12 +58,7 @@ export const fetchTaskByBoards = createAsyncThunk(
         return result
       }, {})
 
-      const sortedTasks = Object.entries(groupedArrays)
-        .sort((a, b) => b[0].localeCompare(a[0]))
-        .reduce((result, [key, value]) => {
-          result[key] = value
-          return result
-        }, {})
+      const sortedTasks = sortTaskArray(groupedArrays)
 
       return sortedTasks
     } catch (error) {

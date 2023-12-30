@@ -4,18 +4,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import Back from '@/assets/images/icons/back.svg'
 import add from '@/assets/images/icons/add.svg'
 import styled from 'styled-components'
-import useSWR from 'swr'
 import { onSnapshot, collection } from 'firebase/firestore'
 import { db } from '@/firebase-config'
 import {
   selectAllTasks,
+  selectStatus,
+  selecterror,
   moveColumn,
   moveTask,
-  selectFilteredTasks,
   selectSearchString,
 } from '@/RTK/reducers/tasksReducer'
 import { fetchTaskByBoards } from '@/Services/API-firebase'
-
 import TaskCard from '@/Components/Board/TaskCard'
 import Spinner from '@/Components/UI/Spinner'
 import Modal from '@/components//Modal/Modal'
@@ -24,6 +23,7 @@ import TaskDetail from '@/Components/TaskDetail/TaskDetail'
 import Search from '@/Components/Board/Search'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useTranslation } from 'react-i18next'
+import { sortTaskArray } from '@/Utils/sort'
 
 const Board = () => {
   const { id } = useParams()
@@ -31,14 +31,8 @@ const Board = () => {
   const { t } = useTranslation('global')
   let allTasks = useSelector(selectAllTasks)
   const searchString = useSelector(selectSearchString)
-  const { data, error } = useSWR(
-    'tasks',
-    () => dispatch(fetchTaskByBoards(id)),
-    {
-      revalidateOnMount: true,
-      revalidateOnFocus: false,
-    }
-  )
+  const status = useSelector(selectStatus)
+  const error = useSelector(selecterror)
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -57,13 +51,6 @@ const Board = () => {
     }
   }, [dispatch, id])
 
-  if (error) {
-    return <div>{error.message}</div>
-  }
-  if (!data) {
-    return <Spinner />
-  }
-
   const onDragEnd = (results) => {
     const { source, destination, type } = results
     if (!destination) return
@@ -74,14 +61,20 @@ const Board = () => {
       return
 
     if (type === 'column') {
-      dispatch(moveColumn({ source, destination }))
+      dispatch(moveColumn({ source, destination, allTasks }))
     }
     if (type === 'task') {
       dispatch(moveTask({ source, destination }))
     }
   }
-
+  if (error) {
+    return <div>{error}</div>
+  }
+  if (status === 'loading') {
+    return <Spinner />
+  }
   // guard close, if there is no todo, inProgress, or done, add the key into the object
+
   if (!allTasks.todo || !allTasks.progress || !allTasks.done) {
     const allTasksUnsorted = {
       ...allTasks,
@@ -89,13 +82,7 @@ const Board = () => {
       progress: allTasks.progress || [],
       done: allTasks.done || [],
     }
-
-    allTasks = Object.entries(allTasksUnsorted)
-      .sort((a, b) => b[0].localeCompare(a[0]))
-      .reduce((result, [key, value]) => {
-        result[key] = value
-        return result
-      }, {})
+    allTasks = sortTaskArray(allTasksUnsorted)
   }
 
   const mappedState = Object.keys(allTasks).map((list, index) => {
@@ -112,8 +99,8 @@ const Board = () => {
               <Title2>{t(Object.keys(allTasks)[index])}</Title2>
               <TaskAmount>
                 {!searchString
-                  ? allTasks[list].length
-                  : allTasks[list].filter((todo) =>
+                  ? allTasks[list]?.length
+                  : allTasks[list]?.filter((todo) =>
                       todo.title
                         .toLowerCase()
                         .includes(searchString.toLowerCase())
