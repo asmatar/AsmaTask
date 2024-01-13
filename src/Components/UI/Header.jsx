@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { NavLink, useNavigate, useParams, useLocation } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import logo from '@/assets/images/logo.png'
 import GeneralButton from './GeneralButton'
 import AddBoard from '@/components/Boards/AddBoard'
