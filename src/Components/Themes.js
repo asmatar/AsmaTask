@@ -1,113 +1,69 @@
 import { createGlobalStyle } from 'styled-components'
 export const lightTheme = {
   colorText: '#363537',
-  colorTextSecondary: '#FFF',
+  colorTextSecondary: '#FFFFFF',
+  colorLang: '#FFFFFF',
   colorBlue: '#a881ff',
   background: 'linear-gradient(to right, #b6fbff, #83a4d4)',
+  backgroundCardHover: '#fff',
   shadowColor: 'rgba(0, 0, 0, 0.04)',
   colorButtonLogin: '#FFF',
+  colorLangBg: '#a881ff',
+  colorInputText: '#FFF',
+  colorModal: '#a881ff',
+  colorBlackWhite: 'black',
+  colorWhiteBlack: 'white',
+  colorIsDragging: '#a881ff',
 }
+
 export const darkTheme = {
   colorText: '#FFF',
+  colorLang: '#FFFFFF',
   background: 'linear-gradient(to right, #434343 0%, black 100%)',
+  backgroundCardHover: 'rgba(255, 255, 255, 0.06)',
   colorTextSecondary: '#828282',
   shadowColor: 'rgba(255, 255, 255, 0.04)',
+  colorLangBg: '#828282',
+  colorInputText: '#828282',
+  colorModal: '#828282',
+  colorBlackWhite: 'white',
+  colorWhiteBlack: 'black',
+  colorIsDragging: '#a881ff',
+  colorStatus: '#828282',
 }
+
 export const GlobalStyles = createGlobalStyle`
   body {
     background: ${({ theme }) => theme.background};
-    color: ${({ theme }) => theme.text};
+    color: ${({ theme }) => theme.colorText};
     transition: all 0.2s ease-in; 
   }
 
 
-  html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-}
+  html,body,  div,  span,  applet,  object,  iframe,  h1,
+  h2,  h3,  h4,  h5,
+  h6,  p,  blockquote,  pre,  a,  abbr,  acronym,  address,  big,  cite,  code,  del,  dfn,  em,  img,  ins,
+  kbd,  q,  s,  samp,
+  small,  strike,  strong,  sub,
+  sup,  tt,  var,  b,
+  u,  i,  center,  dl,
+  dt,  dd,
+  ol,  ul,
+  li,fieldset,
+  form,label,legend,table,caption,
+  tbody,tfoot,thead,tr,th,td,
+  article,aside,
+  canvas,details,
+  embed,figure,
+  figcaption,footer,
+  header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,
+  video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+  }
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
