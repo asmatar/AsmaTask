@@ -23,7 +23,7 @@ export const fetchBoards = createAsyncThunk(
         const docData = doc.data()
         const serializedData = { ...docData, id: doc.id }
 
-        // Convert Timestamp fields to Date objects and formt to a non serialized string
+        // Convert Timestamp fields to Date objects an formt to a non serialized string
         if (serializedData.date instanceof Timestamp) {
           serializedData.date = serializedData.date.toDate().toISOString()
         }
