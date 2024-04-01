@@ -12,7 +12,7 @@ import TextIntro from '@/Components/Login/TextIntro'
 import LogText from '@/Components/Login/LogText'
 import GeneralButton from '@/Components/UI/GeneralButton'
 import ErrorMessage from '@/Components/UI/ErrorMessage'
-import { useUserAuth } from '@/Context/authContext'
+import { useUserAuth } from '@/Context/AuthContext'
 
 const Register = () => {
   const { t } = useTranslation('global')

@@ -12,7 +12,7 @@ import LogText from '@/Components/Login/LogText'
 import GeneralButton from '@/Components/UI/GeneralButton'
 import ErrorMessage from '@/Components/UI/ErrorMessage'
 import styled from 'styled-components'
-import { useUserAuth } from '@/Context/authContext'
+import { useUserAuth } from '@/Context/AuthContext'
 
 const Login = () => {
   const { t } = useTranslation('global')
