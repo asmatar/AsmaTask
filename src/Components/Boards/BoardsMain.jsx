@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { fetchBoards } from '@/Services/API-firebase'
-import Spinner from '@/components/UI/spinner'
+/* import Spinner from '@/Components/UI/spinner' */
 import { useDispatch, useSelector } from 'react-redux'
 import { selectBoards } from '@/RTK/reducers/boardsReducer'
 import { useTranslation } from 'react-i18next'

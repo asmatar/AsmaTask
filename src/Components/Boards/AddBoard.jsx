@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useUserAuth } from '@/Context/authContext'
 import { addNewBoard } from '@/Services/API-firebase'
 import useLocalStorage from '@/Hooks/useLocalStorage'
-import ButtonSecondary from '@/components/UI/ButtonSecondary'
+import ButtonSecondary from '@/Components/UI/ButtonSecondary'
 
 const AddBoard = ({ onSubmit }) => {
   const { t } = useTranslation('global')
