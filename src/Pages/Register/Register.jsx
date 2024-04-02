@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import useYupValidationResolver, {
   schema,
-} from '@/hooks/useYupValidationResolver'
+} from '@/Hooks/useYupValidationResolver'
 
 import PageTitle from '@/Components/Login/PageTitle'
 import TextIntro from '@/Components/Login/TextIntro'
