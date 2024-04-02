@@ -17,7 +17,7 @@ import {
 import { fetchTaskByBoards } from '@/Services/API-firebase'
 import TaskCard from '@/Components/Board/TaskCard'
 import Spinner from '@/Components/UI/Spinner'
-import Modal from '@/components//Modal/Modal'
+import Modal from '@/components/Modal/Modal'
 import AddNewTask from '@/Components/Board/AddNewTask'
 import TaskDetail from '@/Components/TaskDetail/TaskDetail'
 import Search from '@/Components/Board/Search'
