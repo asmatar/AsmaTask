@@ -4,7 +4,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import { lightTheme, darkTheme, GlobalStyles } from '@/components/Themes'
+import { lightTheme, darkTheme, GlobalStyles } from '@/Components/Themes'
 import ErrorFallback from '@/Components/ErrorFallback'
 import LangButton from '@/Components/UI/LangButton'
 import Header from '@/Components/UI/Header'
