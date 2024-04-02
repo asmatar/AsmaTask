@@ -8,7 +8,7 @@ import { lightTheme, darkTheme, GlobalStyles } from '@/Components/Themes'
 import ErrorFallback from '@/Components/ErrorFallback'
 import LangButton from '@/Components/UI/LangButton'
 import Header from '@/Components/UI/Header'
-import Spinner from '@/Components/UI/spinner'
+import Spinner from '@/Components/UI/Spinner'
 import ProtectedRoute from '@/Components/ProtectedRoute'
 import ProtectedRouteLog from '@/Components/ProtectedRouteLog'
 
